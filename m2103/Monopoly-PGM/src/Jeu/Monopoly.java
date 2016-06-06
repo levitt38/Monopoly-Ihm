@@ -1,6 +1,7 @@
 package Jeu;
 
 import Data.CouleurPropriete;
+import Data.TypeCarreau;
 import Data.TypeCarte;
 import Exceptions.pasAssezDeMaisonsException;
 import IHM.Questions;
@@ -23,7 +24,6 @@ import java.util.Queue;
 
 public class Monopoly{
         private HashMap<String,Carreau> carreaux = new HashMap<>();
-        private HashSet<Compagnie> compagnies = new HashSet<>();
         private ArrayList<Joueur> joueurs = new ArrayList<>();
         private HashMap<CouleurPropriete,Groupe> groupes;
         private Queue<Carte> cartesChance = new ArrayDeque<>();
@@ -68,7 +68,6 @@ public class Monopoly{
 					//System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                                         Compagnie c = new Compagnie(Integer.valueOf(data.get(i)[1])-1,data.get(i)[2],Integer.valueOf(data.get(i)[3]));
                                         getCarreaux().put(Integer.toString(i),c);
-                                        getCompagnies().add(c);
 				}
                                 else if(caseType.compareTo("CC") == 0){
                                         CarreauCarte c = new CarreauCarte(i, data.get(i)[2]);
@@ -157,14 +156,20 @@ public class Monopoly{
     }
 
     public HashSet<Compagnie> getCompagnies() {
-        return compagnies;
+        HashSet<Compagnie> h = new HashSet<>();
+        for (int i=0;i<this.getCarreaux().size();i++){
+            if (this.getCarreau(i).getType().equals(TypeCarreau.Compagnie)){
+                h.add((Compagnie) this.getCarreau(i));
+            }
+        }
+        return h;
     }
     
     public Monopoly() {
         this.groupes = new HashMap<>();
         this.CreerPlateau("./src/Data/data.txt");
-        this.CreerCartes("./src/Data/chance.txt",TypeCarte.chance);
-        this.CreerCartes("./src/Data/chance.txt",TypeCarte.caisseDeCommunauté);
+        this.creerCartes("./src/Data/chance.txt",TypeCarte.chance);
+        this.creerCartes("./src/Data/chance.txt",TypeCarte.caisseDeCommunauté);
         this.nbHotels = 12;
         this.nbMaisons = 32;
     }
@@ -213,7 +218,7 @@ public class Monopoly{
             return data;
     }
     
-    private void CreerCartes(String dataFileName, TypeCarte type) {
+    private void creerCartes(String dataFileName, TypeCarte type) {
             try{
                 ArrayList<String[]> data = readDataFile1(dataFileName, "|");
                 for(int i=0; i<data.size(); ++i){
@@ -254,10 +259,6 @@ public class Monopoly{
 		catch(IOException e){
 			System.err.println("[buildGamePlateau()] : Error while reading file!");
 		}
-    }
-
-    private void CreerCartesCommunaute(String srcDatachancetxt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Queue<Carte> getCartesChance() {

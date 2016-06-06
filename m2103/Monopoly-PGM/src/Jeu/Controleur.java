@@ -10,6 +10,8 @@ import Data.TypeCarreau;
 import Exceptions.joueurTripleDouble;
 import Exceptions.pasAssezDeMaisonsException;
 import IHM.TextColors;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  *
@@ -31,7 +33,7 @@ public class Controleur {
 
     public void payerJoueur(Joueur j){
         j.recevoirPaie();
-        this.observateur.notifier(Evenement.PasseParDepart,null, j);
+        this.observateur.notifier(new DataModel(j,Evenement.PasseParDepart));
     }
     
     private int lancerD6(){
@@ -91,7 +93,7 @@ public class Controleur {
             c.resetProprietaire();
             j.removeCarreauAchetable(c);
         }
-        this.observateur.notifier(Evenement.Bankrupt, null, j);
+        this.observateur.notifier(new DataModel(j,Evenement.Bankrupt));
     }
     
     public boolean partieEstFinie(){
@@ -117,10 +119,10 @@ public class Controleur {
         if(lancer1==lancer2){
             this.monopoly.getPrison().libérerDétenu(j);
             j.setPositionCourante(this.monopoly.getCarreau(10+lancer1+lancer2));
-            this.observateur.notifier(Evenement.SortieDePrisonDes, this.monopoly.getPrison(), j);
+            this.observateur.notifier(new DataModel(j,Evenement.SortieDePrisonDes));
             // IL FAUDRA GERER LE FAIT QUE LE JOUEUR REJOUE DIRECT DANS LA MAINLOOP
             return; // sort de la méthode
-        } else {this.observateur.notifier(Evenement.ResterPrison, null, j); }
+        } else {this.observateur.notifier(new DataModel(j,Evenement.ResterPrison)); }
         
         j.setNb_toursEnPrison(j.getNb_toursEnPrison()+1);
         
@@ -128,7 +130,7 @@ public class Controleur {
             j.setCash(j.getCash()-50);
             this.monopoly.getPrison().libérerDétenu(j);
             j.setPositionCourante(this.monopoly.getCarreau(10));
-            this.observateur.notifier(Evenement.SortieDePrisonCaution, this.monopoly.getPrison(), j);
+            this.observateur.notifier(new DataModel(j,Evenement.SortieDePrisonCaution));
         }
     }
     
@@ -137,18 +139,11 @@ public class Controleur {
             if(! j.estPrisonnier()){
                 j.setPositionCourante(lancerDesAvancer(j));
             }
-            Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null; AutreCarreau cAutre = null; 
-            // Récupère l'évenement en cours indépendament d'une case achetable ou autre
+            Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null; AutreCarreau cAutre = null;
             Evenement res = c.action(j);
-                    /*CarreauAchetable cAchetable = (c.getType()==TypeCarreau.Gare || c.getType()==TypeCarreau.ProprieteAConstruire ||
-                            c.getType()==TypeCarreau.Compagnie) ? (CarreauAchetable)c : null;
-            AutreCarreau cAutre = (c.getType()==TypeCarreau.AllerEnPrison || c.getType()==TypeCarreau.AutreCarreau ||
-            c.getType()==TypeCarreau.Carte || c.getType()==TypeCarreau.Prison ||c.getType()==TypeCarreau.Penalite) ? (AutreCarreau)c : null;
-            */switch(res){
-                // Event concernant cases achetables
+            switch(res){
                 case PayerLoyer :j.payerLoyer(cAchetable);
                                  break;
-                // Events concernant cases autres
                 case EstEnPrison : gestionPrisonnier(j); break;
                 case AllerEnPrison : getMonopoly().getPrison().emprisonnerDétenu(j);
                                      break;
@@ -157,20 +152,23 @@ public class Controleur {
                 default : ;
             }
             
-            
-            
-            
             // L'observateur traite en fonction du type d'évenement
             if (res != Evenement.EstEnPrison){
-                observateur.notifier(res, c, j);
+                observateur.notifier(new DataModel(j, c, res));
             }
             // Construction de bâtiments
             boolean construire = false;
+            HashMap<String, Carreau> pc = new HashMap<>();
+            for(Propriete p:j.getProprietesConstructibles()){
+                pc.put(p.getNomCarreau(), p);
+            }
             if(j.getProprietesConstructibles().size()>0){
-                construire = observateur.askYN(TextColors.BLUE+"Voulez-vous construire ?"+TextColors.RESET);
+                this.observateur.notifier(new DataModel(pc,Evenement.Construction));
             }
             // On gère les constructions éventuelles si le joueur possède tous les carreaux d'un groupe
-            while(construire&&j.getProprietesConstructibles().size()>0){
+            
+            
+            /*while(construire&&j.getProprietesConstructibles().size()>0){
                 String s;
                 do{
                     s=observateur.askStr("Entrez le nom d'une rue");
@@ -182,46 +180,41 @@ public class Controleur {
                             try {
                                 this.monopoly.construire(p);
                             } catch (pasAssezDeMaisonsException ex) {
-                                observateur.affiche(TextColors.RED+"Il n'y a plus de maisons disponibles."+TextColors.RESET);
+                                this.observateur.notifier(new DataModel(Evenement.PlusDeMaisons));
                             }
                         }else{
-                            observateur.affiche(TextColors.RED+"Vous devez d'abord construire sur les autres terrains de ce groupe."+TextColors.RESET);
+                            this.observateur.notifier(new DataModel(Evenement.PasNivele));
                         }
                     }else{
-                        observateur.affiche(TextColors.RED+"Vous n'avez pas assez d'argent pour construire sur ce terrain."+TextColors.RESET);
+                        this.observateur.notifier(new DataModel(Evenement.PasAssezDArgent));
                     }
                 }else{
-                    observateur.affiche(TextColors.RED+"Il y a déjà le nombre maximal de maisons sur ce terrain."+TextColors.RESET);
+                    this.observateur.notifier(new DataModel(Evenement.TropDeMaisons));
                 }
-            }
+            }*/
+            
+            
           // si le joueur en est a son 3eme double => go to prison
         } catch(joueurTripleDouble e){this.monopoly.getPrison().emprisonnerDétenu(j);};
     }
+
     
-       
-    public void initPartie(){
-            int nb;
-            do{
-                nb=observateur.askNb("Entrez le nombre de joueurs");
-            }while (nb<=1||nb>6);            
-            for(int i=0;i<nb;i++){
-                this.monopoly.addJoueur(new Joueur(observateur.askStr("Entrez le nom du joueur "+Integer.toString(i+1)),this.monopoly.getCarreau(0)));
-            }
+    public void ajouterJoueur(String s){
+        this.monopoly.addJoueur(new Joueur(s,this.monopoly.getCarreau(0)));
     }
     
     public void mainLoop(){
-        initPartie();
+        this.observateur.notifier(new DataModel(Evenement.InitialiserPartie));
         int tour = 0;
         while(!this.partieEstFinie()){
             Joueur j=this.getMonopoly().getJoueurs().get(tour);
             if(!j.estBankrupt()){
-                observateur.afficherPlateau(monopoly);
-                observateur.afficherJoueur(j);
+                this.observateur.notifier(new DataModel(j,this.monopoly.getCarreaux(),Evenement.DebutTour));
                 this.jouerUnCoup(j);
                 if(j.estBankrupt()){
                     joueurDead(j); 
                 }
-                observateur.afficherFinTour();
+                observateur.notifier(new DataModel(Evenement.FinTour));
             }
             if((!this.lancerDouble)&&(!j.estBankrupt())){
                 tour=(tour+1)%this.monopoly.getJoueurs().size();
@@ -229,7 +222,7 @@ public class Controleur {
         }
         for (Joueur j:this.getMonopoly().getJoueurs()){
             if(!j.estBankrupt()){
-                this.observateur.notifier(Evenement.PartieTerminee, null, j);
+                this.observateur.notifier(new DataModel(j,Evenement.PartieTerminee));
             }
         }
     }

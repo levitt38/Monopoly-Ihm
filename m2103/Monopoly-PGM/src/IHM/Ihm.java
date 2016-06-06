@@ -6,15 +6,15 @@
 package IHM;
 
 import Data.Evenement;
-import Data.TypeCarreau;
-import Jeu.AutreCarreau;
 import Jeu.Carreau;
 import Jeu.CarreauAchetable;
 import Jeu.CarreauPenalite;
+import Jeu.Cartes.Carte;
 import Jeu.Controleur;
 import Jeu.Joueur;
-import Jeu.Monopoly;
 import Jeu.Observateur;
+import Jeu.DataModel;
+import java.util.HashMap;
 
 /**
  *
@@ -37,34 +37,37 @@ public class Ihm implements Observateur{
         //Questions.affiche(s);
     }
     
-    @Override
+    public void affiche(String titre, String s){
+        IhmBoiteMessage.afficherBoiteMessage(titre, s, 0);
+    }
+    
     public int askNb(String s){
         return Questions.askNb(s);
     }
     
-    @Override
     public String askStr(String s){
-        return Questions.askStr(s);
+        return IhmBoiteMessage.afficherBoiteMessage("", s);
     }
     
-    @Override
     public boolean askYN(String s){
         return IhmBoiteMessage.afficherBoiteMessage(s, 1);
         //return Questions.askYN(s);
     }
     
     @Override
-    public void notifier(Evenement event, Carreau c, Joueur j){
-        CarreauAchetable cAchetable = (c.getType()==TypeCarreau.Gare || c.getType()==TypeCarreau.ProprieteAConstruire ||
-                            c.getType()==TypeCarreau.Compagnie) ? (CarreauAchetable)c : null;
-        AutreCarreau cAutre = (c.getType()==TypeCarreau.AllerEnPrison || c.getType()==TypeCarreau.AutreCarreau ||
-        c.getType()==TypeCarreau.Carte || c.getType()==TypeCarreau.Prison ||c.getType()==TypeCarreau.Penalite) ? (AutreCarreau)c : null;
+    public void notifier(DataModel d){
+        Evenement event = d.getE();
+        Carreau c = d.getC();
+        Joueur j = d.getJ();
+        CarreauAchetable cAchetable;
         switch(event){
             // Event concernant cases achetables
-            case PayerLoyer : this.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire().getNomJoueur());
+            case PayerLoyer : cAchetable = (CarreauAchetable) c;
+                                this.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire().getNomJoueur());
                              break;
             case SurSaCase : this.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
-            case AchatPossible : String choix = "non";                                    
+            case AchatPossible : cAchetable = (CarreauAchetable) c;
+                            String choix = "non";                                    
                           if(this.askYN("Voulez-vous acheter "+cAchetable.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ ?")){
                               this.controleur.joueurAchete(c,j);
                           } break;
@@ -80,31 +83,51 @@ public class Ihm implements Observateur{
             case ResterPrison : this.affiche("Vous n'avez pas fait de double, vous restez en prison !");break;
             case Bankrupt : this.affiche("Le joueur "+j.getNomJoueur()+" vient d'être éliminé");break;
             case PasseParDepart : this.affiche("Joueur "+j.getNomJoueur()+" recoit sa paie : +200€");break;
-            case PartieTerminee : this.affiche("Partie Terminée !! Le joueur "+j.getNomJoueur()+" l'emporte");
+            case PartieTerminee : this.affiche("Partie Terminée !! Le joueur "+j.getNomJoueur()+" l'emporte");break;
+            case FinTour : this.afficherFinTour();break;
+            case TirerCarte : this.afficherCarte(d.getCarte());break;
+            case PasAssezDArgent : this.affiche("Vous n'avez pas assez d'argent pour effectuer cette action.");break;
+            case PasNivele : this.affiche("Vous devez d'abord construire sur les autres terrains de ce groupe.");break;
+            case PlusDeMaisons : this.affiche("Il n'y a plus de maisons disponibles.");break;
+            case TropDeMaisons : this.affiche("Il y a déjà le nombre maximal de maisons sur ce terrain.");break;
+            case DebutTour : this.afficherPlateau(d.getCarreaux());
+                            this.afficherJoueur(j);break;
+            case InitialiserPartie : int nb = this.askNb("Entrez le nombre de joueurs",2,6);
+                                    for (int i = 0;i<nb;i++){
+                                        this.controleur.ajouterJoueur(this.askStr("Entre le nom du joueur"+i));
+                                    }
+            case Construction : if(this.askYN("Voulez-vous construire ?")){
+                
+            };
             default : this.affiche("Vous êtes tranquille. Pour le moment...");;
         }
     }
     
-    @Override
     public void afficherFinTour(){
         //Affichage.afficherFinTour();
         IhmBoiteMessage.afficherBoiteMessage("FIN DU TOUR", 0);
     }
     
-    @Override
+    public void afficherCarte(Carte c){
+        this.affiche(c.getType().toString(),c.getText());
+    }
+    
     public void afficherJoueur(Joueur j){
         Affichage.AfficherJoueur(j);
     }
     
-    @Override
     public void afficherCarreau(Carreau c){
         Affichage.AfficherCarreau(c);
     }
     
-    @Override
-    public void afficherPlateau(Monopoly p){
-        this.fenetreJeu.getPlateau().setCarreaux(p.getCarreaux());
+    public void afficherPlateau(HashMap<String,Carreau> c){
+        this.fenetreJeu.getPlateau().setCarreaux(c);
         this.fenetreJeu.getPlateau().repaint();
         //Affichage.afficherPlateau(p);
+    }
+
+    private int askNb(String message, int min, int max) {
+        // futur pop-up avec un menu déroulant entre min et max
+        return 2;
     }
 }

@@ -41,7 +41,7 @@ private HashMap<String,Carreau> carreaux;
     public Plateau() {
         setDoubleBuffered(true);
        try {                
-          image = resize(ImageIO.read(new File("./res/plateau.png")),this.width,this.height);
+          image = resize(ImageIO.read(new File("./res/plateau.gif")),this.width,this.height);
        } catch (IOException ex) {
             System.err.printf("IMAGE NON TROUVEE");
        }

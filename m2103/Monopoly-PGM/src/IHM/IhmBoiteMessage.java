@@ -26,4 +26,8 @@ public class IhmBoiteMessage {
     public static boolean afficherBoiteMessage(String message, int mode){
         return afficherBoiteMessage("Pop-up", message, mode);
     }
+    
+    public static String afficherBoiteMessage(String titre, String message){
+        return JOptionPane.showInputDialog(null,message, titre);
+    }
 }

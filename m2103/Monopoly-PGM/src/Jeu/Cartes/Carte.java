@@ -23,6 +23,10 @@ public abstract class Carte {
         return this.type;
     }
 
+    public String getText() {
+        return text;
+    }
+
     public Carte(String text, TypeCarte type) {
         this.text = text;
         this.type = type;
