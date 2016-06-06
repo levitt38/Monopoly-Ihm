@@ -22,7 +22,7 @@ public class CarteSortiePrison extends Carte{
     @Override
     public Evenement use(Monopoly m) {
         this.getOwner().setPositionCourante(m.getCarreau(10));
-        return Evenement.SortieDePrison;
+        return Evenement.SortieDePrisonCarte;
     }
     
 }

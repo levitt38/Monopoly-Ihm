@@ -7,17 +7,9 @@ package Jeu;
 
 import Data.Evenement;
 import Data.TypeCarreau;
-import Exceptions.joueurDeadException;
 import Exceptions.joueurTripleDouble;
-import Exceptions.partieFinieException;
 import Exceptions.pasAssezDeMaisonsException;
-import IHM.Affichage;
-import IHM.Questions;
 import IHM.TextColors;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -39,7 +31,7 @@ public class Controleur {
 
     public void payerJoueur(Joueur j){
         j.recevoirPaie();
-        observateur.affiche(TextColors.GREEN+"Joueur "+j.getNomJoueur()+" recoit sa paie : +200€"+TextColors.RESET);
+        this.observateur.notifier(Evenement.PasseParDepart,null, j);
     }
     
     private int lancerD6(){
@@ -99,7 +91,7 @@ public class Controleur {
             c.resetProprietaire();
             j.removeCarreauAchetable(c);
         }
-        observateur.affiche(TextColors.RED+"Le joueur "+j.getNomJoueur()+" vient d'être éliminé"+TextColors.RESET);
+        this.observateur.notifier(Evenement.Bankrupt, null, j);
     }
     
     public boolean partieEstFinie(){
@@ -123,21 +115,20 @@ public class Controleur {
         lancer1 = lancerD6();
         lancer2 = lancerD6();
         if(lancer1==lancer2){
-            observateur.affiche(TextColors.GREEN+"Vous avez fait un double, fin de votre séjour en prison ! Vous rejouer"+TextColors.RESET);
             this.monopoly.getPrison().libérerDétenu(j);
             j.setPositionCourante(this.monopoly.getCarreau(10+lancer1+lancer2));
-            this.observateur.notifier(Evenement.Rien, c, j);
+            this.observateur.notifier(Evenement.SortieDePrisonDes, this.monopoly.getPrison(), j);
             // IL FAUDRA GERER LE FAIT QUE LE JOUEUR REJOUE DIRECT DANS LA MAINLOOP
             return; // sort de la méthode
-        } else {observateur.affiche(TextColors.RED+"Vous n'avez pas fait de double, vous restez en prison !"+TextColors.RESET); }
+        } else {this.observateur.notifier(Evenement.ResterPrison, null, j); }
         
         j.setNb_toursEnPrison(j.getNb_toursEnPrison()+1);
         
         if(j.getNb_toursEnPrison()==3){
-            observateur.affiche(TextColors.RED+"fin de vos 3 tours en prison ! vous payez 50€"+TextColors.RESET);
             j.setCash(j.getCash()-50);
             this.monopoly.getPrison().libérerDétenu(j);
             j.setPositionCourante(this.monopoly.getCarreau(10));
+            this.observateur.notifier(Evenement.SortieDePrisonCaution, this.monopoly.getPrison(), j);
         }
     }
     
@@ -156,30 +147,23 @@ public class Controleur {
             */switch(res){
                 // Event concernant cases achetables
                 case PayerLoyer :j.payerLoyer(cAchetable);
-                                this.observateur.notifier(res, c, j);
                                  break;
-                case AchatPossible : String choix = "non";                                    
-                              if(this.askYN("Voulez-vous acheter "+cAchetable.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ ?")){
-                                  cAchetable.acheter(j);
-                              } break;
                 // Events concernant cases autres
                 case EstEnPrison : gestionPrisonnier(j); break;
-                case AllerEnPrison : getMonopoly().getPrison().emprisonnerDétenu(j); 
-                                     this.affiche(TextColors.RED+"joueur "+j.getNomJoueur()+" envoyé en prison!"+TextColors.RESET);
+                case AllerEnPrison : getMonopoly().getPrison().emprisonnerDétenu(j);
                                      break;
-                case PayerPenalite : CarreauPenalite pena = (CarreauPenalite)cAutre;
-                this.observateur.notifier(res, c, j);
-                j.payer(pena.getPenalite());
-                this.observateur.notifier(res, c, j);
-                                      break;
-                default : this.observateur.notifier(res, c, j);;
+                case PayerPenalite :j.payer(((CarreauPenalite)cAutre).getPenalite());
+                                    break;
+                default : ;
             }
             
             
             
             
             // L'observateur traite en fonction du type d'évenement
-            observateur.notifier(res, c, j);
+            if (res != Evenement.EstEnPrison){
+                observateur.notifier(res, c, j);
+            }
             // Construction de bâtiments
             boolean construire = false;
             if(j.getProprietesConstructibles().size()>0){
@@ -222,7 +206,6 @@ public class Controleur {
             }while (nb<=1||nb>6);            
             for(int i=0;i<nb;i++){
                 this.monopoly.addJoueur(new Joueur(observateur.askStr("Entrez le nom du joueur "+Integer.toString(i+1)),this.monopoly.getCarreau(0)));
-                observateur.afficherJoueur(this.monopoly.getJoueurs().get(this.monopoly.getJoueurs().size()-1));
             }
     }
     
@@ -246,13 +229,17 @@ public class Controleur {
         }
         for (Joueur j:this.getMonopoly().getJoueurs()){
             if(!j.estBankrupt()){
-                observateur.affiche(TextColors.BLUE+"Partie Terminée !! "+TextColors.GREEN+"Le joueur "+j.getNomJoueur()+" l'emporte"+TextColors.RESET);
+                this.observateur.notifier(Evenement.PartieTerminee, null, j);
             }
         }
     }
 
     public Monopoly getMonopoly() {
         return monopoly;
+    }
+
+    public void joueurAchete(Carreau c, Joueur j) {
+        ((CarreauAchetable) c).acheter(j);
     }
     
     

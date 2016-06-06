@@ -16,11 +16,9 @@ import java.util.HashSet;
  * @author nourik
  */
 public class Prison extends AutreCarreau{
-    private HashSet<Joueur> listeDétenus;
     
     public Prison(int num){
         super(num,"Prison");
-        this.listeDétenus = new HashSet<>();
     }
     
     @Override

@@ -9,11 +9,11 @@ import Data.TypeCarreau;
  * @author nourik
  */
 public abstract class AutreCarreau extends Carreau {
-	private Joueur proprietaire;
 
-        public AutreCarreau(int num, String chaine){
-            super(num,chaine);
-        }
+
+    public AutreCarreau(int num, String chaine){
+        super(num,chaine);
+    }
 
 
     @Override

@@ -66,19 +66,22 @@ public class Ihm implements Observateur{
             case SurSaCase : this.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
             case AchatPossible : String choix = "non";                                    
                           if(this.askYN("Voulez-vous acheter "+cAchetable.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ ?")){
-                              cAchetable.acheter(j);
+                              this.controleur.joueurAchete(c,j);
                           } break;
             case AchatImpossible : this.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
             // Events concernant cases autres
-            case EstEnPrison : controleur.gestionPrisonnier(j); break;
-            case AllerEnPrison : controleur.getMonopoly().getPrison().emprisonnerDétenu(j); 
-                                 this.affiche(TextColors.RED+"joueur "+j.getNomJoueur()+" envoyé en prison!"+TextColors.RESET);
+            case AllerEnPrison : this.affiche("Joueur "+j.getNomJoueur()+" envoyé en prison!");
                                  break;
-            case PayerPenalite : CarreauPenalite pena = (CarreauPenalite)cAutre;
-            this.affiche(TextColors.RED+"Le joueur "+j.getNomJoueur()+" paie "+pena.getPenalite()+"$"+TextColors.RESET);
-            j.payer(pena.getPenalite());
-                                  break;
-            default : this.affiche("Vous êtes tranquille. Pour le moment..."); ;
+            case PayerPenalite :this.affiche("Le joueur "+j.getNomJoueur()+" paie "+((CarreauPenalite)c).getPenalite()+"$");
+                                break;
+            case SortieDePrisonDes : this.affiche("Vous avez fait un double, fin de votre séjour en prison ! Vous pouvez jouer");break;
+            case SortieDePrisonCaution : this.affiche("Fin de vos 3 tours en prison ! vous payez 50€");
+            case SortieDePrisonCarte : this.affiche("Vous utilisez vos relations au gouvernement pour sortir de prison ...");break;
+            case ResterPrison : this.affiche("Vous n'avez pas fait de double, vous restez en prison !");break;
+            case Bankrupt : this.affiche("Le joueur "+j.getNomJoueur()+" vient d'être éliminé");break;
+            case PasseParDepart : this.affiche("Joueur "+j.getNomJoueur()+" recoit sa paie : +200€");break;
+            case PartieTerminee : this.affiche("Partie Terminée !! Le joueur "+j.getNomJoueur()+" l'emporte");
+            default : this.affiche("Vous êtes tranquille. Pour le moment...");;
         }
     }
     

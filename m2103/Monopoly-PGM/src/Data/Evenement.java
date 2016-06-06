@@ -10,5 +10,5 @@ package Data;
  * @author mouhatcl
  */
 public enum Evenement {
-    Bankrupt,PayerLoyer,SurSaCase,AchatPossible,AchatImpossible,Rien,EstEnPrison,AllerEnPrison,PasseParDepart,SortieDePrisonDes,SortieDePrisonCaution,PayerPenalite, TirerCarte, FinTour
+    Bankrupt,PayerLoyer,SurSaCase,AchatPossible,AchatImpossible,Rien,EstEnPrison,AllerEnPrison,PasseParDepart,SortieDePrisonDes,SortieDePrisonCaution,SortieDePrisonCarte,ResterPrison,PayerPenalite, TirerCarte, FinTour, PartieTerminee
 }
