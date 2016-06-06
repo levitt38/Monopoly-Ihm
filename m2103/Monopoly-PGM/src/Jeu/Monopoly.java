@@ -1,21 +1,33 @@
 package Jeu;
 
 import Data.CouleurPropriete;
+import Data.TypeCarte;
 import Exceptions.pasAssezDeMaisonsException;
 import IHM.Questions;
+import Jeu.Cartes.Carte;
+import Jeu.Cartes.CarteAvancer;
+import Jeu.Cartes.CarteBouger;
+import Jeu.Cartes.CarteJoueursPayer;
+import Jeu.Cartes.CartePayer;
+import Jeu.Cartes.CartePayerConstructions;
+import Jeu.Cartes.CarteTP;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Queue;
 
 public class Monopoly{
         private HashMap<String,Carreau> carreaux = new HashMap<>();
         private HashSet<Compagnie> compagnies = new HashSet<>();
         private ArrayList<Joueur> joueurs = new ArrayList<>();
         private HashMap<CouleurPropriete,Groupe> groupes;
+        private Queue<Carte> cartesChance = new ArrayDeque<>();
+        private Queue<Carte> cartesCommunaute = new ArrayDeque<>();
         private int nbMaisons;
         private int nbHotels;
         
@@ -151,6 +163,8 @@ public class Monopoly{
     public Monopoly() {
         this.groupes = new HashMap<>();
         this.CreerPlateau("./src/Data/data.txt");
+        this.CreerCartes("./src/Data/chance.txt",TypeCarte.chance);
+        this.CreerCartes("./src/Data/chance.txt",TypeCarte.caisseDeCommunauté);
         this.nbHotels = 12;
         this.nbMaisons = 32;
     }
@@ -173,6 +187,85 @@ public class Monopoly{
 
     public void setNbHotels(int nbHotels) {
         this.nbHotels = nbHotels;
+    }
+    
+    private ArrayList<String[]> readDataFile1(String filename, String token) throws FileNotFoundException, IOException
+    {
+            ArrayList<String[]> data = new ArrayList<String[]>();
+
+            BufferedReader reader  = new BufferedReader(new FileReader(filename));
+            String file = "";
+            while(reader.ready()){
+                file+=reader.read();
+            }
+            reader.close();
+            String[] tmp = new String[3];
+            int i = 0;
+            for (String s:file.split(token)){
+                tmp[i] = s;
+                if (i==2){
+                    data.add(tmp);
+                    i=0;
+                }else{
+                    i++;
+                }
+            }
+            return data;
+    }
+    
+    private void CreerCartes(String dataFileName, TypeCarte type) {
+            try{
+                ArrayList<String[]> data = readDataFile1(dataFileName, "|");
+                for(int i=0; i<data.size(); ++i){
+                        String caseType = data.get(i)[0];
+                        Carte c = null;
+                        if(caseType.compareTo("0") == 0){
+                                c = new CarteTP(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                        }
+                        else if(caseType.compareTo("1") == 0){
+                                c = new CarteAvancer(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                        }
+                        else if(caseType.compareTo("2") == 0){
+                                c = new CarteBouger(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                        }
+                        else if(caseType.compareTo("3") == 0){
+                                c = new CarteJoueursPayer(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                        }
+                        else if(caseType.compareTo("4") == 0){
+                                c = new CartePayer(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                        }
+                        else if(caseType.compareTo("5") == 0){
+                                c = new CartePayerConstructions(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                        }else
+                            System.err.println("[buildGamePlateau()] : Invalid Data type"+data.get(i)[1]);
+                        if(c!=null){
+                            if (type == TypeCarte.chance){
+                                this.getCartesChance().add(c);
+                            }else{
+                                this.getCartesCommunaute().add(c);
+                            }
+                        }
+                }
+			
+		} 
+		catch(FileNotFoundException e){
+			System.err.println("[buildGamePlateau()] : File is not found!");
+		}
+		catch(IOException e){
+			System.err.println("[buildGamePlateau()] : Error while reading file!");
+		}
+    }
+
+    private void CreerCartesCommunaute(String srcDatachancetxt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Queue<Carte> getCartesChance() {
+        return cartesChance;
+    }
+
+    public Queue<Carte> getCartesCommunaute() {
+        return cartesCommunaute;
     }
     
     

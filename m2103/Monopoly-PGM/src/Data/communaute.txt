@@ -1,0 +1,5 @@
+0|0|Placez vous sur la case "Départ".|0|40|Avancez tout droit en prison.
+Ne passez pas pas la case départ.
+Ne recevez pas votre paye mensuelle.|0|1|Retournez à Belleville.|4|-1|Payez à l'hôpital |4|-1|Payez votre Police d'assurance s'élevant à |4|-1|Payez la note du médecin |4|1|Recevez votre emprunt à 7% de |4|1|Les Contributions vous remboursent la somme de |4|1|La vente de votre stock vous rapporte |4|1|Recevez votre revenu annuel de |4|1|Erreur de la banque en votre faveur. Recevez |4|1|Vous avez gagné le deuxième Prix de Beauté.
+Recevez |4|1|Vous héritez de |3|10|C'est votre anniversaire !
+Tous les joueurs vous donnent 10.

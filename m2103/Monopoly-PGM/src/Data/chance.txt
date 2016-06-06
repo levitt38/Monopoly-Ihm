@@ -1,0 +1,8 @@
+0|40|Avancez tout droit en prison.
+Ne passez pas pas la case départ.
+Ne recevez pas votre paye mensuelle.|1|0|Avancez jusqu'à la case "Départ".|5|0|Faites des réparations dans toutes vos maisons.
+Versez 25§ par maison.
+Versez 100§ par hôtel.|5|1|Vous êtes imposé pour des réparations de voirie.
+Versez 40§ par maison.
+Versez 115§ par hôtel.|4|-1|Amende pour ivresse : |4|-1|Payez pour frais de scolarité |4|-1|Amende pour excès de vitesse : |4|1|La Banque vous verse un dividende de |4|1|Vous avez gagné le prix de mots croisés.
+Recevez 

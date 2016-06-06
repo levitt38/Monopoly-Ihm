@@ -8,7 +8,7 @@ import Data.TypeCarreau;
  *
  * @author nourik
  */
-public class AutreCarreau extends Carreau {
+public abstract class AutreCarreau extends Carreau {
 	private Joueur proprietaire;
 
         public AutreCarreau(int num, String chaine){
