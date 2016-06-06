@@ -1,5 +1,7 @@
-0|0|Placez vous sur la case "D�part".|0|40|Avancez tout droit en prison.
-Ne passez pas pas la case d�part.
-Ne recevez pas votre paye mensuelle.|0|1|Retournez � Belleville.|4|-1|Payez � l'h�pital |4|-1|Payez votre Police d'assurance s'�levant � |4|-1|Payez la note du m�decin |4|1|Recevez votre emprunt � 7% de |4|1|Les Contributions vous remboursent la somme de |4|1|La vente de votre stock vous rapporte |4|1|Recevez votre revenu annuel de |4|1|Erreur de la banque en votre faveur. Recevez |4|1|Vous avez gagn� le deuxi�me Prix de Beaut�.
-Recevez |4|1|Vous h�ritez de |3|10|C'est votre anniversaire !
-Tous les joueurs vous donnent 10.
+6|40|Vous êtes libéré de prison.
+Cette carte peut être conservée jusqu'à ce qu'elle soit utilisée.|4|-10|Payez une amende de 10€.|3|10|C'est votre anniversaire.
+Chaque joueur doit vous donner 10€|4|200|Erreur de la banque en votre faveur.
+Recevez 200€|0|1|Retournez à Belleville|4|-50|Payez la note du médecin : 50€.|4|20|Les contributions vous remboursent la somme de 20€.|4|-100|Payez à l'hôpital 100€.|4|100|Vous héritez : 100€.|0|40|Allez en prison.
+Avancez tout droit en prison.
+Ne passez pas par la case Départ.
+Ne recevez pas 200€.|4|-50|Payez votre police d'assurance : 50€|4|50|La vente de votre stock vous rapporte 50€.|1|0|Avancez jusqu'à la case départ.|4|25|Recevez votre intérêt sur l'emprunt à 7% : 25€.|4|100|Recevez votre revenu annuel : 100€|4|10|Vous avez gagné le deuxièeme prix de beauté : recevez 10€.

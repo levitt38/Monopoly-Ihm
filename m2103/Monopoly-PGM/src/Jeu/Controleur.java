@@ -139,15 +139,15 @@ public class Controleur {
             if(! j.estPrisonnier()){
                 j.setPositionCourante(lancerDesAvancer(j));
             }
-            Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null; AutreCarreau cAutre = null;
+            Carreau c = j.getPositionCourante();
             Evenement res = c.action(j);
             switch(res){
-                case PayerLoyer :j.payerLoyer(cAchetable);
+                case PayerLoyer :j.payerLoyer((CarreauAchetable)c);
                                  break;
                 case EstEnPrison : gestionPrisonnier(j); break;
                 case AllerEnPrison : getMonopoly().getPrison().emprisonnerDétenu(j);
                                      break;
-                case PayerPenalite :j.payer(((CarreauPenalite)cAutre).getPenalite());
+                case PayerPenalite :j.payer(((CarreauPenalite)c).getPenalite());
                                     break;
                 default : ;
             }

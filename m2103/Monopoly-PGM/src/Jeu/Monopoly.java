@@ -11,6 +11,7 @@ import Jeu.Cartes.CarteBouger;
 import Jeu.Cartes.CarteJoueursPayer;
 import Jeu.Cartes.CartePayer;
 import Jeu.Cartes.CartePayerConstructions;
+import Jeu.Cartes.CarteSortiePrison;
 import Jeu.Cartes.CarteTP;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -18,6 +19,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Queue;
@@ -221,6 +224,7 @@ public class Monopoly{
     private void creerCartes(String dataFileName, TypeCarte type) {
             try{
                 ArrayList<String[]> data = readDataFile1(dataFileName, "|");
+                ArrayList<Carte> tmp = new ArrayList<>();
                 for(int i=0; i<data.size(); ++i){
                         String caseType = data.get(i)[0];
                         Carte c = null;
@@ -241,15 +245,24 @@ public class Monopoly{
                         }
                         else if(caseType.compareTo("5") == 0){
                                 c = new CartePayerConstructions(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                        }
+                        else if(caseType.compareTo("6") == 0){
+                                c = new CarteSortiePrison(data.get(i)[2], type);
                         }else
                             System.err.println("[buildGamePlateau()] : Invalid Data type"+data.get(i)[1]);
                         if(c!=null){
-                            if (type == TypeCarte.chance){
-                                this.getCartesChance().add(c);
-                            }else{
-                                this.getCartesCommunaute().add(c);
-                            }
+                            tmp.add(c);
                         }
+                }
+                Collections.shuffle(tmp);
+                for (Carte c:tmp){
+                    if(c!=null){
+                        if (type == TypeCarte.chance){
+                            this.getCartesChance().add(c);
+                        }else{
+                            this.getCartesCommunaute().add(c);
+                        }
+                    }
                 }
 			
 		} 
