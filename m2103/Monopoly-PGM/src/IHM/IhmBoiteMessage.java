@@ -12,14 +12,18 @@ import javax.swing.JOptionPane;
  * @author Louis
  */
 public class IhmBoiteMessage {
-    public static boolean afficherBoiteMessage(String message, int mode){
+    public static boolean afficherBoiteMessage(String titre, String message, int mode){
         int choix;
        if (mode==0){
-           JOptionPane.showConfirmDialog(null,message,"Pop-Up",JOptionPane.CLOSED_OPTION);
+           JOptionPane.showConfirmDialog(null,message,titre,JOptionPane.CLOSED_OPTION);
            return true;
         }else{
-           choix = JOptionPane.showConfirmDialog(null,message,"Pop-Up",JOptionPane.YES_NO_OPTION);
+           choix = JOptionPane.showConfirmDialog(null,message,titre,JOptionPane.YES_NO_OPTION);
            return choix==JOptionPane.YES_OPTION;
-       }
+       } 
+    }
+    
+    public static boolean afficherBoiteMessage(String message, int mode){
+        return afficherBoiteMessage("Pop-up", message, mode);
     }
 }

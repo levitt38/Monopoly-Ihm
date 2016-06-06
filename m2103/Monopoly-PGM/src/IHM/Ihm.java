@@ -61,8 +61,7 @@ public class Ihm implements Observateur{
         c.getType()==TypeCarreau.Carte || c.getType()==TypeCarreau.Prison ||c.getType()==TypeCarreau.Penalite) ? (AutreCarreau)c : null;
         switch(event){
             // Event concernant cases achetables
-            case PayerLoyer : this.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire().getNomJoueur()); 
-                             j.payerLoyer(cAchetable);
+            case PayerLoyer : this.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire().getNomJoueur());
                              break;
             case SurSaCase : this.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
             case AchatPossible : String choix = "non";                                    

@@ -126,6 +126,7 @@ public class Controleur {
             observateur.affiche(TextColors.GREEN+"Vous avez fait un double, fin de votre séjour en prison ! Vous rejouer"+TextColors.RESET);
             this.monopoly.getPrison().libérerDétenu(j);
             j.setPositionCourante(this.monopoly.getCarreau(10+lancer1+lancer2));
+            this.observateur.notifier(Evenement.Rien, c, j);
             // IL FAUDRA GERER LE FAIT QUE LE JOUEUR REJOUE DIRECT DANS LA MAINLOOP
             return; // sort de la méthode
         } else {observateur.affiche(TextColors.RED+"Vous n'avez pas fait de double, vous restez en prison !"+TextColors.RESET); }
@@ -148,6 +149,35 @@ public class Controleur {
             Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null; AutreCarreau cAutre = null; 
             // Récupère l'évenement en cours indépendament d'une case achetable ou autre
             Evenement res = c.action(j);
+                    /*CarreauAchetable cAchetable = (c.getType()==TypeCarreau.Gare || c.getType()==TypeCarreau.ProprieteAConstruire ||
+                            c.getType()==TypeCarreau.Compagnie) ? (CarreauAchetable)c : null;
+            AutreCarreau cAutre = (c.getType()==TypeCarreau.AllerEnPrison || c.getType()==TypeCarreau.AutreCarreau ||
+            c.getType()==TypeCarreau.Carte || c.getType()==TypeCarreau.Prison ||c.getType()==TypeCarreau.Penalite) ? (AutreCarreau)c : null;
+            */switch(res){
+                // Event concernant cases achetables
+                case PayerLoyer :j.payerLoyer(cAchetable);
+                                this.observateur.notifier(res, c, j);
+                                 break;
+                case AchatPossible : String choix = "non";                                    
+                              if(this.askYN("Voulez-vous acheter "+cAchetable.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ ?")){
+                                  cAchetable.acheter(j);
+                              } break;
+                // Events concernant cases autres
+                case EstEnPrison : gestionPrisonnier(j); break;
+                case AllerEnPrison : getMonopoly().getPrison().emprisonnerDétenu(j); 
+                                     this.affiche(TextColors.RED+"joueur "+j.getNomJoueur()+" envoyé en prison!"+TextColors.RESET);
+                                     break;
+                case PayerPenalite : CarreauPenalite pena = (CarreauPenalite)cAutre;
+                this.observateur.notifier(res, c, j);
+                j.payer(pena.getPenalite());
+                this.observateur.notifier(res, c, j);
+                                      break;
+                default : this.observateur.notifier(res, c, j);;
+            }
+            
+            
+            
+            
             // L'observateur traite en fonction du type d'évenement
             observateur.notifier(res, c, j);
             // Construction de bâtiments

@@ -14,11 +14,7 @@ public abstract class AutreCarreau extends Carreau {
         public AutreCarreau(int num, String chaine){
             super(num,chaine);
         }
-           
-    @Override
-    public TypeCarreau getType(){
-        return TypeCarreau.AutreCarreau;
-    }
+
 
     @Override
     public Evenement action(Joueur j) {

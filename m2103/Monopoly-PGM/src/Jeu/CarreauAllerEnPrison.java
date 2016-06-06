@@ -6,6 +6,7 @@
 package Jeu;
 
 import Data.Evenement;
+import Data.TypeCarreau;
 
 /**
  *
@@ -20,6 +21,11 @@ public class CarreauAllerEnPrison extends AutreCarreau {
     @Override
     public Evenement action(Joueur j) {
         return Evenement.AllerEnPrison;
+    }
+
+    @Override
+    public TypeCarreau getType() {
+        return TypeCarreau.AllerEnPrison;
     }
     
     
