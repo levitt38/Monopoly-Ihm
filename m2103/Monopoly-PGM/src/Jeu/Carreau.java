@@ -2,9 +2,10 @@ package Jeu;
 
 import Data.Evenement;
 import Data.TypeCarreau;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Carreau {
+public abstract class Carreau implements Serializable{
 	private int _numero;
 	private String _nomCarreau;
         private ArrayList<Joueur> joueurs;

@@ -35,8 +35,8 @@ public class FenetreJeu extends JFrame {
     public void afficher() {
         setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         setSize(400, 400);
-        setLocationRelativeTo(null);
-        setVisible(true);                        
+        setLocationRelativeTo(null); 
+        setVisible(false);
     }
 
     public Plateau getPlateau() {

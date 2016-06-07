@@ -1,12 +1,12 @@
 package Jeu;
 import Data.CouleurPropriete;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Groupe {
+public class Groupe implements Serializable{
 	private CouleurPropriete couleur;
         private ArrayList<Propriete> proprietes;            //Chaque groupe contient de 2 a 3 priopriete
-        
         
         
         public Groupe(CouleurPropriete C){

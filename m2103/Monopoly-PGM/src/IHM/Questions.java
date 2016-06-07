@@ -24,14 +24,14 @@ public class Questions{
     
     /* Les méthodes ci-dessous sont "protected"(utilisables classe-fille ou même package) pour empêcher leur utilisation
     depuis le controleur sont passer par la classe Ihm qui implements l'Observateur */
-    protected static void affiche(String s){
+    public static void affiche(String s){
         for(int i=0;i<tab;i++){
             System.out.print("  ");
         }
         System.out.println(s);
     }
     
-    protected static int askNb(String s){
+    public static int askNb(String s){
         int choix = 0;
         boolean valide = true;
         do{
@@ -45,7 +45,7 @@ public class Questions{
         return choix;
     }
     
-    protected static String askStr(String s){
+    public static String askStr(String s){
         affiche(s); String str;
         do{
             str = scan.nextLine();
@@ -53,7 +53,7 @@ public class Questions{
         return str;
     }
     
-    protected static boolean askYN(String s){
+    public static boolean askYN(String s){
         String choix = null;
         do{
             choix = askStr(s+" (oui/non)");
