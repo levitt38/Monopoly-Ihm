@@ -12,6 +12,7 @@ import Exceptions.joueurTripleDouble;
 import Exceptions.pasAssezDeMaisonsException;
 import IHM.TextColors;
 import Jeu.Cartes.Carte;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -19,7 +20,7 @@ import java.util.HashSet;
  *
  * @author mouhatcl
  */
-public class Controleur {
+public class Controleur implements Serializable{
     protected Monopoly monopoly;
     protected boolean partieContinue = true;
     protected boolean lancerDouble = false;
@@ -33,6 +34,10 @@ public class Controleur {
         this.observateur = obs;
     }
 
+    public Observateur getObservateur() {
+        return observateur;
+    }
+    
     public void payerJoueur(Joueur j){
         j.recevoirPaie();
         this.observateur.notifier(new DataModel(j,Evenement.PasseParDepart));
@@ -161,34 +166,37 @@ public class Controleur {
     
     public void jouerUnCoup(Joueur j){
         try{
+            if(j.estPrisonnier()){
+                gestionPrisonnier(j);
+            }
             if(! j.estPrisonnier()){
                 j.setPositionCourante(lancerDesAvancer(j));
-            }
-            Carreau c = j.getPositionCourante();
-            Evenement res = c.action(j);
-            switch(res){
-                case PayerLoyer :j.payerLoyer((CarreauAchetable)c);
-                                 break;
-                case EstEnPrison : gestionPrisonnier(j); break;
-                case AllerEnPrison : getMonopoly().getPrison().emprisonnerDétenu(j);
+                Carreau c = j.getPositionCourante();
+                Evenement res = c.action(j);
+                switch(res){
+                    case PayerLoyer :j.payerLoyer((CarreauAchetable)c);
                                      break;
-                case PayerPenalite :j.payer(((CarreauPenalite)c).getPenalite());
-                                    break;
-                default : ;
-            }
-            
-            // L'observateur traite en fonction du type d'évenement
-            if (res != Evenement.EstEnPrison){
-                observateur.notifier(new DataModel(j, c, res));
-            }
-            // Construction de bâtiments
-            boolean construire = false;
-            HashMap<String, Carreau> pc = new HashMap<>();
-            for(Propriete p:j.getProprietesConstructibles()){
-                pc.put(p.getNomCarreau(), p);
-            }
-            if(j.getProprietesConstructibles().size()>0){
-                this.observateur.notifier(new DataModel(pc,Evenement.Construction));
+                    case EstEnPrison : gestionPrisonnier(j); break;
+                    case AllerEnPrison : getMonopoly().getPrison().emprisonnerDétenu(j);
+                                         break;
+                    case PayerPenalite :j.payer(((CarreauPenalite)c).getPenalite());
+                                        break;
+                    default : ;
+                }
+
+                // L'observateur traite en fonction du type d'évenement
+                if (res != Evenement.EstEnPrison){
+                    observateur.notifier(new DataModel(j, c, res));
+                }
+                // Construction de bâtiments
+                boolean construire = false;
+                HashMap<String, Carreau> pc = new HashMap<>();
+                for(Propriete p:j.getProprietesConstructibles()){
+                    pc.put(p.getNomCarreau(), p);
+                }
+                if(j.getProprietesConstructibles().size()>0){
+                    this.observateur.notifier(new DataModel(pc,Evenement.Construction));
+                }
             }
             // On gère les constructions éventuelles si le joueur possède tous les carreaux d'un groupe
             
