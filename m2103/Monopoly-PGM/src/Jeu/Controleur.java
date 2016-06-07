@@ -77,7 +77,7 @@ public class Controleur implements Serializable{
             if(j.getDoublesALaSuite()>=3){
                 j.setDoublesALaSuite(0);
                 throw new joueurTripleDouble();
-            } else { observateur.affiche(TextColors.BLUE+"Vous avez fait un double !"+TextColors.RESET); }
+            } else { observateur.notifier(new DataModel(Evenement.Double));}
         } else { this.lancerDouble=false; }
         lancer += lancer2;
         //Cette ligne sert a récupérer le montant des dès du lancer pour réaliser le loyer d'une compagnie
@@ -92,7 +92,7 @@ public class Controleur implements Serializable{
         }
         position = position%40;
         //Affichage IHM des dès
-        observateur.affiche(TextColors.BLUE+"Résultat lancer : "+j.getNomJoueur()+" a fait un "+lancer+TextColors.RESET);
+        observateur.notifier(new DataModel(lancer,j,Evenement.LancersDes));
         //Return carreau correspondant
         return monopoly.getCarreau(position);
     }

@@ -5,7 +5,7 @@
  */
 package Network;
 
-import IHM.Ihm;
+import IHM.EventHandler;
 import IHM.Questions;
 import Jeu.Controleur;
 import Jeu.Joueur;
@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  */
 public class Client implements Serializable{
     private Controleur controleur;
-    private Ihm ihm;
+    private EventHandler ihm;
     private Monopoly monopoly;
     private Joueur joueur;
     private InetAddress ip_serveur, ip_client;
@@ -38,7 +38,7 @@ public class Client implements Serializable{
     public Client(){
         // En attendant l'initialisation, pour pouvoir utiliser les méthodes d'affichage
         this.controleur = new Controleur();
-        this.ihm = new Ihm(controleur);
+        this.ihm = new EventHandler(controleur);
         this.controleur.setObservateur(ihm);
         this.monopoly = this.controleur.getMonopoly();
         // Les infos pour se connecter au serveur
@@ -55,7 +55,7 @@ public class Client implements Serializable{
     public Client(String serveur){
         // En attendant l'initialisation, pour pouvoir utiliser les méthodes d'affichage
         this.controleur = new Controleur();
-        this.ihm = new Ihm(controleur);
+        this.ihm = new EventHandler(controleur);
         this.controleur.setObservateur(ihm);
         this.monopoly = this.controleur.getMonopoly();
         // Les infos pour se connecter au serveur
@@ -102,7 +102,7 @@ public class Client implements Serializable{
         }
     }
     
-    public void setClient(Joueur joueur,Controleur controleur,Ihm ihm,InetAddress ip_client,int port_client){
+    public void setClient(Joueur joueur,Controleur controleur,EventHandler ihm,InetAddress ip_client,int port_client){
         this.joueur = joueur;
         this.controleur = controleur;
         this.ihm = ihm;
@@ -115,7 +115,7 @@ public class Client implements Serializable{
         return controleur;
     }
 
-    public Ihm getIhm() {
+    public EventHandler getIhm() {
         return ihm;
     }
 

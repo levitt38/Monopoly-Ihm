@@ -5,7 +5,7 @@
  */
 package Ui;
 
-import IHM.Ihm;
+import IHM.EventHandler;
 import Jeu.Carreau;
 import Jeu.Controleur;
 import Jeu.Monopoly;
@@ -21,7 +21,7 @@ public class main{
     
     public static void main (String[] args) {
         Controleur c = new Controleur();
-        Ihm ihm = new Ihm(c);
+        EventHandler ihm = new EventHandler(c);
         c.setObservateur(ihm);
         c.mainLoop();
                 

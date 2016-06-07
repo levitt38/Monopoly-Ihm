@@ -12,8 +12,6 @@ import Data.Evenement;
  * @author nourik
  */
 public interface Observateur {
-    // Affichage utilisateur
-    public void affiche(String s);
     //Envoie un evenement a traiter par la classe ihm
     public void notifier(DataModel d);
     

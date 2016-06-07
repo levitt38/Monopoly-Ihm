@@ -5,7 +5,7 @@
  */
 package Network;
 
-import IHM.Ihm;
+import IHM.EventHandler;
 import IHM.Questions;
 import Jeu.Controleur;
 import Jeu.Joueur;
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  */
 public class Server {
     private Controleur controleur;
-    private Ihm ihm;
+    private EventHandler ihm;
     private HashSet<Client> liste_client;
     private int port, nb_joueur;
     private ObjectInputStream sInput;
@@ -35,7 +35,7 @@ public class Server {
     public Server(int port){
         this.liste_client = new HashSet<>();
         this.controleur = new Controleur();
-        this.ihm = new Ihm(controleur);
+        this.ihm = new EventHandler(controleur);
         controleur.setObservateur(ihm);
         this.port = Questions.askNb("Veuillez rentrer le port d'écoute du serveur");
     }

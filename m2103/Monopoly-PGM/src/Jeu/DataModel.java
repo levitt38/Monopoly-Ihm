@@ -21,6 +21,12 @@ public class DataModel {
     private Evenement e;
     private Carte carte;
 
+    public DataModel(int i, Joueur j, Evenement e) {
+        this.i = i;
+        this.j = j;
+        this.e = e;
+    }
+
     public DataModel(Evenement e) {
         this(null,null,0,null,e,null);
     }

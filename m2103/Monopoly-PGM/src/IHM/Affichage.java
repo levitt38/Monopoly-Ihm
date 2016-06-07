@@ -100,7 +100,7 @@ public class Affichage {
         return c.getNomCarreau().length();
     }
     
-    protected static void afficherPlateau(Monopoly p){
+    protected static void afficherPlateau(HashMap<String, Carreau> ca){
         
         int[] nbRow = new int[11]; // le nombre de caractères de chaque colonne
         int[] nbColumn = new int[11]; // le nombre de lignes de chaque ligne
@@ -108,14 +108,14 @@ public class Affichage {
         for(int i=0;i<nbRow.length;i++){
             nbRow[i] = 0;
             for (int j:casesInColumn(i)){
-                a = widthCarreau(p.getCarreau(j));
+                a = widthCarreau(ca.get(Integer.toString(j)));
                 nbRow[i] = Integer.max(nbRow[i], a);
             }
         }
         for(int i=0;i<nbColumn.length;i++){
             nbColumn[i] = 0;
             for (int j:casesInRow(i)){
-                a = heightCarreau(p.getCarreau(j));
+                a = heightCarreau(ca.get(Integer.toString(j)));
                 nbColumn[i] = Integer.max(nbColumn[i], a);
             }
         }
@@ -162,7 +162,7 @@ public class Affichage {
                         tmp += VERTICAL_LINE;
                     }
                     if (i==0 || i==10 || k==0 || k==10){
-                        Carreau c = p.getCarreau(numCase(k,i));
+                        Carreau c = ca.get(Integer.toString(numCase(k,i)));
                         if(j==0){
                             if(c.getType()==TypeCarreau.ProprieteAConstruire){
                                 Propriete cc = (Propriete) c;
