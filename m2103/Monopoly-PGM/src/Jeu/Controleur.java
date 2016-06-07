@@ -43,14 +43,16 @@ public class Controleur {
     }
     
     public void tirerCarte(Joueur j,TypeCarte t){
-        Carte c = this.getMonopoly().getCartes(t).poll();
+        Carte c = this.getMonopoly().getCartes(t).pollFirst();
         c.setOwner(j);
         j.addCartePossedee(c);
         this.observateur.notifier(new DataModel(Evenement.CarteTiree,c,j));
     }
     
     public void useCarte(Carte c){
-        
+        c.use(this.monopoly);
+        c.resetOwner();
+        this.monopoly.getCartes(c.getType()).addLast(c);
     }
     
     public Carreau lancerDesAvancer(Joueur j) throws joueurTripleDouble{
@@ -68,7 +70,7 @@ public class Controleur {
             // le joueur en est il a son troisième double ?
             if(j.getDoublesALaSuite()>=3){
                 j.setDoublesALaSuite(0);
-                observateur.affiche(TextColors.RED+"C'est votre 3ème double => direction prison !"+TextColors.RESET);
+                this.observateur.notifier(new DataModel(Evenement.AllerEnPrisonDes));
                 throw new joueurTripleDouble();
             } else { observateur.affiche(TextColors.BLUE+"Vous avez fait un double !"+TextColors.RESET); }
         } else { this.lancerDouble=false; }
@@ -124,8 +126,7 @@ public class Controleur {
         }*/
     }
     
-    public void gestionPrisonnier(Joueur j){
-        //Il faudra gérer si le joueur possède la carte SortirdePrison
+    public void restePrison(Joueur j){
         int lancer1, lancer2;
         lancer1 = lancerD6();
         lancer2 = lancerD6();
@@ -145,6 +146,17 @@ public class Controleur {
             j.setPositionCourante(this.monopoly.getCarreau(10));
             this.observateur.notifier(new DataModel(j,Evenement.SortieDePrisonCaution));
         }
+    }
+    
+    public void gestionPrisonnier(Joueur j){
+        //Il faudra gérer si le joueur possède la carte SortirdePrison
+        boolean carteUsed = false;
+        if (j.hasCartePrison()){
+            this.observateur.notifier(new DataModel(j,Evenement.UsePossibleCarteSortiePrison));
+        }else{
+            this.restePrison(j);
+        }
+        
     }
     
     public void jouerUnCoup(Joueur j){

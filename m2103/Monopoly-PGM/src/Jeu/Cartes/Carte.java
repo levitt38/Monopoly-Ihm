@@ -38,6 +38,7 @@ public abstract class Carte {
     }
     
     public void resetOwner(){
+        this.owner.removeCartePossedee(this);
         this.owner = null;
     }
     

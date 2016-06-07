@@ -266,9 +266,9 @@ public class Monopoly{
                 for (Carte c:tmp){
                     if(c!=null){
                         if (type == TypeCarte.chance){
-                            this.getCartesChance().add(c);
+                            this.getCartesChance().addLast(c);
                         }else{
-                            this.getCartesCommunaute().add(c);
+                            this.getCartesCommunaute().addLast(c);
                         }
                     }
                 }

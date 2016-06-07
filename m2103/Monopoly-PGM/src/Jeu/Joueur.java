@@ -5,6 +5,7 @@ import Exceptions.joueurDeadException;
 import Jeu.Cartes.Carte;
 import java.util.ArrayList;
 import java.util.HashSet;
+import Jeu.Cartes.CarteSortiePrison;
 
 public class Joueur {
 	private String _nomJoueur;
@@ -30,6 +31,22 @@ public class Joueur {
     
     public void removeCartePossedee(Carte c){
         this.getCartesPossedes().remove(c);
+    }
+    
+    public boolean hasCartePrison(){
+        boolean b = false;
+        for (Carte c : this.getCartesPossedes()){
+            b = b || c.getClass().equals(CarteSortiePrison.class);
+        }
+        return b;
+    }
+    
+    public CarteSortiePrison getCartePrison(){
+        if(this.hasCartePrison()){
+            return (CarteSortiePrison)this.getCartesPossedes().get(0);
+        }else{
+            return null;
+        }
     }
 
     public Joueur(String _nomJoueur, Carreau pos) {

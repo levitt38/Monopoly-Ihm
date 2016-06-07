@@ -81,7 +81,7 @@ public class Ihm implements Observateur{
             case PayerPenalite :this.affiche("Le joueur "+j.getNomJoueur()+" paie "+((CarreauPenalite)c).getPenalite()+"$");
                                 break;
             case SortieDePrisonDes : this.affiche("Vous avez fait un double, fin de votre séjour en prison ! Vous pouvez jouer");break;
-            case SortieDePrisonCaution : this.affiche("Fin de vos 3 tours en prison ! vous payez 50€");
+            case SortieDePrisonCaution : this.affiche("Fin de vos 3 tours en prison ! vous payez 50€");break;
             case SortieDePrisonCarte : this.affiche("Vous utilisez vos relations au gouvernement pour sortir de prison ...");break;
             case ResterPrison : this.affiche("Vous n'avez pas fait de double, vous restez en prison !");break;
             case Bankrupt : this.affiche("Le joueur "+j.getNomJoueur()+" vient d'être éliminé");break;
@@ -100,7 +100,16 @@ public class Ihm implements Observateur{
                                         this.controleur.ajouterJoueur(this.askStr("Entre le nom du joueur"+i));
                                     }break;
             case CarteTiree : boolean prison = d.getCarte().getClass().equals(CarteSortiePrison.class);
-                                boolean use = this.afficherCarte(d.getCarte(),prison);
+                              this.afficherCarte(d.getCarte(),prison);
+                              if(!prison){
+                                  this.controleur.useCarte(d.getCarte());
+                              }break;
+            case AllerEnPrisonDes : this.affiche("","C'est votre 3ème double !/nDirection, la prison !");break;
+            case UsePossibleCarteSortiePrison : if(this.askYN("Voulez-vous utiliser une carte Sortie de Prison ?")){
+                                                    this.controleur.
+                                                }else{
+                                                    this.controleur.restePrison(j);
+                                                }
             case Construction : if(this.askYN("Voulez-vous construire ?")){
                 
             };
@@ -117,12 +126,8 @@ public class Ihm implements Observateur{
         this.affiche("Tirer une Carte","Vous tirez une carte "+t.toString()+".");
     }
     
-    public boolean afficherCarte(Carte c,boolean prison){
-        if (prison){
-            return IhmBoiteMessage.afficherBoiteMessage(c.getType().toString(),c.getText(),1);
-        }else{
-            return IhmBoiteMessage.afficherBoiteMessage(c.getType().toString(),c.getText(),0);
-        }
+    public void afficherCarte(Carte c,boolean prison){
+        this.affiche(c.getType().toString(),c.getText());
     }
     
     public void afficherJoueur(Joueur j){
