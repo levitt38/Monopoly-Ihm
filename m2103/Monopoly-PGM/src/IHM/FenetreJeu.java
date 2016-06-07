@@ -5,6 +5,7 @@
  */
 package IHM;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -22,21 +23,27 @@ import javax.swing.JPanel;
 public class FenetreJeu extends JFrame {
 
     private Plateau plateau;
-    
+    private JPanel panel;
+    private int width = 800;
+    private int height = 800;
     
     public FenetreJeu() {
         super("Monopoly");
         
-        this.plateau = new Plateau();
-        this.add(this.plateau);
+        panel = new JPanel();
+        //panel.setPreferredSize(new Dimension(this.width,this.height));
+        
+        this.plateau = new Plateau(width,height);
+        this.panel.add(this.plateau);
+        this.add(this.panel);
         
     }
 
     public void afficher() {
         setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        setSize(400, 400);
+        setSize(800, 800);
         setLocationRelativeTo(null); 
-        setVisible(false);
+        setVisible(true);
     }
 
     public Plateau getPlateau() {

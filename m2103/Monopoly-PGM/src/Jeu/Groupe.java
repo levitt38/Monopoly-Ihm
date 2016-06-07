@@ -42,8 +42,8 @@ public class Groupe implements Serializable{
     public int getMinMaisons(){
         int min = 6;
         for(Propriete p:this.getProprietes()){
-            if(p.getNbMaisons()<min){
-                min = p.getNbMaisons();
+            if(p.getPseudoNbMaisons()<min){
+                min = p.getPseudoNbMaisons();
             }
         }
         return min;

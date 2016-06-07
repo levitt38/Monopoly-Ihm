@@ -13,13 +13,12 @@ public class Joueur {
         private int doublesALaSuite = 0;
         private int nb_toursEnPrison = 0;
         private boolean dernierDouble = false;
-        private boolean prisonnier = false;
 	private HashSet<Gare> _gares;
         private HashSet<Propriete> _proprietes;
         private HashSet<Compagnie> _compagnies;
         private HashSet<CarreauAchetable> _carreaux;
 	private Carreau _positionCourante;
-        private ArrayList<Carte> cartesPossedes;
+        private ArrayList<Carte> cartesPossedes = new ArrayList<>();
 
     public ArrayList<Carte> getCartesPossedes() {
         return cartesPossedes;
@@ -71,12 +70,9 @@ public class Joueur {
     }
     
     public boolean estPrisonnier() {
-        return prisonnier;
+        return this.getPositionCourante().getType()==TypeCarreau.Prison;
     }
 
-    public void setPrisonnier(boolean prisonnier) {
-        this.prisonnier = prisonnier;
-    }
 
     public boolean isDernierDouble() {
         return dernierDouble;
@@ -189,6 +185,13 @@ public class Joueur {
                 for(Propriete p:g.getProprietes()){
                     propACon.add(p);
                 }
+            }
+        }
+        for (Propriete p:propACon){
+            if(p.hasHotel()){
+                propACon.remove(p);
+            }else if (p.getGroupe().getMinMaisons()<p.getPseudoNbMaisons()){
+                propACon.remove(p);
             }
         }
         return propACon;

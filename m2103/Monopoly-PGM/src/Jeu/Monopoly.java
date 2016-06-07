@@ -73,7 +73,13 @@ public class Monopoly{
                                         getCarreaux().put(Integer.toString(i),c);
 				}
                                 else if(caseType.compareTo("CC") == 0){
-                                        CarreauCarte c = new CarreauCarte(i, data.get(i)[2],TypeCarte.valueOf(data.get(i)[2]));
+                                    TypeCarte type ;
+                                    if (data.get(i)[2].equals("Caisse de Communauté")){
+                                        type = TypeCarte.caisseDeCommunauté;
+                                    }else{
+                                        type = TypeCarte.chance;
+                                    }
+                                        CarreauCarte c = new CarreauCarte(i, data.get(i)[2],type);
                                         this.getCarreaux().put(Integer.toString(i), c);
 				}
                                 else if(caseType.compareTo("CP") == 0){
@@ -146,14 +152,10 @@ public class Monopoly{
         return carreaux;
     }
     
-    public void construire(Propriete p) throws pasAssezDeMaisonsException{
+    public void construire(Propriete p){
         if(p.getNbMaisons()<4){
-            if (this.nbMaisons==0){
-                throw new pasAssezDeMaisonsException();
-            }else{
-                this.nbMaisons--;
-                p.construireMaison();
-            }
+            this.nbMaisons--;
+            p.construireMaison();
         }else{
             this.nbHotels--;
             this.nbMaisons+=p.construireHotel();

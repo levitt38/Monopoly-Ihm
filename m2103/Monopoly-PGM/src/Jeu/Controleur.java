@@ -13,6 +13,7 @@ import Exceptions.pasAssezDeMaisonsException;
 import IHM.TextColors;
 import Jeu.Cartes.Carte;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -75,7 +76,6 @@ public class Controleur implements Serializable{
             // le joueur en est il a son troisième double ?
             if(j.getDoublesALaSuite()>=3){
                 j.setDoublesALaSuite(0);
-                this.observateur.notifier(new DataModel(Evenement.AllerEnPrisonDes));
                 throw new joueurTripleDouble();
             } else { observateur.affiche(TextColors.BLUE+"Vous avez fait un double !"+TextColors.RESET); }
         } else { this.lancerDouble=false; }
@@ -136,8 +136,7 @@ public class Controleur implements Serializable{
         lancer1 = lancerD6();
         lancer2 = lancerD6();
         if(lancer1==lancer2){
-            this.monopoly.getPrison().libérerDétenu(j);
-            j.setPositionCourante(this.monopoly.getCarreau(10+lancer1+lancer2));
+            j.setPositionCourante(this.monopoly.getCarreau(10));
             this.observateur.notifier(new DataModel(j,Evenement.SortieDePrisonDes));
             // IL FAUDRA GERER LE FAIT QUE LE JOUEUR REJOUE DIRECT DANS LA MAINLOOP
             return; // sort de la méthode
@@ -147,7 +146,6 @@ public class Controleur implements Serializable{
         
         if(j.getNb_toursEnPrison()==3){
             j.setCash(j.getCash()-50);
-            this.monopoly.getPrison().libérerDétenu(j);
             j.setPositionCourante(this.monopoly.getCarreau(10));
             this.observateur.notifier(new DataModel(j,Evenement.SortieDePrisonCaution));
         }
@@ -164,6 +162,14 @@ public class Controleur implements Serializable{
         
     }
     
+    public void construire(Propriete p){
+        if(p.getProprietaire().getCash()<p.getPrixMaison()){
+            this.observateur.notifier(new DataModel(Evenement.PasAssezDArgent));
+        }else{
+            this.monopoly.construire(p);
+        }
+    }
+    
     public void jouerUnCoup(Joueur j){
         try{
             if(j.estPrisonnier()){
@@ -177,7 +183,7 @@ public class Controleur implements Serializable{
                     case PayerLoyer :j.payerLoyer((CarreauAchetable)c);
                                      break;
                     case EstEnPrison : gestionPrisonnier(j); break;
-                    case AllerEnPrison : getMonopoly().getPrison().emprisonnerDétenu(j);
+                    case AllerEnPrison : j.setPositionCourante(this.monopoly.getPrison());
                                          break;
                     case PayerPenalite :j.payer(((CarreauPenalite)c).getPenalite());
                                         break;
@@ -189,48 +195,42 @@ public class Controleur implements Serializable{
                     observateur.notifier(new DataModel(j, c, res));
                 }
                 // Construction de bâtiments
-                boolean construire = false;
-                HashMap<String, Carreau> pc = new HashMap<>();
-                for(Propriete p:j.getProprietesConstructibles()){
-                    pc.put(p.getNomCarreau(), p);
-                }
-                if(j.getProprietesConstructibles().size()>0){
-                    this.observateur.notifier(new DataModel(pc,Evenement.Construction));
-                }
+                this.construction(j);
             }
-            // On gère les constructions éventuelles si le joueur possède tous les carreaux d'un groupe
-            
-            
-            /*while(construire&&j.getProprietesConstructibles().size()>0){
-                String s;
-                do{
-                    s=observateur.askStr("Entrez le nom d'une rue");
-                }while(!this.monopoly.getCarreaux().containsKey(s) || !(this.monopoly.getCarreaux().get(s).getType()==TypeCarreau.ProprieteAConstruire));
-                Propriete p = (Propriete) this.monopoly.getCarreaux().get(s);
-                if(p.getNbMaisons()<5){
-                    if(p.getPrixMaison()<=j.getCash()){
-                        if(p.getNbMaisons()<=p.getGroupe().getMinMaisons()){
-                            try {
-                                this.monopoly.construire(p);
-                            } catch (pasAssezDeMaisonsException ex) {
-                                this.observateur.notifier(new DataModel(Evenement.PlusDeMaisons));
-                            }
-                        }else{
-                            this.observateur.notifier(new DataModel(Evenement.PasNivele));
-                        }
-                    }else{
-                        this.observateur.notifier(new DataModel(Evenement.PasAssezDArgent));
-                    }
-                }else{
-                    this.observateur.notifier(new DataModel(Evenement.TropDeMaisons));
-                }
-            }*/
-            
-            
           // si le joueur en est a son 3eme double => go to prison
-        } catch(joueurTripleDouble e){this.monopoly.getPrison().emprisonnerDétenu(j);};
+        } catch(joueurTripleDouble e){
+            this.observateur.notifier(new DataModel(Evenement.AllerEnPrisonDes));
+            j.setPositionCourante(this.monopoly.getPrison());}
     }
 
+    
+    public void construction(Joueur j){
+        ArrayList<Propriete> pc = j.getProprietesConstructibles();
+        if(this.monopoly.getNbMaisons()==0){
+            for (Propriete p:pc){
+                if(p.getNbMaisons()<4){
+                    pc.remove(p);
+                }
+            }
+
+        }   
+        if(this.monopoly.getNbHotels()==0){
+            for (Propriete p:pc){
+                if(p.getNbMaisons()==4){
+                    pc.remove(p);
+                }
+            }
+        }
+        HashMap<String, Carreau> pca = new HashMap<>();
+        for(Propriete p:pc){
+            pca.put(p.getNomCarreau(), p);
+        }
+    // On gère les constructions éventuelles si le joueur possède tous les carreaux d'un groupe
+        if(j.getProprietesConstructibles().size()>0){
+            this.observateur.notifier(new DataModel(pca,Evenement.Construction));
+        }
+            
+    }
     
     public void ajouterJoueur(String s){
         this.monopoly.addJoueur(new Joueur(s,this.monopoly.getCarreau(0)));

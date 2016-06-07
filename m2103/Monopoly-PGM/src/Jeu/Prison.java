@@ -30,15 +30,5 @@ public class Prison extends AutreCarreau{
    public Evenement action(Joueur j) { 
        return Evenement.EstEnPrison;
    }
- 
-    public void emprisonnerDétenu(Joueur j){
-        j.setPositionCourante(this);
-        j.setPrisonnier(true);
-    }
-    
-    public void libérerDétenu(Joueur j){
-        this.removeJoueur(j);
-        j.setPrisonnier(false);
-    }
     
 }

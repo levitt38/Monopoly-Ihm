@@ -38,8 +38,10 @@ private final int LARGEUR_COULEUR = 40*width/1040;
 private final int HAUTEUR_CASE = LARGEUR_GRANDE_CASE;
 private HashMap<String,Carreau> carreaux;
 
-    public Plateau() {
+    public Plateau(int w, int h) {
         setDoubleBuffered(true);
+        this.width = w;
+        this.height = h;
        try {                
           image = resize(ImageIO.read(new File("./res/plateau.gif")),this.width,this.height);
        } catch (IOException ex) {

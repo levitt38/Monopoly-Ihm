@@ -14,9 +14,10 @@ import Jeu.CarreauPenalite;
 import Jeu.Cartes.Carte;
 import Jeu.Cartes.CarteSortiePrison;
 import Jeu.Controleur;
+import Jeu.DataModel;
 import Jeu.Joueur;
 import Jeu.Observateur;
-import Jeu.DataModel;
+import Jeu.Propriete;
 import java.util.HashMap;
 
 /**
@@ -106,13 +107,14 @@ public class Ihm implements Observateur{
                               }break;
             case AllerEnPrisonDes : this.affiche("","C'est votre 3ème double !/nDirection, la prison !");break;
             case UsePossibleCarteSortiePrison : if(this.askYN("Voulez-vous utiliser une carte Sortie de Prison ?")){
-                                                    this.controleur.
+                                                    this.controleur.useCarte(j.getCartePrison());
                                                 }else{
                                                     this.controleur.restePrison(j);
-                                                }
+                                                }break;
             case Construction : if(this.askYN("Voulez-vous construire ?")){
-                
-            };
+                                    this.controleur.construire(this.askRueAConstruire(d.getCarreaux()));
+                                    this.controleur.construction(j);
+                                };
             default : this.affiche("Vous êtes tranquille. Pour le moment...");;
         }
     }
@@ -120,6 +122,11 @@ public class Ihm implements Observateur{
     public void afficherFinTour(){
         //Affichage.afficherFinTour();
         IhmBoiteMessage.afficherBoiteMessage("FIN DU TOUR", 0);
+    }
+    
+    public Propriete askRueAConstruire(HashMap<String,Carreau> ca){
+        // fonction d'ihm qui fait le taff
+        return null;
     }
     
     public void tirerCarte(TypeCarte t){

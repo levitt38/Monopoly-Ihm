@@ -41,6 +41,11 @@ public class Propriete extends CarreauAchetable {
             return this.getLoyers()[this.hotel ? 5 : this.getNbMaisons()];
 	}
 
+        public int getPseudoNbMaisons(){
+            return this.getNbMaisons()+(this.hasHotel() ? 1 : 0);
+        }
+        
+        
     public int[] getLoyers() {
         return loyers;
     }
