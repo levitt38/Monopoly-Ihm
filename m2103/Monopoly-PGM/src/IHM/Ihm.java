@@ -6,10 +6,13 @@
 package IHM;
 
 import Data.Evenement;
+import Data.TypeCarte;
 import Jeu.Carreau;
 import Jeu.CarreauAchetable;
+import Jeu.CarreauCarte;
 import Jeu.CarreauPenalite;
 import Jeu.Cartes.Carte;
+import Jeu.Cartes.CarteSortiePrison;
 import Jeu.Controleur;
 import Jeu.Joueur;
 import Jeu.Observateur;
@@ -85,7 +88,7 @@ public class Ihm implements Observateur{
             case PasseParDepart : this.affiche("Joueur "+j.getNomJoueur()+" recoit sa paie : +200€");break;
             case PartieTerminee : this.affiche("Partie Terminée !! Le joueur "+j.getNomJoueur()+" l'emporte");break;
             case FinTour : this.afficherFinTour();break;
-            case TirerCarte : this.afficherCarte(d.getCarte());break;
+            case TirerCarte : this.tirerCarte(((CarreauCarte)c).getTypeCarte());break;
             case PasAssezDArgent : this.affiche("Vous n'avez pas assez d'argent pour effectuer cette action.");break;
             case PasNivele : this.affiche("Vous devez d'abord construire sur les autres terrains de ce groupe.");break;
             case PlusDeMaisons : this.affiche("Il n'y a plus de maisons disponibles.");break;
@@ -95,7 +98,9 @@ public class Ihm implements Observateur{
             case InitialiserPartie : int nb = this.askNb("Entrez le nombre de joueurs",2,6);
                                     for (int i = 0;i<nb;i++){
                                         this.controleur.ajouterJoueur(this.askStr("Entre le nom du joueur"+i));
-                                    }
+                                    }break;
+            case CarteTiree : boolean prison = d.getCarte().getClass().equals(CarteSortiePrison.class);
+                                boolean use = this.afficherCarte(d.getCarte(),prison);
             case Construction : if(this.askYN("Voulez-vous construire ?")){
                 
             };
@@ -108,8 +113,16 @@ public class Ihm implements Observateur{
         IhmBoiteMessage.afficherBoiteMessage("FIN DU TOUR", 0);
     }
     
-    public void afficherCarte(Carte c){
-        this.affiche(c.getType().toString(),c.getText());
+    public void tirerCarte(TypeCarte t){
+        this.affiche("Tirer une Carte","Vous tirez une carte "+t.toString()+".");
+    }
+    
+    public boolean afficherCarte(Carte c,boolean prison){
+        if (prison){
+            return IhmBoiteMessage.afficherBoiteMessage(c.getType().toString(),c.getText(),1);
+        }else{
+            return IhmBoiteMessage.afficherBoiteMessage(c.getType().toString(),c.getText(),0);
+        }
     }
     
     public void afficherJoueur(Joueur j){

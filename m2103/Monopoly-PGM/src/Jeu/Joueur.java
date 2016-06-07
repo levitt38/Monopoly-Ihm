@@ -2,6 +2,7 @@ package Jeu;
 
 import Data.TypeCarreau;
 import Exceptions.joueurDeadException;
+import Jeu.Cartes.Carte;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -17,6 +18,19 @@ public class Joueur {
         private HashSet<Compagnie> _compagnies;
         private HashSet<CarreauAchetable> _carreaux;
 	private Carreau _positionCourante;
+        private ArrayList<Carte> cartesPossedes;
+
+    public ArrayList<Carte> getCartesPossedes() {
+        return cartesPossedes;
+    }
+    
+    public void addCartePossedee(Carte c){
+        this.getCartesPossedes().add(c);
+    }
+    
+    public void removeCartePossedee(Carte c){
+        this.getCartesPossedes().remove(c);
+    }
 
     public Joueur(String _nomJoueur, Carreau pos) {
         this._nomJoueur = _nomJoueur;

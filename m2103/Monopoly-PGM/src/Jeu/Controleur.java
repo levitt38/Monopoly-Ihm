@@ -7,9 +7,11 @@ package Jeu;
 
 import Data.Evenement;
 import Data.TypeCarreau;
+import Data.TypeCarte;
 import Exceptions.joueurTripleDouble;
 import Exceptions.pasAssezDeMaisonsException;
 import IHM.TextColors;
+import Jeu.Cartes.Carte;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -38,6 +40,17 @@ public class Controleur {
     
     private int lancerD6(){
         return (int)(Math.random()*100%6)+1;
+    }
+    
+    public void tirerCarte(Joueur j,TypeCarte t){
+        Carte c = this.getMonopoly().getCartes(t).poll();
+        c.setOwner(j);
+        j.addCartePossedee(c);
+        this.observateur.notifier(new DataModel(Evenement.CarteTiree,c,j));
+    }
+    
+    public void useCarte(Carte c){
+        
     }
     
     public Carreau lancerDesAvancer(Joueur j) throws joueurTripleDouble{

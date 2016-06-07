@@ -10,5 +10,5 @@ package Data;
  * @author mouhatcl
  */
 public enum Evenement {
-    Bankrupt,PayerLoyer,SurSaCase,AchatPossible,AchatImpossible,Rien,EstEnPrison,AllerEnPrison,PasseParDepart,SortieDePrisonDes,SortieDePrisonCaution,InitialiserPartie,SortieDePrisonCarte,ResterPrison,PayerPenalite, TirerCarte, FinTour, PartieTerminee, DebutTour, PlusDeMaisons, PasNivele, PasAssezDArgent, TropDeMaisons, Construction
+    Bankrupt,PayerLoyer,SurSaCase,AchatPossible,AchatImpossible,Rien,EstEnPrison,AllerEnPrison,PasseParDepart,SortieDePrisonDes,SortieDePrisonCaution,InitialiserPartie,SortieDePrisonCarte,ResterPrison,PayerPenalite, TirerCarte, FinTour, PartieTerminee, DebutTour, PlusDeMaisons, PasNivele, PasAssezDArgent, TropDeMaisons, Construction, CarteTiree
 }

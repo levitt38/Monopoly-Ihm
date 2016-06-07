@@ -7,6 +7,7 @@ package Jeu;
 
 import Data.Evenement;
 import Data.TypeCarreau;
+import Data.TypeCarte;
 
 /**
  *
@@ -14,8 +15,15 @@ import Data.TypeCarreau;
  */
 public class CarreauCarte extends AutreCarreau{
     
-    public CarreauCarte(int num, String chaine) {
+    private TypeCarte typeCarte;
+
+    public TypeCarte getTypeCarte() {
+        return typeCarte;
+    }
+    
+    public CarreauCarte(int num, String chaine, TypeCarte typeCarte) {
         super(num, chaine);
+        this.typeCarte = typeCarte;
     }
 
     @Override

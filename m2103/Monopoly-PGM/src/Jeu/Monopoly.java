@@ -29,8 +29,8 @@ public class Monopoly{
         private HashMap<String,Carreau> carreaux = new HashMap<>();
         private ArrayList<Joueur> joueurs = new ArrayList<>();
         private HashMap<CouleurPropriete,Groupe> groupes;
-        private Queue<Carte> cartesChance = new ArrayDeque<>();
-        private Queue<Carte> cartesCommunaute = new ArrayDeque<>();
+        private ArrayDeque<Carte> cartesChance = new ArrayDeque<>();
+        private ArrayDeque<Carte> cartesCommunaute = new ArrayDeque<>();
         private int nbMaisons;
         private int nbHotels;
         
@@ -73,7 +73,7 @@ public class Monopoly{
                                         getCarreaux().put(Integer.toString(i),c);
 				}
                                 else if(caseType.compareTo("CC") == 0){
-                                        CarreauCarte c = new CarreauCarte(i, data.get(i)[2]);
+                                        CarreauCarte c = new CarreauCarte(i, data.get(i)[2],TypeCarte.valueOf(data.get(i)[2]));
                                         this.getCarreaux().put(Integer.toString(i), c);
 				}
                                 else if(caseType.compareTo("CP") == 0){
@@ -106,6 +106,14 @@ public class Monopoly{
 		}
 	}
 	
+        public ArrayDeque<Carte> getCartes(TypeCarte t){
+            if (t == TypeCarte.chance){
+                return this.getCartesChance();
+            }else{
+                return this.getCartesCommunaute();
+            }
+        }
+        
 	private ArrayList<String[]> readDataFile(String filename, String token) throws FileNotFoundException, IOException
 	{
 		ArrayList<String[]> data = new ArrayList<String[]>();
@@ -274,11 +282,11 @@ public class Monopoly{
 		}
     }
 
-    public Queue<Carte> getCartesChance() {
+    public ArrayDeque<Carte> getCartesChance() {
         return cartesChance;
     }
 
-    public Queue<Carte> getCartesCommunaute() {
+    public ArrayDeque<Carte> getCartesCommunaute() {
         return cartesCommunaute;
     }
     
