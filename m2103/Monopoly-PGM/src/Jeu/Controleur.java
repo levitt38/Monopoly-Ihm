@@ -218,7 +218,26 @@ public class Controleur {
     
     public void mainLoop(){
         this.observateur.notifier(new DataModel(Evenement.InitialiserPartie));
-        int tour = 0;
+        int max = 0;
+        int a = 0;
+        int d;
+        for(int i = 0;i < this.getMonopoly().getJoueurs().size(); i++){
+
+            do{
+
+                d = lancerD6()+lancerD6();
+
+            }while(d == max);
+            if(max<d){
+
+                max = d;
+                a = i;
+            }
+
+
+        }
+        
+        int tour = a;
         while(!this.partieEstFinie()){
             Joueur j=this.getMonopoly().getJoueurs().get(tour);
             if(!j.estBankrupt()){
