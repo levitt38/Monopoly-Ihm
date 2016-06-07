@@ -29,18 +29,19 @@ public class FenetreJeu extends JFrame {
     
     public FenetreJeu() {
         super("Monopoly");
-        
-        panel = new JPanel();
-        //panel.setPreferredSize(new Dimension(this.width,this.height));
-        
-        this.plateau = new Plateau(width,height);
+        /*panel = new JPanel();
+        panel.setPreferredSize(new Dimension(this.width,this.height));
         this.panel.add(this.plateau);
         this.add(this.panel);
-        
+        this.pack();*/
+        this.plateau = new Plateau(width,height);
+        this.add(this.plateau);
+        setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        //setSize(800, 800);
+
     }
 
     public void afficher() {
-        setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         setSize(800, 800);
         setLocationRelativeTo(null); 
         setVisible(true);
