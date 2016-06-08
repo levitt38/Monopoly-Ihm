@@ -9,12 +9,13 @@ import Data.Evenement;
 import Data.TypeCarte;
 import Jeu.Joueur;
 import Jeu.Monopoly;
+import java.io.Serializable;
 
 /**
  *
  * @author Louis
  */
-public abstract class Carte {
+public abstract class Carte implements Serializable{
     private String text;
     private TypeCarte type;
     private Joueur owner;

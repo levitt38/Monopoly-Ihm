@@ -5,9 +5,11 @@
  */
 package Network;
 
+import IHM.Affichage;
 import IHM.EventHandler;
 import IHM.Questions;
 import Jeu.Controleur;
+import Jeu.DataModel;
 import Jeu.Joueur;
 import Jeu.Monopoly;
 import java.io.IOException;
@@ -30,10 +32,11 @@ public class Client implements Serializable{
     private Monopoly monopoly;
     private Joueur joueur;
     private InetAddress ip_serveur, ip_client;
-    private Socket socket;
+    private Socket socketOut, socketIn;
     private ObjectInputStream sInput;
-    private ObjectOutputStream sOutput;
-    private int port_serveur, port_client;
+    private ObjectOutputStream sOutput, OutputServer;
+    private int port_serveur, port_client, position_joueur;
+    private String nom_joueur;
     
     public Client(){
         // En attendant l'initialisation, pour pouvoir utiliser les méthodes d'affichage
@@ -42,13 +45,20 @@ public class Client implements Serializable{
         this.controleur.setObservateur(ihm);
         this.monopoly = this.controleur.getMonopoly();
         // Les infos pour se connecter au serveur
-        String ip = Questions.askStr("Rentrer l'adresse ip du serveur");
-        try {
+            /*
+            String ip = Questions.askStr("Rentrer l'adresse ip du serveur");
+            try {
             this.ip_serveur = InetAddress.getByName(ip.trim());
-        } catch (UnknownHostException ex) {ex.printStackTrace();}
-        this.port_serveur = Questions.askNb("Rentrer le port d'écoute du serveur");
+            } catch (UnknownHostException ex) {ex.printStackTrace();}
+            this.port_serveur = Questions.askNb("Rentrer le port d'écoute du serveur");*/
         try {
-            this.socket = new Socket(this.ip_serveur,this.port_serveur);
+            this.ip_serveur = InetAddress.getByName("localhost");
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.port_serveur = 2999;
+        try {
+            this.socketOut = new Socket(this.ip_serveur,this.port_serveur);
         } catch (IOException ex) { ex.printStackTrace(); }
     }
     
@@ -61,13 +71,34 @@ public class Client implements Serializable{
         // Les infos pour se connecter au serveur
     }
     
+    public GameMessage receiveMessage(){
+        GameMessage message = null;
+        try {
+            message = (GameMessage) this.sInput.readObject();
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return message;
+    }
+    
+    public void sendMessage(GameMessage message){
+        try {
+            this.sOutput.writeObject(message);
+            this.sOutput.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void InitConnexion(){
         String nom_joueur = Questions.askStr("Rentrer le nom de votre joueur");
         InitMessage message = new InitMessage("connexion",nom_joueur, 0);
       
         try {
-            this.sOutput = new ObjectOutputStream(socket.getOutputStream());
-            this.sInput = new ObjectInputStream(socket.getInputStream());
+            this.sOutput = new ObjectOutputStream(socketOut.getOutputStream());
+            this.sInput = new ObjectInputStream(socketOut.getInputStream());
             
             
             this.sOutput.writeObject(message);
@@ -94,20 +125,38 @@ public class Client implements Serializable{
         return (message.getType().trim().equals("nb_joueur"));
     }
     
+    public void InitPartie(){
+        Questions.affiche("Bienvenue dans l'arène, la partie va commencer !");
+        // Affichage plateau
+        GameMessage message = receiveMessage();
+        if(message.getType()==ActionsGame.Init){
+        this.monopoly = message.getMonopoly();
+        Affichage.afficherPlateau(this.monopoly.getCarreaux());
+        // Affichage joueur
+        //Affichage.AfficherJoueur(this.monopoly.getJoueurs().get(this.position_joueur-1));
+        Questions.affiche(String.valueOf(this.position_joueur));
+        for(Joueur joueur : this.monopoly.getJoueurs()){
+            Affichage.AfficherJoueur(joueur);
+        }
+        } else {System.out.println("bad type"); }
+    }
+    
     public static void main(String[] args){
         Client client = new Client();
         client.InitConnexion();
         if(client.isHost()){
             client.InitNb_Joueur();
         }
+        client.InitPartie();
     }
     
-    public void setClient(Joueur joueur,Controleur controleur,EventHandler ihm,InetAddress ip_client,int port_client){
-        this.joueur = joueur;
+    public void setClient(int position_joueur,String nom_joueur,Controleur controleur,
+            EventHandler ihm,ObjectOutputStream stream){
+        this.position_joueur = position_joueur;
+        this.nom_joueur = nom_joueur;
         this.controleur = controleur;
         this.ihm = ihm;
-        this.ip_client = ip_client;
-        this.port_client = port_client;
+        this.OutputServer = stream;
         
     }
 
@@ -117,10 +166,6 @@ public class Client implements Serializable{
 
     public EventHandler getIhm() {
         return ihm;
-    }
-
-    public Joueur getJoueur() {
-        return joueur;
     }
 
     public InetAddress getIp_serveur() {
@@ -141,6 +186,18 @@ public class Client implements Serializable{
 
     public Monopoly getMonopoly() {
         return monopoly;
+    }
+
+    public Socket getSocketIn() {
+        return socketIn;
+    }
+
+    public ObjectOutputStream getOutputServer() {
+        return OutputServer;
+    }
+
+    public String getNom_joueur() {
+        return nom_joueur;
     }
     
     

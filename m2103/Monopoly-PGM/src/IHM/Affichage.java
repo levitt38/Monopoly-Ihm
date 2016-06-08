@@ -35,10 +35,10 @@ public class Affichage {
     private static final String PADDING = " ";
     private static final String VERTICAL_LINE = "│";
     
-    protected static void afficherFinTour(){
+    public static void afficherFinTour(){
         Questions.affiche(TextColors.RED+"FIN DU TOUR ------------------------------"+TextColors.RESET);
     }
-    protected static void AfficherJoueur(Joueur j){
+    public static void AfficherJoueur(Joueur j){
         Questions.affiche(j.getNomJoueur());
         Questions.increment();
         Questions.affiche(Integer.toString(j.getCash())+" $");
@@ -62,7 +62,7 @@ public class Affichage {
         Questions.decrement();
     }
     
-    protected static void AfficherCarreau(Carreau c){
+    public static void AfficherCarreau(Carreau c){
         Questions.affiche(c.getNomCarreau());
         Questions.increment();
         Questions.affiche(c.getClass().toString());
@@ -100,7 +100,7 @@ public class Affichage {
         return c.getNomCarreau().length();
     }
     
-    protected static void afficherPlateau(HashMap<String, Carreau> ca){
+    public static void afficherPlateau(HashMap<String, Carreau> ca){
         
         int[] nbRow = new int[11]; // le nombre de caractères de chaque colonne
         int[] nbColumn = new int[11]; // le nombre de lignes de chaque ligne

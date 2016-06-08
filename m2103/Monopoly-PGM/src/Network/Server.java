@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +26,7 @@ import java.util.logging.Logger;
 public class Server {
     private Controleur controleur;
     private EventHandler ihm;
-    private HashSet<Client> liste_client;
+    private HashMap<Integer, Client> liste_client;
     private int port, nb_joueur;
     private ObjectInputStream sInput;
     private ObjectOutputStream sOutput;
@@ -33,7 +34,7 @@ public class Server {
     private Socket socketClient;
     
     public Server(int port){
-        this.liste_client = new HashSet<>();
+        this.liste_client = new HashMap<>();
         this.controleur = new Controleur();
         this.ihm = new EventHandler(controleur);
         controleur.setObservateur(ihm);
@@ -60,13 +61,14 @@ public class Server {
                 Joueur joueur = new Joueur(message.getNom_joueur(),this.controleur.getMonopoly().getCarreau(0));
                 this.controleur.getMonopoly().addJoueur(joueur);
                 // inscription niveau réseau
-                Client client1 = new Client("server");
-                client1.setClient(joueur,this.controleur,this.ihm,socketClient.getInetAddress(),socketServeur.getLocalPort());
-                this.liste_client.add(client1);
-                System.out.println("Connexion réussie du joueur host "+client1.getJoueur().getNomJoueur());
+                Client client1 = new Client("chaine pas prise en compte");
+                client1.setClient(1,message.getNom_joueur(),this.controleur,this.ihm,this.sOutput);
+                this.liste_client.put(1,client1);
+                System.out.println("Connexion réussie du joueur host "+client1.getNom_joueur());
                 // envoi du message "demande du nb_joueur
                 message = new InitMessage("nb_joueur","",0);
                 sOutput.writeObject(message);
+                sOutput.flush();
                 // réception du nb_joueur en provenance du client
                 message = (InitMessage) this.sInput.readObject();
                 this.nb_joueur = message.getNb_joueur();
@@ -103,10 +105,14 @@ public class Server {
                     Joueur joueur = new Joueur(message.getNom_joueur(),this.controleur.getMonopoly().getCarreau(0));
                     this.controleur.getMonopoly().addJoueur(joueur);
                     // inscription niveau réseau
-                    Client client1 = new Client("server");
-                    client1.setClient(joueur,this.controleur,this.ihm,socketClient.getInetAddress(),socketServeur.getLocalPort());
-                    this.liste_client.add(client1);
-                    System.out.println("Connexion réussie du joueur guest "+client1.getJoueur().getNomJoueur());
+                    Client client1 = new Client("chaine pas prise en compte");
+                    client1.setClient(i,message.getNom_joueur(),this.controleur,this.ihm,this.sOutput);
+                    this.liste_client.put(i, client1);
+                    System.out.println("Connexion réussie du joueur guest "+client1.getNom_joueur());
+                    // envoi fictif pour respecter l'équilibre des streams
+                    message = new InitMessage("pas host","",0);
+                    sOutput.writeObject(message);
+                    sOutput.flush();
 
                 } catch (ClassNotFoundException ex) {
                     System.out.println("L'object envoyé est mauvais");;
@@ -118,18 +124,45 @@ public class Server {
             }
         }
         System.out.println("Liste des clients connectés en fin d'initialisation :");
-        for(Client client : this.liste_client){
-            System.out.println(client.getJoueur().getNomJoueur());
+        for(Client client : this.liste_client.values()){
+            System.out.println(client.getNom_joueur());
         }
     }
     
     public void InitPartie(){
-        
+        GameMessage message = new GameMessage(ActionsGame.Init, this.controleur.getMonopoly());
+        for(Client client : this.liste_client.values()){
+            sendMessage(client, message);
+        }
     }
     
     public static void main(String[] args){
         Server server = new Server(2999);
         server.InitHost();
         server.InitGuests();
+        server.InitPartie();
+    }
+    
+    public void sendMessage(Client c, GameMessage message){
+        try {
+            this.sOutput = c.getOutputServer();
+            
+            this.sOutput.writeObject(message);
+            this.sOutput.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public GameMessage receiveMessage(){
+        GameMessage message = null;
+        try {
+            message = (GameMessage) this.sInput.readObject();
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return message;
     }
 }

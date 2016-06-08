@@ -10,5 +10,5 @@ package Network;
  * @author nourik
  */
 public enum ActionsGame {
-    AffichePlateau,Jouer
+    Init,AffichePlateau,Jouer
 }

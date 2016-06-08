@@ -6,8 +6,9 @@ import Jeu.Cartes.Carte;
 import java.util.ArrayList;
 import java.util.HashSet;
 import Jeu.Cartes.CarteSortiePrison;
+import java.io.Serializable;
 
-public class Joueur {
+public class Joueur implements Serializable{
 	private String _nomJoueur;
 	private int _cash = 1500;
         private int doublesALaSuite = 0;
