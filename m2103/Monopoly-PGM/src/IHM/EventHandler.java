@@ -69,7 +69,7 @@ public class EventHandler implements Observateur{
             case PasseParDepart : this.ihm.affiche("Joueur "+j.getNomJoueur()+" recoit sa paie : +200€");break;
             case PartieTerminee : this.ihm.affiche("Partie Terminée !! Le joueur "+j.getNomJoueur()+" l'emporte");break;
             case FinTour : this.ihm.afficherFinTour();break;
-            case TirerCarte : this.tirerCarte(((CarreauCarte)c).getTypeCarte());break;
+            case TirerCarte : this.tirerCarte(((CarreauCarte)c).getTypeCarte());this.controleur.tirerCarte(j,((CarreauCarte)c).getTypeCarte());break;
             case PasAssezDArgent : this.ihm.affiche("Vous n'avez pas assez d'argent pour effectuer cette action.");break;
             case PasNivele : this.ihm.affiche("Vous devez d'abord construire sur les autres terrains de ce groupe.");break;
             case PlusDeMaisons : this.ihm.affiche("Il n'y a plus de maisons disponibles.");break;
