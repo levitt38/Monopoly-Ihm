@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package IHM;
+package Network;
 
 import Data.Evenement;
 import Data.TypeCarte;
+import IHM.Ihm;
+import IHM.IhmBoiteMessage;
+import IHM.IhmConsole;
 import Jeu.Carreau;
 import Jeu.CarreauAchetable;
 import Jeu.CarreauCarte;
 import Jeu.CarreauPenalite;
-import Jeu.Cartes.Carte;
 import Jeu.Cartes.CarteSortiePrison;
 import Jeu.Controleur;
 import Jeu.DataModel;
@@ -25,11 +27,12 @@ import java.util.HashMap;
  *
  * @author nourik
  */
-public class EventHandler implements Observateur{
+public class EventHandlerReseau implements Observateur{
+    
     private Controleur controleur;
     private Ihm ihm = new IhmConsole(); // ligne à changer pour changer d'IHM
     
-    public EventHandler(Controleur controleur){
+    public EventHandlerReseau(Controleur controleur){
         this.controleur = controleur;
         this.controleur.setObservateur(this);
     }
@@ -37,9 +40,9 @@ public class EventHandler implements Observateur{
     public void affiche(String s){
         IhmBoiteMessage.afficherBoiteMessage(s, 0);
     }
-    
+
     @Override
-    public void notifier(DataModel d){
+    public void notifier(DataModel d) {
         Evenement event = d.getE();
         Carreau c = d.getC();
         Joueur j = d.getJ();
@@ -96,15 +99,14 @@ public class EventHandler implements Observateur{
                                     this.controleur.construction(j);
                                 }break;
             case Double : this.ihm.affiche("Vous avez fait un double !");break;
-            case LancersDes : this.ihm.affiche("Résultat lancer : "+j.getNomJoueur()+" a fait un "+d.getI());break;
+            case LancersDes : this.affiche("Résultat lancer : "+j.getNomJoueur()+" a fait un "+d.getI());break;
             case AskString : d.setS(this.ihm.askStr(d.getS()));break;
             case AskNb : d.setI(this.ihm.askNb(d.getS()));break;
-            case Affiche : this.ihm.affiche(d.getS()); break;
             default : this.ihm.affiche("Vous êtes tranquille. Pour le moment...");;
-        }
+    }
     }
     
-     public Propriete askRueAConstruire(HashMap<String,Carreau> ca){
+        public Propriete askRueAConstruire(HashMap<String,Carreau> ca){
         // fonction d'ihm qui fait le taff
         return null;
     }
@@ -119,6 +121,5 @@ public class EventHandler implements Observateur{
             choix.add(Integer.toString(j));
         }
         return Integer.valueOf(this.ihm.askListe(choix, message));
-    }
-
+    } 
 }

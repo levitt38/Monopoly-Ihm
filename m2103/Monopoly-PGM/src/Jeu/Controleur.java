@@ -25,7 +25,7 @@ public class Controleur implements Serializable{
     protected Monopoly monopoly;
     protected boolean partieContinue = true;
     protected boolean lancerDouble = false;
-    private Observateur observateur;
+    protected Observateur observateur;
     
     public Controleur() {
         this.monopoly = new Monopoly();
@@ -77,7 +77,7 @@ public class Controleur implements Serializable{
             if(j.getDoublesALaSuite()>=3){
                 j.setDoublesALaSuite(0);
                 throw new joueurTripleDouble();
-            } else { observateur.notifier(new DataModel(Evenement.Double));}
+            } else { observateur.notifier(new DataModel(j,Evenement.Double));}
         } else { this.lancerDouble=false; }
         lancer += lancer2;
         //Cette ligne sert a récupérer le montant des dès du lancer pour réaliser le loyer d'une compagnie
@@ -227,7 +227,7 @@ public class Controleur implements Serializable{
         }
     // On gère les constructions éventuelles si le joueur possède tous les carreaux d'un groupe
         if(j.getProprietesConstructibles().size()>0){
-            this.observateur.notifier(new DataModel(pca,Evenement.Construction));
+            this.observateur.notifier(new DataModel(j,pca,Evenement.Construction));
         }
             
     }
@@ -238,6 +238,7 @@ public class Controleur implements Serializable{
     
     public void mainLoop(){
         this.observateur.notifier(new DataModel(Evenement.InitialiserPartie));
+        // Attribution de l'ordre de jeu
         int max = 0;
         int a = 0;
         int d;
@@ -285,6 +286,10 @@ public class Controleur implements Serializable{
 
     public void joueurAchete(Carreau c, Joueur j) {
         ((CarreauAchetable) c).acheter(j);
+    }
+
+    public boolean isLancerDouble() {
+        return lancerDouble;
     }
     
     

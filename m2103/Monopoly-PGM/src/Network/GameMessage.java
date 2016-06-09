@@ -16,15 +16,15 @@ import java.io.Serializable;
  * @author nourik
  */
 public class GameMessage implements Serializable {
-    private ActionsGame type;
+    private ActionReseau type;
     private Monopoly monopoly;
     
-    public GameMessage(ActionsGame type, Monopoly monopoly){
+    public GameMessage(ActionReseau type, Monopoly monopoly){
         this.type = type;
         this.monopoly = monopoly;
     }
 
-    public ActionsGame getType() {
+    public ActionReseau getType() {
         return type;
     }
 

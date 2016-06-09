@@ -9,6 +9,6 @@ package Network;
  *
  * @author nourik
  */
-public enum ActionsGame {
-    Init,AffichePlateau,Jouer
+public enum ActionReseau {
+    Init,Jouer,afficherPlateau,afficherLancer
 }
