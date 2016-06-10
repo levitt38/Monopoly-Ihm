@@ -68,6 +68,9 @@ public class Affichage {
         Questions.affiche(c.getClass().toString());
         Questions.affiche(Integer.toString(c.getNumero()));
         Questions.decrement();
+        for(Joueur joueur : c.getJoueurs()){
+            Affichage.AfficherJoueur(joueur);
+        }
     }
     
     public static ArrayList<Integer> casesInColumn(int i){

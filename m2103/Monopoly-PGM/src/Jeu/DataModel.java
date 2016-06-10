@@ -118,7 +118,10 @@ public class DataModel implements Serializable{
     }
     
     public DataModel(Joueur j, Carreau c,Evenement e, Client client) {
-        this(j,c,0,null,e,null,client);
+        this.j = j;
+        this.c = c;
+        this.e = e;
+        this.client = client;
     }
     
     public DataModel(Evenement e, Carte c, Joueur j) {

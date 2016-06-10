@@ -12,10 +12,14 @@ import Jeu.Carreau;
 import Jeu.CarreauAchetable;
 import Jeu.CarreauPenalite;
 import Jeu.Cartes.Carte;
+import Jeu.Compagnie;
 import Jeu.Controleur;
 import Jeu.DataModel;
+import Jeu.Gare;
 import Jeu.Joueur;
+import Jeu.Observateur;
 import Jeu.Propriete;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,10 +27,26 @@ import java.util.HashMap;
  *
  * @author nourik
  */
-public class ControleurServer extends Controleur{ // permet de notifier via ServerHandler
+public class ControleurServer extends Controleur implements Serializable{ // permet de notifier via ServerHandler
+    protected ServerHandler observateur;
     
     public ControleurServer(){
         super();
+    }
+    
+    @Override
+    public void payerJoueur(Joueur j){
+        j.recevoirPaie();
+        this.observateur.notifier(new DataModel(j,Evenement.PasseParDepart));
+    }
+    
+    public void setObservateur(ServerHandler obs){
+        this.observateur = obs;
+    }
+
+    @Override
+    public ServerHandler getObservateur() {
+        return observateur;
     }
     
     public void tirerCarte(Joueur j,TypeCarte t,Client client){
@@ -36,6 +56,82 @@ public class ControleurServer extends Controleur{ // permet de notifier via Serv
         this.observateur.notifier(new DataModel(Evenement.CarteTiree,c,j,client));
     }
     
+    @Override
+    public Carreau lancerDesAvancer(Joueur j) throws joueurTripleDouble{
+        //Lancer1
+        int lancer = super.lancerD6(), position = 0;
+        //Lancer2
+        int lancer2 = super.lancerD6();
+        //Est-ce un double ?
+        if(lancer==lancer2){
+            this.lancerDouble = true;
+            // le joueur avait il fait un double au tour precedant ?
+            if(j.isDernierDouble()){
+            j.setDoublesALaSuite(j.getDoublesALaSuite()+1);
+            } else {j.setDoublesALaSuite(0);}
+            // le joueur en est il a son troisième double ?
+            if(j.getDoublesALaSuite()>=3){
+                j.setDoublesALaSuite(0);
+                throw new joueurTripleDouble();
+            } else { observateur.notifier(new DataModel(j,Evenement.Double));}
+        } else { this.lancerDouble=false; }
+        lancer += lancer2;
+        //Cette ligne sert a récupérer le montant des dès du lancer pour réaliser le loyer d'une compagnie
+        for (Compagnie c : this.getMonopoly().getCompagnies()){
+            c.setDernierLancer(lancer);
+        }
+        //Recup position du joueur
+        position = j.getPositionCourante().getNumero()+lancer;
+        //Est-ce un jour de paye ?
+        if(position>40){
+            payerJoueur(j);
+        }
+        position = position%40;
+        //Affichage IHM des dès
+        observateur.notifier(new DataModel(lancer,j,Evenement.LancersDes));
+        //Return carreau correspondant
+        return monopoly.getCarreau(position);
+    }
+    
+    @Override
+    public void joueurDead(Joueur j){
+        
+        for (Propriete p:j.getProprietes()){
+            this.monopoly.setNbMaisons(this.monopoly.getNbMaisons()+p.resetMaisons());
+            this.monopoly.setNbHotels(this.monopoly.getNbHotels()+(p.resetHotel() ? 1 : 0));
+            p.resetProprietaire();
+            j.removeCarreauAchetable(p);
+        }
+        for (Gare g:j.getGares()){
+            g.resetProprietaire();
+            j.removeCarreauAchetable(g);
+        }
+        for (Compagnie c:j.getCompagnies()){
+            c.resetProprietaire();
+            j.removeCarreauAchetable(c);
+        }
+        this.observateur.notifier(new DataModel(j,Evenement.Bankrupt));
+    }
+    
+    public void restePrison(Joueur j, Client client){
+        int lancer1, lancer2;
+        lancer1 = lancerD6();
+        lancer2 = lancerD6();
+        if(lancer1==lancer2){
+            j.setPositionCourante(this.monopoly.getCarreau(10));
+            this.observateur.notifier(new DataModel(j,Evenement.SortieDePrisonDes, client));
+            // IL FAUDRA GERER LE FAIT QUE LE JOUEUR REJOUE DIRECT DANS LA MAINLOOP
+            return; // sort de la méthode
+        } else {this.observateur.notifier(new DataModel(j,Evenement.ResterPrison,client)); }
+        
+        j.setNb_toursEnPrison(j.getNb_toursEnPrison()+1);
+        
+        if(j.getNb_toursEnPrison()==3){
+            j.setCash(j.getCash()-50);
+            j.setPositionCourante(this.monopoly.getCarreau(10));
+            this.observateur.notifier(new DataModel(j,Evenement.SortieDePrisonCaution,client));
+        }
+    }
     
     public void gestionPrisonnier(Joueur j, Client client){
         //Il faudra gérer si le joueur possède la carte SortirdePrison
@@ -43,7 +139,7 @@ public class ControleurServer extends Controleur{ // permet de notifier via Serv
         if (j.hasCartePrison()){
             this.observateur.notifier(new DataModel(j,Evenement.UsePossibleCarteSortiePrison,client));
         }else{
-            this.restePrison(j);
+            this.restePrison(j,client);
         }
         
     }
@@ -106,14 +202,16 @@ public class ControleurServer extends Controleur{ // permet de notifier via Serv
 
                 // L'observateur traite en fonction du type d'évenement
                 if (res != Evenement.EstEnPrison){
-                    super.observateur.notifier(new DataModel(j, c, res, client));
+                    System.out.println("notif en cours"); //
+                    System.out.println(res);
+                    this.getObservateur().notifier(new DataModel(j, c, res, client));
                 }
                 // Construction de bâtiments
                 this.construction(j,client);
             }
           // si le joueur en est a son 3eme double => go to prison
         } catch(joueurTripleDouble e){
-            this.observateur.notifier(new DataModel(j,Evenement.AllerEnPrisonDes));
+            this.getObservateur().notifier(new DataModel(j,Evenement.AllerEnPrisonDes));
             j.setPositionCourante(this.monopoly.getPrison());}
     }
 }

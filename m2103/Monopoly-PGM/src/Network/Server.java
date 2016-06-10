@@ -6,6 +6,7 @@
 package Network;
 
 import Data.Evenement;
+import IHM.Affichage;
 import IHM.EventHandler;
 import IHM.Questions;
 import Jeu.Controleur;
@@ -41,7 +42,8 @@ public class Server {
         this.controleur = new ControleurServer();
         this.handler = new ServerHandler(controleur, this);
         controleur.setObservateur(handler);
-        this.port = Questions.askNb("Veuillez rentrer le port d'écoute du serveur");
+        //this.port = Questions.askNb("Veuillez rentrer le port d'écoute du serveur");
+        this.port = port;
     }
     
     public void InitHost(){
@@ -53,18 +55,20 @@ public class Server {
             System.out.println("Lancement du serveur sur le port "+this.port);
             socketClient = socketServeur.accept();
             System.out.println("Connexion de host "+socketClient.getInetAddress());
+            this.sOutput = new ObjectOutputStream(socketClient.getOutputStream());
+            //this.sOutput.flush(); //
+            this.sInput = new ObjectInputStream(socketClient.getInputStream());
             
-            ObjectInputStream sInput = new ObjectInputStream(socketClient.getInputStream());
-            ObjectOutputStream sOutput = new ObjectOutputStream(socketClient.getOutputStream());
             
             try {
                 message = (InitMessage) this.sInput.readObject();
                 // Inscription du premier client
                 // inscription niveau jeu
-                Joueur joueur = new Joueur(message.getNom_joueur(),this.controleur.getMonopoly().getCarreau(0));
-                this.controleur.getMonopoly().addJoueur(joueur);
+                this.controleur.getMonopoly().addJoueur(new Joueur(message.getNom_joueur(),this.controleur.getMonopoly().getCarreau(0)));
                 // inscription niveau réseau
-                this.liste_client.put(1,new Client(1,message.getNom_joueur(),this.controleur,sOutput,sInput));
+                ObjectOutputStream outStream = this.sOutput;
+                ObjectInputStream inStream  = this.sInput;     
+                this.liste_client.put(1,new Client(1,message.getNom_joueur(),this.controleur,outStream,inStream));
                 System.out.println("Connexion réussie du joueur host "+message.getNom_joueur());
                 // envoi du message "demande du nb_joueur
                 message = new InitMessage("est host","",1); // 1 => position du joueur
@@ -95,17 +99,20 @@ public class Server {
                 Socket socketClient = socketServeur.accept();
                 System.out.println("Connexion de guest "+socketClient.getInetAddress());
                 
-                ObjectInputStream sInput = new ObjectInputStream(socketClient.getInputStream());
-                ObjectOutputStream sOutput = new ObjectOutputStream(socketClient.getOutputStream());
+                this.sInput = new ObjectInputStream(socketClient.getInputStream());
+                this.sOutput = new ObjectOutputStream(socketClient.getOutputStream());
+                //sOutput.flush(); //
 
                 try {
-                    message = (InitMessage) sInput.readObject();
+                    message = (InitMessage) this.sInput.readObject();
                     // Inscription du premier client
                     // inscription niveau jeu
                     Joueur joueur = new Joueur(message.getNom_joueur(),this.controleur.getMonopoly().getCarreau(0));
                     this.controleur.getMonopoly().addJoueur(joueur);
                     // inscription niveau réseau
-                    this.liste_client.put(i, new Client(i,message.getNom_joueur(),this.controleur,sOutput,sInput));
+                    ObjectOutputStream outStream = this.sOutput;
+                    ObjectInputStream inStream  = this.sInput; 
+                    this.liste_client.put(i, new Client(i,message.getNom_joueur(),this.controleur,outStream,inStream));
                     System.out.println("Connexion réussie du joueur guest "+message.getNom_joueur());
                     // envoi fictif pour respecter l'équilibre des streams
                     message = new InitMessage("est guest","",i); // i correspond a la position du joueur
@@ -136,22 +143,28 @@ public class Server {
     
     public void mainLoop(){
         int a = 0; // Provisoire en attendant d'implementer le tirage au sort
-        int tour = a;
+        int tour = (a%2)+1; //necessaire, car dictionnaire
         while(!this.controleur.partieEstFinie()){
             Client client = this.liste_client.get(tour);
-            Joueur j = this.controleur.getMonopoly().getJoueurs().get(tour);
+            System.out.println(client.getPosition_joueur()); //
+            Joueur j = this.controleur.getMonopoly().getJoueurs().get(tour-1); // -1 necessaire car collection
+            System.out.println(j.getNomJoueur());
+            System.out.println(j.getCash());
             if(!j.estBankrupt()){
-                this.controleur.getObservateur().notifier(new DataModel(j,
-                        this.controleur.getMonopoly().getCarreaux(),Evenement.DebutTour)); //affiche Plateau
+                this.controleur.observateur.notifier(new DataModel(j,this.controleur.getMonopoly(),Evenement.DebutTour)); //affiche Plateau
                 this.controleur.jouerUnCoup(j,client);
                 if(j.estBankrupt()){
                     this.controleur.joueurDead(j); 
+                    System.out.println("bankrupt"); ////
                 }
                 this.controleur.getObservateur().notifier(new DataModel(Evenement.FinTour));
             }
-            if((!this.controleur.isLancerDouble())&&(!j.estBankrupt())){
-                tour=(tour+1)%this.controleur.getMonopoly().getJoueurs().size();
+            if(/*(!this.controleur.isLancerDouble())&&*/(!j.estBankrupt())){
+                tour=(tour)%this.controleur.getMonopoly().getJoueurs().size();
+                tour ++; //necessaire, car dictionnaire
+                System.out.println("rentrer dans incr");
             }
+            this.handler.setControleur(this.controleur);
         }
         for (Joueur j:this.controleur.getMonopoly().getJoueurs()){
             if(!j.estBankrupt()){
@@ -171,9 +184,9 @@ public class Server {
     
     public void sendMessage(Client c, DataModel message){
         try {
-            this.sOutput = c.getOutputServer();
-            this.sInput = c.getInputServer();
-            this.sOutput.writeObject(message);
+            this.sOutput = c.getOutputServer(); this.sOutput.reset();
+            this.sInput = c.getInputServer(); 
+            this.sOutput.writeUnshared(message);
             this.sOutput.flush();
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
@@ -183,9 +196,9 @@ public class Server {
     public DataModel receiveMessage(Client c){
         DataModel message = null;
         try {
-        this.sInput = c.getInputServer();
-        this.sOutput = c.getOutputServer();
-        message = (DataModel) this.sInput.readObject();
+        this.sInput = c.getInputServer(); 
+        this.sOutput = c.getOutputServer(); this.sOutput.reset();
+        message = (DataModel) this.sInput.readUnshared();
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

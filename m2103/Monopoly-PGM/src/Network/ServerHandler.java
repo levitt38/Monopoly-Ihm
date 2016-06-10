@@ -42,11 +42,11 @@ public class ServerHandler implements Observateur{
         Carreau c = (d.getC()!=null) ? d.getC() : new CarreauInutile(0, ""); 
         Joueur j = (d.getJ()!=null) ? d.getJ() : new Joueur("", c);
         CarreauAchetable cAchetable;
-        Client client = (d.getClient()!=null) ? d.getClient() : new Client();
+        Client client = d.getClient();
         DataModel message;
         switch(d.getE()){
             case PayerLoyer : cAchetable = (CarreauAchetable) c;
-                                message = new DataModel(Evenement.AfficheClient, j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire().getNomJoueur());
+                                message = new DataModel(Evenement.AfficheClient, j.getNomJoueur()+" paye un loyer de "+cAchetable.getPrixAchat()+"€ a "+cAchetable.getProprietaire().getNomJoueur());
                                 this.server.sendMessagetoAll(message);
                              break;
             case SurSaCase : message = new DataModel(Evenement.AfficheClient, "Vous êtes sur une de vos propriété, détendez vous");
@@ -90,9 +90,9 @@ public class ServerHandler implements Observateur{
             case PartieTerminee : message = new DataModel(Evenement.AfficheClient, "Partie Terminée !! Le joueur "+j.getNomJoueur()+" l'emporte");
                                 this.server.sendMessagetoAll(message);
                                 break;  
-            case TirerCarte : message = new DataModel(Evenement.AfficheClient, "Vous avez tirez une carte "+((CarreauCarte)c).getTypeCarte());
+            case TirerCarte :   this.controleur.tirerCarte(j,((CarreauCarte)c).getTypeCarte(),client);
+                                message = new DataModel(Evenement.AfficheClient, "Vous avez tirez une carte "+((CarreauCarte)c).getTypeCarte());
                                 this.server.sendMessage(client, message);
-                                this.controleur.tirerCarte(j,((CarreauCarte)c).getTypeCarte());
                                 break;
             case PasAssezDArgent : message = new DataModel(Evenement.AfficheClient, "Vous n'avez pas assez d'argent pour effectuer cette action.");
                                 this.server.sendMessage(client, message);
@@ -146,8 +146,8 @@ public class ServerHandler implements Observateur{
                                 this.server.sendMessagetoAll(message);
                                 break;
             // Affichage sur l'interface serveur (pas use, car toujours en mode console) 
-            case DebutTour : message = new DataModel(Evenement.DebutTour, this.controleur.getMonopoly());
-                                this.server.sendMessagetoAll(message);
+            case DebutTour : DataModel messageTour = new DataModel(d.getJ(), d.getMonopoly(),Evenement.DebutTour);
+                                this.server.sendMessagetoAll(messageTour);
                             break;                    
             case FinTour : message = new DataModel(Evenement.FinTour);
                                  this.server.sendMessagetoAll(message);
@@ -162,5 +162,11 @@ public class ServerHandler implements Observateur{
     public void tirerCarte(TypeCarte t){
         this.ihm.affiche("Tirer une Carte","Vous tirez une carte "+t.toString()+".");
     }
+
+    public void setControleur(ControleurServer controleur) {
+        this.controleur = controleur;
+    }
+    
+    
 }
 

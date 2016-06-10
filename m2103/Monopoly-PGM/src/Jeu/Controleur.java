@@ -44,7 +44,7 @@ public class Controleur implements Serializable{
         this.observateur.notifier(new DataModel(j,Evenement.PasseParDepart));
     }
     
-    private int lancerD6(){
+    protected int lancerD6(){
         return (int)(Math.random()*100%6)+1;
     }
     
@@ -300,7 +300,6 @@ public class Controleur implements Serializable{
     public boolean isLancerDouble() {
         return lancerDouble;
     }
-    
     
    
 }
