@@ -7,6 +7,7 @@ package Network;
 
 import Data.Evenement;
 import IHM.Affichage;
+import IHM.Questions;
 import Jeu.Controleur;
 import Jeu.DataModel;
 import Jeu.Joueur;
@@ -40,17 +41,16 @@ public class Client implements Serializable{
         // En attendant l'initialisation, pour pouvoir utiliser les méthodes d'affichage
         this.handler = new ClientHandler(this);
         // Les infos pour se connecter au serveur
-            /*
             String ip = Questions.askStr("Rentrer l'adresse ip du serveur");
             try {
             this.ip_serveur = InetAddress.getByName(ip.trim());
             } catch (UnknownHostException ex) {ex.printStackTrace();}
-            this.port_serveur = Questions.askNb("Rentrer le port d'écoute du serveur");*/
+            /*this.port_serveur = Questions.askNb("Rentrer le port d'écoute du serveur");
             try {
             this.ip_serveur = InetAddress.getByName("localhost");
         } catch (UnknownHostException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         this.port_serveur = 2999;
         try {
             this.socketOut = new Socket(this.ip_serveur,this.port_serveur);

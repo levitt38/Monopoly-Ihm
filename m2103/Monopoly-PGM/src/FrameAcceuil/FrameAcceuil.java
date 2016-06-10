@@ -162,7 +162,7 @@ public class FrameAcceuil extends javax.swing.JFrame {
             }
         });
         PanelReseau.add(jButton2);
-        jButton2.setBounds(630, 240, 197, 61);
+        jButton2.setBounds(630, 240, 199, 63);
 
         FondReseau.setBackground(new java.awt.Color(51, 51, 51));
         FondReseau.setForeground(new java.awt.Color(255, 255, 255));
