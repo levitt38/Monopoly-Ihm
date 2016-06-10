@@ -9,6 +9,7 @@ import Jeu.Cartes.CarteSortiePrison;
 import java.io.Serializable;
 
 public class Joueur implements Serializable{
+        public static final long serialVersionUID = 530743162149662877L;
 	private String _nomJoueur;
 	private int _cash = 1500;
         private int doublesALaSuite = 0;
@@ -159,7 +160,7 @@ public class Joueur implements Serializable{
         return _nomJoueur;
     }
 
-    void payerPropriete(int prixAchat) {
+    public void payerPropriete(int prixAchat) {
         this.setCash(this.getCash()-prixAchat);
     }
 

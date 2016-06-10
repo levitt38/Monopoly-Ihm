@@ -81,13 +81,15 @@ public class Controleur implements Serializable{
             // le joueur avait il fait un double au tour precedant ?
             if(j.isDernierDouble()){
             j.setDoublesALaSuite(j.getDoublesALaSuite()+1);
-            } else {j.setDoublesALaSuite(0);}
+            } else {j.setDoublesALaSuite(1);}
             // le joueur en est il a son troisième double ?
             if(j.getDoublesALaSuite()>=3){
                 j.setDoublesALaSuite(0);
                 throw new joueurTripleDouble();
             } else { observateur.notifier(new DataModel(j,Evenement.Double));}
-        } else { this.lancerDouble=false; }
+        } else { this.lancerDouble=false;
+            j.setDoublesALaSuite(0);
+        }
         lancer += lancer2;
         //Cette ligne sert a récupérer le montant des dès du lancer pour réaliser le loyer d'une compagnie
         for (Compagnie c : this.getMonopoly().getCompagnies()){
