@@ -67,6 +67,18 @@ public class FrameAcceuil extends javax.swing.JFrame {
     private void initComponents() {
 
         GroupButton = new javax.swing.ButtonGroup();
+        PanelBarreHaut = new javax.swing.JPanel();
+        BExit = new javax.swing.JButton();
+        BMin = new javax.swing.JButton();
+        BarreHaut = new javax.swing.JLabel();
+        SelectPerso = new javax.swing.JPanel();
+        Perso1 = new javax.swing.JTextField();
+        Perso2 = new javax.swing.JTextField();
+        Perso3 = new javax.swing.JTextField();
+        Perso4 = new javax.swing.JTextField();
+        Perso5 = new javax.swing.JTextField();
+        Perso6 = new javax.swing.JTextField();
+        LabelPerso = new javax.swing.JLabel();
         PanelNbJoueur = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -81,9 +93,6 @@ public class FrameAcceuil extends javax.swing.JFrame {
         FondTextField = new javax.swing.JLabel();
         RadioOnline = new javax.swing.JRadioButton();
         RadioLocal = new javax.swing.JRadioButton();
-        BExit = new javax.swing.JButton();
-        BMin = new javax.swing.JButton();
-        BarreHaut = new javax.swing.JLabel();
         Fond = new javax.swing.JLabel();
         FondBis = new javax.swing.JLabel();
 
@@ -92,6 +101,112 @@ public class FrameAcceuil extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(850, 600));
         setResizable(false);
         getContentPane().setLayout(null);
+
+        PanelBarreHaut.setOpaque(false);
+        PanelBarreHaut.setLayout(null);
+
+        BExit.setBorderPainted(false);
+        BExit.setContentAreaFilled(false);
+        BExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BExitActionPerformed(evt);
+            }
+        });
+        PanelBarreHaut.add(BExit);
+        BExit.setBounds(800, 10, 20, 20);
+
+        BMin.setBorderPainted(false);
+        BMin.setContentAreaFilled(false);
+        BMin.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        BMin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BMinActionPerformed(evt);
+            }
+        });
+        PanelBarreHaut.add(BMin);
+        BMin.setBounds(750, 10, 20, 20);
+
+        BarreHaut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BarreHaut.png"))); // NOI18N
+        BarreHaut.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        BarreHaut.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                BarreHautMouseDragged(evt);
+            }
+        });
+        BarreHaut.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                BarreHautMousePressed(evt);
+            }
+        });
+        PanelBarreHaut.add(BarreHaut);
+        BarreHaut.setBounds(0, 0, 850, 45);
+
+        getContentPane().add(PanelBarreHaut);
+        PanelBarreHaut.setBounds(0, 0, 850, 45);
+
+        SelectPerso.setOpaque(false);
+        SelectPerso.setLayout(null);
+
+        Perso1.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        Perso1.setForeground(new java.awt.Color(255, 255, 255));
+        Perso1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        Perso1.setText("1");
+        Perso1.setBorder(null);
+        Perso1.setOpaque(false);
+        SelectPerso.add(Perso1);
+        Perso1.setBounds(60, 224, 80, 30);
+
+        Perso2.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        Perso2.setForeground(new java.awt.Color(255, 255, 255));
+        Perso2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        Perso2.setText("2");
+        Perso2.setBorder(null);
+        Perso2.setOpaque(false);
+        SelectPerso.add(Perso2);
+        Perso2.setBounds(202, 224, 80, 30);
+
+        Perso3.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        Perso3.setForeground(new java.awt.Color(255, 255, 255));
+        Perso3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        Perso3.setText("3");
+        Perso3.setBorder(null);
+        Perso3.setOpaque(false);
+        SelectPerso.add(Perso3);
+        Perso3.setBounds(337, 224, 80, 30);
+
+        Perso4.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        Perso4.setForeground(new java.awt.Color(255, 255, 255));
+        Perso4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        Perso4.setText("4");
+        Perso4.setBorder(null);
+        Perso4.setOpaque(false);
+        SelectPerso.add(Perso4);
+        Perso4.setBounds(474, 224, 80, 30);
+
+        Perso5.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        Perso5.setForeground(new java.awt.Color(255, 255, 255));
+        Perso5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        Perso5.setText("5");
+        Perso5.setBorder(null);
+        Perso5.setOpaque(false);
+        SelectPerso.add(Perso5);
+        Perso5.setBounds(600, 224, 80, 30);
+
+        Perso6.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        Perso6.setForeground(new java.awt.Color(255, 255, 255));
+        Perso6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        Perso6.setText("6");
+        Perso6.setBorder(null);
+        Perso6.setOpaque(false);
+        SelectPerso.add(Perso6);
+        Perso6.setBounds(717, 224, 80, 30);
+
+        LabelPerso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/SelectPerso.png"))); // NOI18N
+        SelectPerso.add(LabelPerso);
+        LabelPerso.setBounds(0, 0, 850, 300);
+
+        getContentPane().add(SelectPerso);
+        SelectPerso.setBounds(0, -300, 850, 300);
 
         PanelNbJoueur.setOpaque(false);
         PanelNbJoueur.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -209,42 +324,6 @@ public class FrameAcceuil extends javax.swing.JFrame {
         getContentPane().add(RadioLocal);
         RadioLocal.setBounds(410, 530, 20, 20);
 
-        BExit.setBorderPainted(false);
-        BExit.setContentAreaFilled(false);
-        BExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BExitActionPerformed(evt);
-            }
-        });
-        getContentPane().add(BExit);
-        BExit.setBounds(800, 10, 20, 20);
-
-        BMin.setBorderPainted(false);
-        BMin.setContentAreaFilled(false);
-        BMin.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        BMin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BMinActionPerformed(evt);
-            }
-        });
-        getContentPane().add(BMin);
-        BMin.setBounds(750, 10, 20, 20);
-
-        BarreHaut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BarreHaut.png"))); // NOI18N
-        BarreHaut.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        BarreHaut.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                BarreHautMouseDragged(evt);
-            }
-        });
-        BarreHaut.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                BarreHautMousePressed(evt);
-            }
-        });
-        getContentPane().add(BarreHaut);
-        BarreHaut.setBounds(0, 0, 850, 45);
-
         Fond.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Fond.png"))); // NOI18N
         getContentPane().add(Fond);
         Fond.setBounds(0, 0, 850, 600);
@@ -286,18 +365,25 @@ public class FrameAcceuil extends javax.swing.JFrame {
                 if(RadioOnline.isSelected()){
                 AnimationFrame.LeftToRight(PanelReseau);
                 }else{
-                AnimationFrame.LeftToRight(PanelNbJoueur);   
+                new Thread(){   
+                  public void run(){
+                        AnimationFrame.LeftToRight(PanelNbJoueur); 
+                  }  }.start();
+                    AnimationFrame.AnimSelectPerso(SelectPerso);
                 }
-                
-           }
+            }
         }.start();
     }//GEN-LAST:event_ButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new Thread(){
             public void run(){
-                AnimationFrame.LeftToRight(PanelNbJoueur);
-            }
+                new Thread(){   
+                  public void run(){
+                        AnimationFrame.LeftToRight(PanelNbJoueur); 
+                  }  }.start();
+                    AnimationFrame.AnimSelectPerso(SelectPerso);
+                }
         }.start();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -348,10 +434,19 @@ public class FrameAcceuil extends javax.swing.JFrame {
     private javax.swing.JLabel FondReseau;
     private javax.swing.JLabel FondTextField;
     private javax.swing.ButtonGroup GroupButton;
+    private javax.swing.JLabel LabelPerso;
+    private javax.swing.JPanel PanelBarreHaut;
     private javax.swing.JPanel PanelNbJoueur;
     private javax.swing.JPanel PanelReseau;
+    private javax.swing.JTextField Perso1;
+    private javax.swing.JTextField Perso2;
+    private javax.swing.JTextField Perso3;
+    private javax.swing.JTextField Perso4;
+    private javax.swing.JTextField Perso5;
+    private javax.swing.JTextField Perso6;
     private javax.swing.JRadioButton RadioLocal;
     private javax.swing.JRadioButton RadioOnline;
+    private javax.swing.JPanel SelectPerso;
     private javax.swing.JTextField TFip;
     private javax.swing.JTextField TFport;
     private javax.swing.JTextField TextField;
