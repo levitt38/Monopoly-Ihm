@@ -47,7 +47,7 @@ public class EventHandler implements Observateur{
         switch(event){
             // Event concernant cases achetables
             case PayerLoyer : cAchetable = (CarreauAchetable) c;
-                                this.ihm.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire().getNomJoueur());
+                                this.ihm.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.calculLoyer()+"€ a"+cAchetable.getProprietaire().getNomJoueur());
                              break;
             case SurSaCase : this.ihm.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
             case AchatPossible : cAchetable = (CarreauAchetable) c;
