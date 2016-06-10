@@ -6,7 +6,12 @@
 package Network;
 
 import Data.Evenement;
+import Data.EventIhm;
 import IHM.Affichage;
+import IHM.Ihm;
+import IHM.Ihm3d;
+import IHM.IhmConsole;
+import IHM.IhmSwing;
 import IHM.Questions;
 import Jeu.Controleur;
 import Jeu.DataModel;
@@ -36,31 +41,27 @@ public class Client implements Serializable{
     private ObjectOutputStream sOutput, OutputforServer;
     private int port_serveur, port_client, position_joueur;
     private String nom_joueur;
+    private Ihm ihm;
     
-    public Client(){
+    public Client(Ihm ihm){ // l'ihm peut être de type console | swing | 3d
+        this.ihm = ihm;
         // En attendant l'initialisation, pour pouvoir utiliser les méthodes d'affichage
-        this.handler = new ClientHandler(this);
+        this.handler = new ClientHandler(this,this.ihm);
         // Les infos pour se connecter au serveur
-            String ip = Questions.askStr("Rentrer l'adresse ip du serveur");
-            try {
-            this.ip_serveur = InetAddress.getByName(ip.trim());
-            } catch (UnknownHostException ex) {ex.printStackTrace();}
+            
             /*this.port_serveur = Questions.askNb("Rentrer le port d'écoute du serveur");
             try {
             this.ip_serveur = InetAddress.getByName("localhost");
         } catch (UnknownHostException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }*/
-        this.port_serveur = 2999;
-        try {
-            this.socketOut = new Socket(this.ip_serveur,this.port_serveur);
-        } catch (IOException ex) { ex.printStackTrace(); }
-       
+        this.nom_joueur = this.ihm.askStr(EventIhm.askNom, "Rentrer votre nom ");
     }
-    
-    public Client(int position_joueur,String nom_joueur,ControleurServer controleur,
+  
+    public Client(int position_joueur,String nom_joueur,ControleurServer controleur, // cet object est utilisé par le serveur uniquement dans une collection
             ObjectOutputStream OutputServer, ObjectInputStream InputServer){
-        this.handler = new ClientHandler(this);
+        this.ihm = new IhmConsole();
+        this.handler = new ClientHandler(this,this.ihm);
         ////////////////////////////
         this.position_joueur = position_joueur;
         this.nom_joueur = nom_joueur;
@@ -92,12 +93,20 @@ public class Client implements Serializable{
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+ 
+    public void ConnecttoServer(){
+        String ip = ihm.askStr(EventIhm.askIp, "Rentrer l'adresse ip du serveur");
+            try {
+            this.ip_serveur = InetAddress.getByName(ip.trim());
+            } catch (UnknownHostException ex) {ex.printStackTrace();}
+        this.port_serveur = this.ihm.askNb(EventIhm.askPort, "Rentrer le port du serveur");
+        try {
+            this.socketOut = new Socket(this.ip_serveur,this.port_serveur);
+        } catch (IOException ex) { ex.printStackTrace(); }
+    }
     
     public void InitConnexion(){
-        DataModel model = new DataModel(Evenement.AskString, "Rentrer le nom de votre joueur");
-        this.handler.notifier(model);
-        String nom_joueur = model.getS();
-        InitMessage message = new InitMessage("connexion",nom_joueur, 0);
+        InitMessage message = new InitMessage("connexion",this.nom_joueur, 0);
       
         try {
             
@@ -110,7 +119,7 @@ public class Client implements Serializable{
     }
     
     public void InitNb_Joueur(){
-        DataModel model = new DataModel(2, "Rentrer le nombre de joueurs dans la partie", Evenement.AskNb);
+        DataModel model = new DataModel(2, "Rentrer le nombre de joueurs dans la partie", Evenement.AskNbJoueurs);
         this.handler.notifier(model); // recupère l'entier
         int nb_joueur = model.getI(); // recupère l'entier
         InitMessage message = new InitMessage("nb_joueur","", nb_joueur);
@@ -171,7 +180,8 @@ public class Client implements Serializable{
     }
     
     public static void main(String[] args){
-        Client client = new Client();
+        Client client = new Client(new IhmConsole());   //   CHANGER LE TYPE DE L'IHM A VOTRE GUISE
+        client.ConnecttoServer();
         client.InitConnexion();
         if(client.isHost()){
             client.InitNb_Joueur();
@@ -220,6 +230,11 @@ public class Client implements Serializable{
 
     public int getPosition_joueur() {
         return position_joueur;
+    }
+
+    public void setIhm(Ihm ihm) {
+        this.ihm = ihm;
+        this.handler = new ClientHandler(this, this.ihm);
     }
     
     

@@ -17,47 +17,50 @@ public class AnimationFrame {
     
     public static void LeftToRight(final JComponent nouveau, final JComponent ancien){
                 nouveau.setLocation(-850, 0);
+                int xnew = -850;
+                int xold = 0;
                 nouveau.revalidate();
-                for(int i=0;i<17;i++){
-                    nouveau.setLocation(nouveau.getX()+50, nouveau.getY());
+                for(int i=0;i<170;i++){
+                    xnew += 5; xold += 5;
+                    nouveau.setLocation(xnew, 0);
                     nouveau.revalidate();
-                    ancien.setLocation(ancien.getX()+50, ancien.getY());
+                    ancien.setLocation(xold, 0);
                     ancien.revalidate();
                     try {
-                        Thread.sleep(50);
+                        Thread.sleep(10);
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(AnimationFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
     }
     
     public static void RightToLeft(final JComponent nouveau, final JComponent ancien){
                 nouveau.setLocation(850, 0);
+                int xnew = 850;
+                int xold = 0;
                 nouveau.revalidate();
-                for(int i=0;i<17;i++){
-                    nouveau.setLocation(nouveau.getX()-50, nouveau.getY());
+                for(int i=0;i<170;i++){
+                    xnew -= 5; xold -= 5;
+                    nouveau.setLocation(xnew, 0);
                     nouveau.revalidate();
-                    ancien.setLocation(ancien.getX()-50, ancien.getY());
+                    ancien.setLocation(xold, 0);
                     ancien.revalidate();
                     try {
-                        Thread.sleep(50);
+                        Thread.sleep(10);
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(AnimationFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
                 }
     }
     
     public static void DowntoUp(final JComponent nouveau, final JComponent ancien){
                 nouveau.setLocation(0, 600);
                 nouveau.revalidate();
-                for(int i=0;i<10;i++){
-                    nouveau.setLocation(nouveau.getX(), nouveau.getY()-60);
+                for(int i=0;i<100;i++){
+                    nouveau.setLocation(0, nouveau.getY()-6);
                     nouveau.revalidate();
-                    ancien.setLocation(ancien.getX(), ancien.getY()-60);
+                    ancien.setLocation(0, ancien.getY()-6);
                     ancien.revalidate();
                     try {
-                        Thread.sleep(30);
+                        Thread.sleep(12);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(AnimationFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -68,13 +71,13 @@ public class AnimationFrame {
     public static void UptoDown(final JComponent nouveau, final JComponent ancien){
                 nouveau.setLocation(0, -600);
                 nouveau.revalidate();
-                for(int i=0;i<10;i++){
-                    nouveau.setLocation(nouveau.getX(), nouveau.getY()+60);
+                for(int i=0;i<100;i++){
+                    nouveau.setLocation(0, nouveau.getY()+6);
                     nouveau.revalidate();
-                    ancien.setLocation(ancien.getX(), ancien.getY()+60);
+                    ancien.setLocation(0, ancien.getY()+6);
                     ancien.revalidate();
                     try {
-                        Thread.sleep(30);
+                        Thread.sleep(12);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(AnimationFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -85,11 +88,11 @@ public class AnimationFrame {
     public static void LeftToRight(final JComponent nouveau){
                 nouveau.setLocation(-850, nouveau.getY());
                 nouveau.revalidate();
-                for(int i=0;i<85;i++){
-                    nouveau.setLocation(nouveau.getX()+10, nouveau.getY());
+                for(int i=0;i<170;i++){
+                    nouveau.setLocation(nouveau.getX()+5, nouveau.getY());
                     nouveau.revalidate();
                     try {
-                        Thread.sleep(1);
+                        Thread.sleep(10);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(AnimationFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -97,34 +100,49 @@ public class AnimationFrame {
     }
     
     public static void RightToLeft(final JComponent nouveau){
+                if(nouveau.getX()==-850){
+                    return;
+                }
                 nouveau.setLocation(0, nouveau.getY());
                 nouveau.revalidate();
-                for(int i=0;i<85;i++){
-                    nouveau.setLocation(nouveau.getX()-10, nouveau.getY());
+                for(int i=0;i<170;i++){
+                    nouveau.setLocation(nouveau.getX()-5, nouveau.getY());
                     nouveau.revalidate();
-                    if(i%2==0){
                         try {
-                            Thread.sleep(1);
+                            Thread.sleep(10);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(AnimationFrame.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    }
                 }
     }
     
     public static void AnimSelectPerso(final JComponent nouveau){
                 nouveau.setLocation(nouveau.getX(), -300);
                 nouveau.revalidate();
-                for(int i=0;i<30;i++){
-                    nouveau.setLocation(nouveau.getX(), nouveau.getY()+10);
+                for(int i=0;i<150;i++){
+                    nouveau.setLocation(nouveau.getX(), nouveau.getY()+2);
                     nouveau.revalidate();
-                    if(i%2==0){
                         try {
                             Thread.sleep(10);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(AnimationFrame.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
+    }
+    
+    public static void AnimSelectPersoReverse(final JComponent nouveau){
+                if(nouveau.getY()==-300){
+                    return;
                 }
+                nouveau.revalidate();
+                for(int i=0;i<150;i++){
+                    nouveau.setLocation(nouveau.getX(), nouveau.getY()-2);
+                    nouveau.revalidate();
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(AnimationFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
     }
 }

@@ -6,6 +6,7 @@
 package Network;
 
 import Data.Evenement;
+import Data.EventIhm;
 import Data.TypeCarte;
 import IHM.Ihm;
 import IHM.IhmConsole;
@@ -152,8 +153,8 @@ public class ServerHandler implements Observateur{
             case FinTour : message = new DataModel(Evenement.FinTour);
                                  this.server.sendMessagetoAll(message);
                                 break;                     
-            case AskString : d.setS(this.ihm.askStr(d.getS()));break;
-            case AskNb : d.setI(this.ihm.askNb(d.getS()));break;
+            case AskString : d.setS(this.ihm.askStr(EventIhm.askdeBase, d.getS()));break;
+            case AskNb : d.setI(this.ihm.askNb(EventIhm.askdeBase,d.getS()));break;
             case Affiche : this.ihm.affiche(d.getS()); break;
             default : this.ihm.affiche("Vous êtes tranquille. Pour le moment...");;
         }

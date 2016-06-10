@@ -5,6 +5,7 @@
  */
 package IHM;
 
+import Data.EventIhm;
 import Jeu.Carreau;
 import Jeu.Cartes.Carte;
 import Jeu.Joueur;
@@ -34,12 +35,12 @@ public class IhmSwing extends Ihm{
     }
 
     @Override
-    public int askNb(String s) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int askNb(EventIhm e, String s) {
+        return Integer.valueOf(IhmBoiteMessage.afficherBoiteMessage("", s));
     }
 
     @Override
-    public String askStr(String s) {
+    public String askStr(EventIhm e,String s) {
         return IhmBoiteMessage.afficherBoiteMessage("", s);
     }
 
@@ -78,7 +79,7 @@ public class IhmSwing extends Ihm{
     public String askListe(ArrayList<String> choix, String message) {
         String s;boolean tmp;
         do{
-            s=this.askStr(message);
+            s=this.askStr(EventIhm.askdeBase, message);
             tmp = false;
             for(String st:choix){
                 tmp = tmp || st.equalsIgnoreCase(st);

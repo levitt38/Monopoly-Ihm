@@ -5,6 +5,7 @@
  */
 package IHM;
 
+import Data.EventIhm;
 import Jeu.Carreau;
 import Jeu.Cartes.Carte;
 import Jeu.Joueur;
@@ -22,9 +23,9 @@ public abstract class Ihm {
     
     public abstract void affiche(String titre, String s);
     
-    public abstract int askNb(String s);
+    public abstract int askNb(EventIhm e, String s);
     
-    public abstract String askStr(String s);
+    public abstract String askStr(EventIhm e,String s);
     
     public abstract boolean askYN(String s);
     

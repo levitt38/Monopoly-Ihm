@@ -5,6 +5,7 @@
  */
 package IHM;
 
+import Data.EventIhm;
 import Jeu.Carreau;
 import Jeu.Cartes.Carte;
 import Jeu.Joueur;
@@ -16,6 +17,8 @@ import java.util.HashMap;
  * @author Louis
  */
 public class IhmConsole extends Ihm{
+    public IhmConsole() {
+    }
 
     @Override
     public void affiche(String s) {
@@ -28,12 +31,12 @@ public class IhmConsole extends Ihm{
     }
 
     @Override
-    public int askNb(String s) {
+    public int askNb(EventIhm e, String s) {
         return Questions.askNb(s);
     }
 
     @Override
-    public String askStr(String s) {
+    public String askStr(EventIhm e, String s) {
         return Questions.askStr(s);
     }
 
@@ -50,7 +53,7 @@ public class IhmConsole extends Ihm{
     @Override
     public void afficherCarte(Carte c) {
         Questions.affiche(c.getType().toString());
-        Questions.increment();
+        Questions.increment(); 
         for(String s:c.getText().split("\n")){
             Questions.affiche(s);
         }
@@ -72,14 +75,11 @@ public class IhmConsole extends Ihm{
         Affichage.afficherPlateau(c);
     }
 
-    public IhmConsole() {
-    }
-
     @Override
     public String askListe(ArrayList<String> choix, String message) {
         String s;boolean tmp;
         do{
-            s=this.askStr(message);
+            s=this.askStr(EventIhm.askdeBase, message);
             tmp = false;
             for(String st:choix){
                 tmp = tmp || st.equalsIgnoreCase(st);

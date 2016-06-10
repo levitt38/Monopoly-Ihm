@@ -6,6 +6,7 @@
 package IHM;
 
 import Data.Evenement;
+import Data.EventIhm;
 import Data.TypeCarte;
 import Jeu.Carreau;
 import Jeu.CarreauAchetable;
@@ -27,7 +28,7 @@ import java.util.HashMap;
  */
 public class EventHandler implements Observateur{
     private Controleur controleur;
-    private Ihm ihm = new IhmSwing(); // ligne à changer pour changer d'IHM
+    private Ihm ihm = new IhmConsole(); // ligne à changer pour changer d'IHM
     
     public EventHandler(Controleur controleur){
         this.controleur = controleur;
@@ -78,7 +79,7 @@ public class EventHandler implements Observateur{
                             this.ihm.afficherJoueur(j);break;
             case InitialiserPartie : int nb = this.askNb("Entrez le nombre de joueurs",2,6);
                                     for (int i = 0;i<nb;i++){
-                                        this.controleur.ajouterJoueur(this.ihm.askStr("Entre le nom du joueur"+i));
+                                        this.controleur.ajouterJoueur(this.ihm.askStr(EventIhm.askdeBase, "Entre le nom du joueur"+i));
                                     }break;
             case CarteTiree : boolean prison = d.getCarte().getClass().equals(CarteSortiePrison.class);
                               this.ihm.afficherCarte(d.getCarte());
@@ -97,8 +98,8 @@ public class EventHandler implements Observateur{
                                 }break;
             case Double : this.ihm.affiche("Vous avez fait un double !");break;
             case LancersDes : this.ihm.affiche("Résultat lancer : "+j.getNomJoueur()+" a fait un "+d.getI());break;
-            case AskString : d.setS(this.ihm.askStr(d.getS()));break;
-            case AskNb : d.setI(this.ihm.askNb(d.getS()));break;
+            case AskString : d.setS(this.ihm.askStr(EventIhm.askdeBase, d.getS()));break;
+            case AskNb : d.setI(this.ihm.askNb(EventIhm.askdeBase, d.getS()));break;
             case Affiche : this.ihm.affiche(d.getS()); break;
             default : this.ihm.affiche("Vous êtes tranquille. Pour le moment...");;
         }

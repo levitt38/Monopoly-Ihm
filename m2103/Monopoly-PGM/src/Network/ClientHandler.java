@@ -6,6 +6,7 @@
 package Network;
 
 import Data.Evenement;
+import Data.EventIhm;
 import Data.TypeCarreau;
 import IHM.Affichage;
 import IHM.Ihm;
@@ -24,11 +25,12 @@ import Jeu.Observateur;
  * @author nourik
  */
 public class ClientHandler implements Observateur{
-    private Ihm ihm = new IhmConsole();
+    private Ihm ihm;
     public Client client;
     
-    public ClientHandler(Client client){
+    public ClientHandler(Client client, Ihm ihm){
         this.client = client;
+        this.ihm = ihm;
     }
 
     @Override
@@ -67,13 +69,14 @@ public class ClientHandler implements Observateur{
                             this.client.sendMessage(messagetoServer);
                             if(choix==true){
                                 messagetoServer = this.client.receiveMessage();
-                                int num_case = this.ihm.askNb(messagetoServer.getS());
+                                int num_case = this.ihm.askNb(EventIhm.askdeBase,messagetoServer.getS());
                                 messagetoServer.setI(num_case);
                                 this.client.sendMessage(messagetoServer);
                             }
                              break;            
-            case AskString : d.setS(this.ihm.askStr(d.getS()));break;
-            case AskNb : d.setI(this.ihm.askNb(d.getS()));break;
+            case AskString : d.setS(this.ihm.askStr(EventIhm.askdeBase, d.getS()));break;
+            case AskNbJoueurs : d.setI(this.ihm.askNb(EventIhm.askNb_joueur,d.getS()));break;
+            case AskNb : d.setI(this.ihm.askNb(EventIhm.askdeBase,d.getS()));break;
             case Affiche : this.ihm.affiche(d.getS()); break;
             case Rien : this.ihm.affiche("Event suspect");
             default : this.ihm.affiche("Vous êtes tranquille. Pour le moment...");;              
