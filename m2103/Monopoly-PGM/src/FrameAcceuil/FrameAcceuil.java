@@ -140,7 +140,6 @@ public class FrameAcceuil extends javax.swing.JFrame {
         TFip.setCaretColor(new java.awt.Color(255, 255, 255));
         TFip.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         TFip.setOpaque(false);
-        TFip.setSelectedTextColor(new java.awt.Color(255, 255, 255));
         TFip.setSelectionColor(new java.awt.Color(255, 255, 255));
         PanelReseau.add(TFip);
         TFip.setBounds(110, 255, 180, 30);
@@ -163,7 +162,7 @@ public class FrameAcceuil extends javax.swing.JFrame {
             }
         });
         PanelReseau.add(jButton2);
-        jButton2.setBounds(630, 240, 199, 63);
+        jButton2.setBounds(630, 240, 197, 61);
 
         FondReseau.setBackground(new java.awt.Color(51, 51, 51));
         FondReseau.setForeground(new java.awt.Color(255, 255, 255));

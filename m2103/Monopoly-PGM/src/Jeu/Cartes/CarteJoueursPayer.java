@@ -30,7 +30,7 @@ public class CarteJoueursPayer extends CarteArgent{
             }
         }
         this.getOwner().payer(-montant);
-        return Evenement.Rien;
+        return Evenement.VerifJoueurs;
     }
     
 }

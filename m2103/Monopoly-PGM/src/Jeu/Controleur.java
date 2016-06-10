@@ -56,7 +56,16 @@ public class Controleur implements Serializable{
     }
     
     public void useCarte(Carte c){
-        c.use(this.monopoly);
+        Evenement ev = c.use(this.monopoly);
+        switch(ev){
+            case PasseParDepart: this.payerJoueur(c.getOwner());break;
+            case VerifJoueurs : for(Joueur j:this.monopoly.getJoueurs()){
+                if(j.estBankrupt()){
+                    this.observateur.notifier(new DataModel(j, Evenement.Bankrupt));
+                }
+            }
+            case Bankrupt : this.observateur.notifier(new DataModel(c.getOwner(), Evenement.Bankrupt));
+        }
         c.resetOwner();
         this.monopoly.getCartes(c.getType()).addLast(c);
     }

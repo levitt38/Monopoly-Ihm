@@ -27,7 +27,7 @@ import java.util.HashMap;
  */
 public class EventHandler implements Observateur{
     private Controleur controleur;
-    private Ihm ihm = new IhmConsole(); // ligne à changer pour changer d'IHM
+    private Ihm ihm = new IhmSwing(); // ligne à changer pour changer d'IHM
     
     public EventHandler(Controleur controleur){
         this.controleur = controleur;

@@ -43,7 +43,7 @@ public abstract class Carte implements Serializable{
         this.owner = null;
     }
     
-    protected Joueur getOwner(){
+    public Joueur getOwner(){
         return this.owner;
     }
     

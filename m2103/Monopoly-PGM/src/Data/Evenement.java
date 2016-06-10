@@ -16,5 +16,5 @@ public enum Evenement {
     PasseParDepart,SortieDePrisonDes,SortieDePrisonCaution,InitialiserPartie,SortieDePrisonCarte,ResterPrison,
     PayerPenalite, TirerCarte, FinTour, PartieTerminee, DebutTour, PlusDeMaisons, PasNivele, PasAssezDArgent, 
     TropDeMaisons, Construction, CarteTiree,UsePossibleCarteSortiePrison, AllerEnPrisonDes, Double, LancersDes, 
-    AskString, AskNb, Affiche, AfficheClient, ReponseClient, ConstructionServeur
+    AskString, AskNb, Affiche, AfficheClient, ReponseClient, ConstructionServeur, VerifJoueurs
 }
