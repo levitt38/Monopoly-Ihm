@@ -24,6 +24,7 @@ public class CarteBouger extends CarteDeplacement{
         int carreau = this.getOwner().getPositionCourante().getNumero()+this.getDeplacement();
         Evenement ret = (carreau > 39) ? Evenement.PasseParDepart : Evenement.Rien;
         getOwner().setPositionCourante(m.getCarreau(carreau%40)); // ATTENTION PEUT POSER DES PROBLèMES EN CAS DE CASE NéGATIVE
+        this.getOwner().setRejouerCarte(true);
         return ret;
         // reste à voir comment il joue ce tour, je sais pas encore
     }

@@ -24,6 +24,7 @@ public class CarteAvancer extends CarteDeplacement{
     public Evenement use(Monopoly m) {
         Evenement ret = (this.getOwner().getPositionCourante().getNumero()>=this.getDeplacement()) ? Evenement.PasseParDepart : Evenement.Rien;
         getOwner().setPositionCourante(m.getCarreau(this.getDeplacement()));
+        this.getOwner().setRejouerCarte(true);
         return ret;
         // reste à voir comment il joue ce tour, je sais pas encore
     }

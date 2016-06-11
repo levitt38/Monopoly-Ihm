@@ -21,7 +21,16 @@ public class Joueur implements Serializable{
         private HashSet<CarreauAchetable> _carreaux;
 	private Carreau _positionCourante;
         private ArrayList<Carte> cartesPossedes = new ArrayList<>();
+        private boolean rejouerCarte = false;
 
+    public boolean isRejouerCarte() {
+        return rejouerCarte;
+    }
+
+    public void setRejouerCarte(boolean rejouerCarte) {
+        this.rejouerCarte = rejouerCarte;
+    }
+        
     public ArrayList<Carte> getCartesPossedes() {
         return cartesPossedes;
     }

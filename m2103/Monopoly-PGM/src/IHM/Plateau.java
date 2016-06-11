@@ -29,25 +29,32 @@ import javax.swing.JPanel;
 public class Plateau extends JPanel{
 
 private BufferedImage image;
-private int width = 800;
-private int height = 800;
-private final int LARGEUR_PETITE_CASE = 80*width/1040;
-private final int LARGEUR_GRANDE_CASE = 2*LARGEUR_PETITE_CASE; 
-private final int LARGEUR_PRISON = 55*width/1040;
-private final int LARGEUR_COULEUR = 40*width/1040;
-private final int HAUTEUR_CASE = LARGEUR_GRANDE_CASE;
+public static int width = 800;
+public static int height = 800;
+private final static int LARGEUR_PETITE_CASE = 80*width/1040;
+private final static int LARGEUR_GRANDE_CASE = 2*LARGEUR_PETITE_CASE; 
+private final static int LARGEUR_PRISON = 55*width/1040;
+private final static int LARGEUR_COULEUR = 40*width/1040;
+private final static int HAUTEUR_CASE = LARGEUR_GRANDE_CASE;
 private HashMap<String,Carreau> carreaux;
+private double modifTaille;
+private Image imageMaison;
 
     public Plateau(int w, int h) {
         setDoubleBuffered(true);
         this.width = w;
         this.height = h;
+        this.modifTaille = ((double)w)/1040;
        try {                
           image = resize(ImageIO.read(new File("./res/plateau.gif")),this.width,this.height);
        } catch (IOException ex) {
             System.err.printf("IMAGE NON TROUVEE");
        }
-       
+       try {                
+          this.imageMaison = resize(ImageIO.read(new File("./res/plateau.gif")),20,20);
+       } catch (IOException ex) {
+            System.err.printf("IMAGE NON TROUVEE");
+       }
        this.addMouseListener(new MouseListener() {
 
             @Override
@@ -91,6 +98,9 @@ private HashMap<String,Carreau> carreaux;
                     g2.drawString(j.getNomJoueur(),(r.getX1()+r.getX0())/2,(r.getY1()+r.getY0())/2);
                     nb++;
                 }
+                if (c instanceof Propriete){
+                    this.afficherMaisons((Propriete)c,g);
+                }
             }
             //
         }
@@ -98,24 +108,26 @@ private HashMap<String,Carreau> carreaux;
     }
     
     
-    private void afficherMaison(Propriete p){
-        int tmp= p.getNbMaisons();
+    private void afficherMaisons(Propriete p, Graphics g){
         int numCarreau = p.getNumero();
         int x = 0,y = 0;
-        if (numCarreau<10 && numCarreau>0){
-            x=this.width-(LARGEUR_PETITE_CASE*(2+numCarreau))+(LARGEUR_PETITE_CASE/8)*(1+2*tmp);
-            y=HAUTEUR_CASE+LARGEUR_COULEUR/2;
-        }else if (numCarreau<20 && numCarreau>10){
-            x=HAUTEUR_CASE-LARGEUR_COULEUR/2;
-            y=(numCarreau-10+2)*(LARGEUR_PETITE_CASE)+(LARGEUR_PETITE_CASE/8)*(1+2*tmp);
-        }else if (numCarreau<30 && numCarreau>20){
-            x=(numCarreau-20+2)*(LARGEUR_PETITE_CASE)-(LARGEUR_PETITE_CASE/8)*(1+2*tmp);
-            y=HAUTEUR_CASE-LARGEUR_COULEUR/2;
-        }else if (numCarreau<40 && numCarreau>30){
-            x=this.width-HAUTEUR_CASE+LARGEUR_COULEUR/2;
-            y=(numCarreau-30+2)*(LARGEUR_PETITE_CASE)-(LARGEUR_PETITE_CASE/8)*(1+2*tmp);
+        for (int i=0;i<2;i++){//p.getNbMaisons()
+            if (numCarreau<10 && numCarreau>0){
+                x=this.width-(LARGEUR_PETITE_CASE*(2+numCarreau))+(LARGEUR_PETITE_CASE/8)*(1+2*i);
+                y=this.height-(HAUTEUR_CASE);
+            }else if (numCarreau<20 && numCarreau>10){
+                x=HAUTEUR_CASE-LARGEUR_COULEUR*3/4;
+                y=this.height-(numCarreau-10+2)*(LARGEUR_PETITE_CASE)+(LARGEUR_PETITE_CASE/8)*(1+2*i);
+            }else if (numCarreau<30 && numCarreau>20){
+                x=(numCarreau-20+2)*(LARGEUR_PETITE_CASE)-(LARGEUR_PETITE_CASE/9)*(2+2*i);
+                y=HAUTEUR_CASE-LARGEUR_COULEUR*9/10;
+            }else if (numCarreau<40 && numCarreau>30){
+                x=this.width-HAUTEUR_CASE+LARGEUR_COULEUR/10;
+                y=(numCarreau-30+2)*(LARGEUR_PETITE_CASE)-(LARGEUR_PETITE_CASE/9)*(4+2*i);
+            }
+            g.drawImage(this.imageMaison, x, y, null);
+            //Questions.affiche("x : "+x+"   y : "+y);
         }
-        Questions.affiche("x : "+x+"   y : "+y);
     }
     
     
@@ -130,24 +142,24 @@ private HashMap<String,Carreau> carreaux;
         return dimg;
     }  
     
-    public int coordsToNumCase(int x, int y){
-        if (isInZone(x,y,LARGEUR_GRANDE_CASE,(this.width-LARGEUR_GRANDE_CASE),LARGEUR_GRANDE_CASE,(this.width-LARGEUR_GRANDE_CASE))){
+    public static int coordsToNumCase(int x, int y){
+        if (isInZone(x,y,LARGEUR_GRANDE_CASE,(width-LARGEUR_GRANDE_CASE),LARGEUR_GRANDE_CASE,(width-LARGEUR_GRANDE_CASE))){
             return -1;
         } else if (isInZone(x,y,0,LARGEUR_GRANDE_CASE,0,LARGEUR_GRANDE_CASE)){
             return 20;
-        } else if (isInZone(x,y,LARGEUR_PRISON,LARGEUR_GRANDE_CASE,(this.width-LARGEUR_GRANDE_CASE),this.width-LARGEUR_PRISON)){
+        } else if (isInZone(x,y,LARGEUR_PRISON,LARGEUR_GRANDE_CASE,(width-LARGEUR_GRANDE_CASE),width-LARGEUR_PRISON)){
             return 40;
-        } else if (isInZone(x,y,0,LARGEUR_GRANDE_CASE,(this.width-LARGEUR_GRANDE_CASE),this.width)){
+        } else if (isInZone(x,y,0,LARGEUR_GRANDE_CASE,(width-LARGEUR_GRANDE_CASE),width)){
             return 10;
-        } else if (isInZone(x,y,(this.width-LARGEUR_GRANDE_CASE),this.width,0,LARGEUR_GRANDE_CASE)){
+        } else if (isInZone(x,y,(width-LARGEUR_GRANDE_CASE),width,0,LARGEUR_GRANDE_CASE)){
             return 30;
-        } else if (isInZone(x,y,(this.width-LARGEUR_GRANDE_CASE),this.width,(this.width-LARGEUR_GRANDE_CASE),this.width)){
+        } else if (isInZone(x,y,(width-LARGEUR_GRANDE_CASE),width,(width-LARGEUR_GRANDE_CASE),width)){
             return 0;
-        } else if (isInZone(x,y,LARGEUR_GRANDE_CASE,(this.width-LARGEUR_GRANDE_CASE),0,LARGEUR_GRANDE_CASE)){
+        } else if (isInZone(x,y,LARGEUR_GRANDE_CASE,(width-LARGEUR_GRANDE_CASE),0,LARGEUR_GRANDE_CASE)){
             return (x-LARGEUR_PETITE_CASE)/LARGEUR_PETITE_CASE+20;
-        } else if (isInZone(x,y,LARGEUR_GRANDE_CASE,(this.width-LARGEUR_GRANDE_CASE),(this.width-LARGEUR_GRANDE_CASE),this.width)){
+        } else if (isInZone(x,y,LARGEUR_GRANDE_CASE,(width-LARGEUR_GRANDE_CASE),(width-LARGEUR_GRANDE_CASE),width)){
             return 10-(x-LARGEUR_PETITE_CASE)/LARGEUR_PETITE_CASE;
-        } else if (isInZone(x,y,(this.width-LARGEUR_GRANDE_CASE),this.width,LARGEUR_GRANDE_CASE,(this.width-LARGEUR_GRANDE_CASE))){
+        } else if (isInZone(x,y,(width-LARGEUR_GRANDE_CASE),width,LARGEUR_GRANDE_CASE,(width-LARGEUR_GRANDE_CASE))){
             return (y-LARGEUR_PETITE_CASE)/LARGEUR_PETITE_CASE+30;
         } else{// if (isInZone(x,y,0,LARGEUR_GRANDE_CASE,LARGEUR_GRANDE_CASE,(this.width-LARGEUR_GRANDE_CASE))){
             return 20-(y-LARGEUR_PETITE_CASE)/LARGEUR_PETITE_CASE;
@@ -155,7 +167,7 @@ private HashMap<String,Carreau> carreaux;
     }
 
     
-    private Rectangle numCarreauToCoords(int numCarreau){
+    public static Rectangle numCarreauToCoords(int numCarreau){
         if (numCarreau==0 || numCarreau==10 || numCarreau==20 || numCarreau==30 || numCarreau==40){
             if (numCarreau==0){
                 return new Rectangle((width-LARGEUR_GRANDE_CASE),width,(width-LARGEUR_GRANDE_CASE),width);

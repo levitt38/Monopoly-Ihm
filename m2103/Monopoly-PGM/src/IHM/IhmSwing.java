@@ -18,6 +18,7 @@ import java.util.HashMap;
  */
 public class IhmSwing extends Ihm{
     private FenetreJeu fenetreJeu;
+    //private FrameJeu fenetreJeu;
 
     @Override
     public void affiche(String s) {
@@ -26,6 +27,7 @@ public class IhmSwing extends Ihm{
 
     public IhmSwing() {
         this.fenetreJeu = new FenetreJeu();
+        //this.fenetreJeu = new FrameJeu();
         this.fenetreJeu.afficher();
     }
 
@@ -71,8 +73,7 @@ public class IhmSwing extends Ihm{
 
     @Override
     public void afficherPlateau(HashMap<String, Carreau> c) {
-        this.fenetreJeu.getPlateau().setCarreaux(c);
-        this.fenetreJeu.getPlateau().repaint();
+        this.fenetreJeu.afficherPlateau(c);
     }
 
     @Override

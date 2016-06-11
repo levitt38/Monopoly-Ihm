@@ -5,11 +5,13 @@
  */
 package IHM;
 
+import Jeu.Carreau;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -49,5 +51,10 @@ public class FenetreJeu extends JFrame {
 
     public Plateau getPlateau() {
         return plateau;
+    }
+    
+    public void afficherPlateau(HashMap<String, Carreau> c){
+        this.getPlateau().setCarreaux(c);
+        this.getPlateau().repaint();
     }
 }

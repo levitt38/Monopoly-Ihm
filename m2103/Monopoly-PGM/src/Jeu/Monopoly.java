@@ -183,7 +183,7 @@ public class Monopoly implements Serializable{
         this.groupes = new HashMap<>();
         this.CreerPlateau("./src/Data/data.txt");
         this.creerCartes("./src/Data/chance.txt",TypeCarte.chance);
-        this.creerCartes("./src/Data/chance.txt",TypeCarte.caisseDeCommunauté);
+        this.creerCartes("./src/Data/communaute.txt",TypeCarte.caisseDeCommunauté);
         this.nbHotels = 12;
         this.nbMaisons = 32;
     }
@@ -213,17 +213,26 @@ public class Monopoly implements Serializable{
             ArrayList<String[]> data = new ArrayList<String[]>();
 
             BufferedReader reader  = new BufferedReader(new FileReader(filename));
-            String file = "";
-            while(reader.ready()){
-                file+=reader.read();
+            int c;
+            StringBuilder builder = new StringBuilder();
+
+            while ((c = reader.read()) != -1) {
+                //Since c is an integer, cast it to a char. If it isn't -1, it will be in the correct range of char.
+                builder.append( (char)c ) ;  
             }
+            String file = builder.toString();
+            
             reader.close();
             String[] tmp = new String[3];
             int i = 0;
+//            System.out.println(file);
             for (String s:file.split(token)){
                 tmp[i] = s;
+                
+            //System.out.println(s);
                 if (i==2){
                     data.add(tmp);
+                    tmp = new String[3];
                     i=0;
                 }else{
                     i++;
@@ -234,28 +243,29 @@ public class Monopoly implements Serializable{
     
     private void creerCartes(String dataFileName, TypeCarte type) {
             try{
-                ArrayList<String[]> data = readDataFile1(dataFileName, "|");
+                ArrayList<String[]> data = readDataFile1(dataFileName, "\\|");
                 ArrayList<Carte> tmp = new ArrayList<>();
                 for(int i=0; i<data.size(); ++i){
                         String caseType = data.get(i)[0];
                         Carte c = null;
+                        System.out.println(data.get(i)[2]);
                         if(caseType.compareTo("0") == 0){
-                                c = new CarteTP(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                                c = new CarteTP(data.get(i)[2], type, Integer.valueOf(data.get(i)[1]));
                         }
                         else if(caseType.compareTo("1") == 0){
-                                c = new CarteAvancer(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                                c = new CarteAvancer(data.get(i)[2], type, Integer.valueOf(data.get(i)[1]));
                         }
                         else if(caseType.compareTo("2") == 0){
-                                c = new CarteBouger(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                                c = new CarteBouger(data.get(i)[2], type, Integer.valueOf(data.get(i)[1]));
                         }
                         else if(caseType.compareTo("3") == 0){
-                                c = new CarteJoueursPayer(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                                c = new CarteJoueursPayer(data.get(i)[2], type, Integer.valueOf(data.get(i)[1]));
                         }
                         else if(caseType.compareTo("4") == 0){
-                                c = new CartePayer(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                                c = new CartePayer(data.get(i)[2], type, Integer.valueOf(data.get(i)[1]));
                         }
                         else if(caseType.compareTo("5") == 0){
-                                c = new CartePayerConstructions(data.get(i)[2], type, Integer.valueOf(data.get(i)[2]));
+                                c = new CartePayerConstructions(data.get(i)[2], type, Integer.valueOf(data.get(i)[1]));
                         }
                         else if(caseType.compareTo("6") == 0){
                                 c = new CarteSortiePrison(data.get(i)[2], type);

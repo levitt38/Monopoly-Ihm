@@ -21,7 +21,7 @@ public class CartePayer extends CarteArgent{
 
     @Override
     public Evenement use(Monopoly m) {
-        this.getOwner().payer(this.getSomme());
+        this.getOwner().payer(-this.getSomme());
         return (this.getOwner().getCash()>=0) ? Evenement.Rien : Evenement.Bankrupt;
     }
     

@@ -188,23 +188,26 @@ public class Controleur implements Serializable{
             }
             if(! j.estPrisonnier()){
                 j.setPositionCourante(lancerDesAvancer(j));
-                Carreau c = j.getPositionCourante();
-                Evenement res = c.action(j);
-                switch(res){
-                    case PayerLoyer :j.payerLoyer((CarreauAchetable)c);
-                                     break;
-                    case EstEnPrison : gestionPrisonnier(j); break;
-                    case AllerEnPrison : j.setPositionCourante(this.monopoly.getPrison());
+                j.setRejouerCarte(false);
+                do{
+                    Carreau c = j.getPositionCourante();
+                    Evenement res = c.action(j);
+                    switch(res){
+                        case PayerLoyer :j.payerLoyer((CarreauAchetable)c);
                                          break;
-                    case PayerPenalite :j.payer(((CarreauPenalite)c).getPenalite());
-                                        break;
-                    default : ;
-                }
+                        case EstEnPrison : gestionPrisonnier(j); break;
+                        case AllerEnPrison : j.setPositionCourante(this.monopoly.getPrison());
+                                             break;
+                        case PayerPenalite :j.payer(((CarreauPenalite)c).getPenalite());
+                                            break;
+                        default : ;
+                    }
 
-                // L'observateur traite en fonction du type d'évenement
-                if (res != Evenement.EstEnPrison){
-                    observateur.notifier(new DataModel(j, c, res));
-                }
+                    // L'observateur traite en fonction du type d'évenement
+                    if (res != Evenement.EstEnPrison){
+                        observateur.notifier(new DataModel(j, c, res));
+                    }
+                }while(j.isRejouerCarte()&&j.getPositionCourante().getNumero()!=40);
                 // Construction de bâtiments
                 this.construction(j);
             }
@@ -280,7 +283,7 @@ public class Controleur implements Serializable{
                 }
                 observateur.notifier(new DataModel(Evenement.FinTour));
             }
-            if((!this.lancerDouble)&&(!j.estBankrupt())){
+            if((!this.lancerDouble||j.estPrisonnier())&&(!j.estBankrupt())){
                 tour=(tour+1)%this.monopoly.getJoueurs().size();
             }
         }

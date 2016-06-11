@@ -22,6 +22,7 @@ public class CarteTP extends CarteDeplacement{
     @Override
     public Evenement use(Monopoly m) {
         this.getOwner().setPositionCourante(m.getCarreau(this.getDeplacement()));
+        this.getOwner().setRejouerCarte(true);
         return Evenement.Rien;
     }
     
