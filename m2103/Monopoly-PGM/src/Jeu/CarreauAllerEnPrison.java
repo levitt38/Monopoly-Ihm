@@ -28,6 +28,11 @@ public class CarreauAllerEnPrison extends AutreCarreau {
         return TypeCarreau.AllerEnPrison;
     }
     
-    
+        @Override
+    public String affiche3d(){
+        String s = "<html>Nom : "+this.getNomCarreau()+"<BR>";
+        s += "</html>";
+        return s;
+    }    
     
 }

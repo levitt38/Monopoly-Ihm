@@ -18,7 +18,7 @@ public abstract class Carreau implements Serializable{
     public Carreau(int numero, String nomCarreau){
         this._nomCarreau = nomCarreau;
         this._numero = numero;
-        this.setJoueurs(new ArrayList<>());
+        this.setJoueurs(new ArrayList<Joueur>());
     }
 
     public int getNumero() {
@@ -47,5 +47,7 @@ public abstract class Carreau implements Serializable{
             this.getJoueurs().remove(j);
         }
     }
+    
+    public abstract String affiche3d();
 
 }

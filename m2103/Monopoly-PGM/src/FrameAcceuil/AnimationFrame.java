@@ -5,6 +5,7 @@
  */
 package FrameAcceuil;
 
+import IHM.FrameJeu;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
@@ -145,4 +146,59 @@ public class AnimationFrame {
                         }
                     }
     }
+    
+    public void afficherMenu(final JComponent nouveau){
+        nouveau.setLocation(-300, nouveau.getY());
+        nouveau.revalidate();
+        for(int i=0;i<100;i++){
+            nouveau.setLocation(nouveau.getX()+3, nouveau.getY());
+            nouveau.revalidate();
+            try {
+                Thread.sleep(3);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FrameJeu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    public void cacherMenu(final JComponent nouveau){
+        nouveau.setLocation(0, nouveau.getY());
+        nouveau.revalidate();
+        for(int i=0;i<100;i++){
+            nouveau.setLocation(nouveau.getX()-3, nouveau.getY());
+            nouveau.revalidate();
+            try {
+                Thread.sleep(3);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FrameJeu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public void afficherMenuAction(final JComponent nouveau){
+        nouveau.setLocation(1280, nouveau.getY());
+        nouveau.revalidate();
+        for(int i=0;i<100;i++){
+            nouveau.setLocation(nouveau.getX()-4, nouveau.getY());
+            nouveau.revalidate();
+            try {
+                Thread.sleep(3);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FrameJeu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    public void cacherMenuAction(final JComponent nouveau){
+        nouveau.setLocation(880, nouveau.getY());
+        nouveau.revalidate();
+        for(int i=0;i<100;i++){
+            nouveau.setLocation(nouveau.getX()+4, nouveau.getY());
+            nouveau.revalidate();
+            try {
+                Thread.sleep(3);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FrameJeu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
 }

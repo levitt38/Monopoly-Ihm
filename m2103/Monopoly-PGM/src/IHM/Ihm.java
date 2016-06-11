@@ -19,9 +19,9 @@ import java.util.HashMap;
 public abstract class Ihm {
     
     
-    public abstract void affiche(String s);
+    public abstract void affiche(EventIhm e, String s);
     
-    public abstract void affiche(String titre, String s);
+    public abstract void affiche(EventIhm e,  String titre, String s);
     
     public abstract int askNb(EventIhm e, String s);
     

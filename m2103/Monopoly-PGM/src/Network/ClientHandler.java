@@ -41,7 +41,7 @@ public class ClientHandler implements Observateur{
         Boolean choix;
         Monopoly test; ///
         switch(d.getE()){
-            case AfficheClient : this.ihm.affiche(d.getS()); 
+            case AfficheClient : this.ihm.affiche(EventIhm.affichedeBase,d.getS()); 
                                 break;
             case DebutTour : this.ihm.afficherPlateau(d.getMonopoly().getCarreaux());
                             this.ihm.afficherJoueur(d.getJ());
@@ -77,9 +77,9 @@ public class ClientHandler implements Observateur{
             case AskString : d.setS(this.ihm.askStr(EventIhm.askdeBase, d.getS()));break;
             case AskNbJoueurs : d.setI(this.ihm.askNb(EventIhm.askNb_joueur,d.getS()));break;
             case AskNb : d.setI(this.ihm.askNb(EventIhm.askdeBase,d.getS()));break;
-            case Affiche : this.ihm.affiche(d.getS()); break;
-            case Rien : this.ihm.affiche("Event suspect");
-            default : this.ihm.affiche("Vous êtes tranquille. Pour le moment...");;              
+            case Affiche : this.ihm.affiche(EventIhm.affichedeBase,d.getS()); break;
+            case Rien : this.ihm.affiche(EventIhm.affichedeBase,"Event suspect");
+            default : this.ihm.affiche(EventIhm.affichedeBase,"Vous êtes tranquille. Pour le moment...");;              
         }
     }
     

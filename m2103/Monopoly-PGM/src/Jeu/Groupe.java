@@ -11,7 +11,7 @@ public class Groupe implements Serializable{
         
         public Groupe(CouleurPropriete C){
             this.couleur = C;
-            this.setProprietes(new ArrayList<>());
+            this.setProprietes(new ArrayList<Propriete>());
             
         }
     /**

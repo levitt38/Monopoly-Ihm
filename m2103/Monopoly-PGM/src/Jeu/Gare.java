@@ -26,6 +26,14 @@ public class Gare extends CarreauAchetable {
         super(numero, nomCarreau, prixAchat);
     }
 
-        
+        @Override
+    public String affiche3d(){
+        String s = "<html>Nom : "+this.getNomCarreau()+"<BR>";
+        if(this.getProprietaire()!=null){
+            s += "Proprietaire : "+this.getProprietaire().getNomJoueur()+"<BR>";
+        }
+        s += "</html>";
+        return s;
+    }    
         
 }

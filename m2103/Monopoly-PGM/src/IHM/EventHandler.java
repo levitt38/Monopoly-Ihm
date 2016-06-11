@@ -48,33 +48,33 @@ public class EventHandler implements Observateur{
         switch(event){
             // Event concernant cases achetables
             case PayerLoyer : cAchetable = (CarreauAchetable) c;
-                                this.ihm.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.calculLoyer()+"€ a"+cAchetable.getProprietaire().getNomJoueur());
+                                this.ihm.affiche(EventIhm.affichedeBase,j.getNomJoueur()+"paye un loyer de "+cAchetable.calculLoyer()+"€ a"+cAchetable.getProprietaire().getNomJoueur());
                              break;
-            case SurSaCase : this.ihm.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
+            case SurSaCase : this.ihm.affiche(EventIhm.affichedeBase,"Vous êtes sur une de vos propriété, détendez vous"); break;
             case AchatPossible : cAchetable = (CarreauAchetable) c;
                             String choix = "non";                                    
                           if(this.ihm.askYN("Voulez-vous acheter "+cAchetable.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ ?")){
                               this.controleur.joueurAchete(c,j);
                           } break;
-            case AchatImpossible : this.ihm.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
+            case AchatImpossible : this.ihm.affiche(EventIhm.affichedeBase,"Vous n'avez pas le budget pour acheter ce bien"); break;
             // Events concernant cases autres
-            case AllerEnPrison : this.ihm.affiche("Joueur "+j.getNomJoueur()+" envoyé en prison!");
+            case AllerEnPrison : this.ihm.affiche(EventIhm.affichedeBase,"Joueur "+j.getNomJoueur()+" envoyé en prison!");
                                  break;
-            case PayerPenalite :this.ihm.affiche("Le joueur "+j.getNomJoueur()+" paie "+((CarreauPenalite)c).getPenalite()+"$");
+            case PayerPenalite :this.ihm.affiche(EventIhm.affichedeBase,"Le joueur "+j.getNomJoueur()+" paie "+((CarreauPenalite)c).getPenalite()+"$");
                                 break;
-            case SortieDePrisonDes : this.ihm.affiche("Vous avez fait un double, fin de votre séjour en prison ! Vous pouvez jouer");break;
-            case SortieDePrisonCaution : this.ihm.affiche("Fin de vos 3 tours en prison ! vous payez 50€");break;
-            case SortieDePrisonCarte : this.ihm.affiche("Vous utilisez vos relations au gouvernement pour sortir de prison ...");break;
-            case ResterPrison : this.ihm.affiche("Vous n'avez pas fait de double, vous restez en prison !");break;
-            case Bankrupt : this.ihm.affiche("Le joueur "+j.getNomJoueur()+" vient d'être éliminé");break;
-            case PasseParDepart : this.ihm.affiche("Joueur "+j.getNomJoueur()+" recoit sa paie : +200€");break;
-            case PartieTerminee : this.ihm.affiche("Partie Terminée !! Le joueur "+j.getNomJoueur()+" l'emporte");break;
+            case SortieDePrisonDes : this.ihm.affiche(EventIhm.affichedeBase,"Vous avez fait un double, fin de votre séjour en prison ! Vous pouvez jouer");break;
+            case SortieDePrisonCaution : this.ihm.affiche(EventIhm.affichedeBase,"Fin de vos 3 tours en prison ! vous payez 50€");break;
+            case SortieDePrisonCarte : this.ihm.affiche(EventIhm.affichedeBase,"Vous utilisez vos relations au gouvernement pour sortir de prison ...");break;
+            case ResterPrison : this.ihm.affiche(EventIhm.affichedeBase,"Vous n'avez pas fait de double, vous restez en prison !");break;
+            case Bankrupt : this.ihm.affiche(EventIhm.affichedeBase,"Le joueur "+j.getNomJoueur()+" vient d'être éliminé");break;
+            case PasseParDepart : this.ihm.affiche(EventIhm.affichedeBase,"Joueur "+j.getNomJoueur()+" recoit sa paie : +200€");break;
+            case PartieTerminee : this.ihm.affiche(EventIhm.affichedeBase,"Partie Terminée !! Le joueur "+j.getNomJoueur()+" l'emporte");break;
             case FinTour : this.ihm.afficherFinTour();break;
             case TirerCarte : this.tirerCarte(((CarreauCarte)c).getTypeCarte());this.controleur.tirerCarte(j,((CarreauCarte)c).getTypeCarte());break;
-            case PasAssezDArgent : this.ihm.affiche("Vous n'avez pas assez d'argent pour effectuer cette action.");break;
-            case PasNivele : this.ihm.affiche("Vous devez d'abord construire sur les autres terrains de ce groupe.");break;
-            case PlusDeMaisons : this.ihm.affiche("Il n'y a plus de maisons disponibles.");break;
-            case TropDeMaisons : this.ihm.affiche("Il y a déjà le nombre maximal de maisons sur ce terrain.");break;
+            case PasAssezDArgent : this.ihm.affiche(EventIhm.affichedeBase,"Vous n'avez pas assez d'argent pour effectuer cette action.");break;
+            case PasNivele : this.ihm.affiche(EventIhm.affichedeBase,"Vous devez d'abord construire sur les autres terrains de ce groupe.");break;
+            case PlusDeMaisons : this.ihm.affiche(EventIhm.affichedeBase,"Il n'y a plus de maisons disponibles.");break;
+            case TropDeMaisons : this.ihm.affiche(EventIhm.affichedeBase,"Il y a déjà le nombre maximal de maisons sur ce terrain.");break;
             case DebutTour : this.ihm.afficherPlateau(d.getCarreaux());
                             this.ihm.afficherJoueur(j);break;
             case InitialiserPartie : int nb = this.askNb("Entrez le nombre de joueurs",2,6);
@@ -86,7 +86,7 @@ public class EventHandler implements Observateur{
                               if(!prison){
                                   this.controleur.useCarte(d.getCarte());
                               }break;
-            case AllerEnPrisonDes : this.ihm.affiche("","C'est votre 3ème double !/nDirection, la prison !");break;
+            case AllerEnPrisonDes : this.ihm.affiche(EventIhm.affichedeBase,"","C'est votre 3ème double !/nDirection, la prison !");break;
             case UsePossibleCarteSortiePrison : if(this.ihm.askYN("Voulez-vous utiliser une carte Sortie de Prison ?")){
                                                     this.controleur.useCarte(j.getCartePrison());
                                                 }else{
@@ -96,12 +96,12 @@ public class EventHandler implements Observateur{
                                     this.controleur.construire(this.askRueAConstruire(d.getCarreaux()));
                                     this.controleur.construction(j);
                                 }break;
-            case Double : this.ihm.affiche("Vous avez fait un double !");break;
-            case LancersDes : this.ihm.affiche("Résultat lancer : "+j.getNomJoueur()+" a fait un "+d.getI());break;
+            case Double : this.ihm.affiche(EventIhm.affichedeBase,"Vous avez fait un double !");break;
+            case LancersDes : this.ihm.affiche(EventIhm.affichedeBase,"Résultat lancer : "+j.getNomJoueur()+" a fait un "+d.getI());break;
             case AskString : d.setS(this.ihm.askStr(EventIhm.askdeBase, d.getS()));break;
             case AskNb : d.setI(this.ihm.askNb(EventIhm.askdeBase, d.getS()));break;
-            case Affiche : this.ihm.affiche(d.getS()); break;
-            default : this.ihm.affiche("Vous êtes tranquille. Pour le moment...");;
+            case Affiche : this.ihm.affiche(EventIhm.affichedeBase,d.getS()); break;
+            default : this.ihm.affiche(EventIhm.affichedeBase,"Vous êtes tranquille. Pour le moment...");;
         }
     }
     
@@ -111,7 +111,7 @@ public class EventHandler implements Observateur{
     }
     
     public void tirerCarte(TypeCarte t){
-        this.ihm.affiche("Tirer une Carte","Vous tirez une carte "+t.toString()+".");
+        this.ihm.affiche(EventIhm.affichedeBase,"Tirer une Carte","Vous tirez une carte "+t.toString()+".");
     }
 
     private int askNb(String message, int i, int i0) {

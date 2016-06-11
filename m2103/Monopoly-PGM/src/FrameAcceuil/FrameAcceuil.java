@@ -24,7 +24,9 @@ import javax.swing.JTextField;
 public class FrameAcceuil extends javax.swing.JFrame {
     private int XDrag,YDrag; // servent a drag la frame
     private HashSet<JTextField> liste_choixPions;
+    private String sPortal, sBanane, sCanette, sHamburger, sTelephone, sHorloge;
     private Client client; // dans le cas du mode online, un object client est crée
+
 
     /**
      * Creates new form FrameAcceuil
@@ -34,16 +36,17 @@ public class FrameAcceuil extends javax.swing.JFrame {
         setListePions();
         this.setLocationRelativeTo(null);
         this.SlideShow();
+        this.setVisible(true);
     }
     
     public void setListePions(){
         this.liste_choixPions = new HashSet<>();
-        this.liste_choixPions.add(this.PersoPortal);
-        this.liste_choixPions.add(this.PersoBanane);
-        this.liste_choixPions.add(this.PersoHorloge);
-        this.liste_choixPions.add(this.PersoHamburger);
-        this.liste_choixPions.add(this.PersoTelephone);
-        this.liste_choixPions.add(this.PersoCanette);
+        this.liste_choixPions.add(this.PersoPortal); sPortal = this.PersoPortal.getText();
+        this.liste_choixPions.add(this.PersoBanane); sBanane = this.PersoBanane.getText();
+        this.liste_choixPions.add(this.PersoHorloge); sHorloge = this.PersoHorloge.getText();
+        this.liste_choixPions.add(this.PersoHamburger); sHamburger = this.PersoHamburger.getText();
+        this.liste_choixPions.add(this.PersoTelephone); sTelephone= this.PersoTelephone.getText();
+        this.liste_choixPions.add(this.PersoCanette); sCanette = this.PersoCanette.getText();
     }
  
     public void SlideShow(){
@@ -93,6 +96,12 @@ public class FrameAcceuil extends javax.swing.JFrame {
         BMin = new javax.swing.JButton();
         BarreHaut = new javax.swing.JLabel();
         SelectPerso = new javax.swing.JPanel();
+        TFnom6 = new javax.swing.JTextField();
+        TFnom3 = new javax.swing.JTextField();
+        TFnom2 = new javax.swing.JTextField();
+        TFnom4 = new javax.swing.JTextField();
+        TFnom5 = new javax.swing.JTextField();
+        TFnom1 = new javax.swing.JTextField();
         PersoPortal = new javax.swing.JTextField();
         PersoBanane = new javax.swing.JTextField();
         PersoHorloge = new javax.swing.JTextField();
@@ -168,14 +177,86 @@ public class FrameAcceuil extends javax.swing.JFrame {
         SelectPerso.setOpaque(false);
         SelectPerso.setLayout(null);
 
+        TFnom6.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        TFnom6.setForeground(new java.awt.Color(255, 255, 255));
+        TFnom6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TFnom6.setText("Nom6");
+        TFnom6.setBorder(null);
+        TFnom6.setOpaque(false);
+        SelectPerso.add(TFnom6);
+        TFnom6.setBounds(730, 260, 100, 22);
+
+        TFnom3.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        TFnom3.setForeground(new java.awt.Color(255, 255, 255));
+        TFnom3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TFnom3.setText("Nom3");
+        TFnom3.setBorder(null);
+        TFnom3.setOpaque(false);
+        TFnom3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TFnom3ActionPerformed(evt);
+            }
+        });
+        SelectPerso.add(TFnom3);
+        TFnom3.setBounds(300, 260, 100, 22);
+
+        TFnom2.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        TFnom2.setForeground(new java.awt.Color(255, 255, 255));
+        TFnom2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TFnom2.setText("Nom2");
+        TFnom2.setBorder(null);
+        TFnom2.setOpaque(false);
+        TFnom2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TFnom2ActionPerformed(evt);
+            }
+        });
+        SelectPerso.add(TFnom2);
+        TFnom2.setBounds(160, 260, 100, 22);
+
+        TFnom4.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        TFnom4.setForeground(new java.awt.Color(255, 255, 255));
+        TFnom4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TFnom4.setText("Nom4");
+        TFnom4.setBorder(null);
+        TFnom4.setOpaque(false);
+        SelectPerso.add(TFnom4);
+        TFnom4.setBounds(440, 260, 100, 22);
+
+        TFnom5.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        TFnom5.setForeground(new java.awt.Color(255, 255, 255));
+        TFnom5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TFnom5.setText("Nom5");
+        TFnom5.setBorder(null);
+        TFnom5.setOpaque(false);
+        SelectPerso.add(TFnom5);
+        TFnom5.setBounds(580, 260, 100, 22);
+
+        TFnom1.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        TFnom1.setForeground(new java.awt.Color(255, 255, 255));
+        TFnom1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TFnom1.setText("Nom1");
+        TFnom1.setBorder(null);
+        TFnom1.setOpaque(false);
+        SelectPerso.add(TFnom1);
+        TFnom1.setBounds(20, 260, 100, 22);
+
         PersoPortal.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
         PersoPortal.setForeground(new java.awt.Color(255, 255, 255));
         PersoPortal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         PersoPortal.setText("1");
         PersoPortal.setBorder(null);
         PersoPortal.setOpaque(false);
+        PersoPortal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                PersoPortalKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                PersoPortalKeyReleased(evt);
+            }
+        });
         SelectPerso.add(PersoPortal);
-        PersoPortal.setBounds(60, 224, 80, 30);
+        PersoPortal.setBounds(40, 200, 50, 30);
 
         PersoBanane.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
         PersoBanane.setForeground(new java.awt.Color(255, 255, 255));
@@ -183,8 +264,16 @@ public class FrameAcceuil extends javax.swing.JFrame {
         PersoBanane.setText("2");
         PersoBanane.setBorder(null);
         PersoBanane.setOpaque(false);
+        PersoBanane.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                PersoBananeKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                PersoBananeKeyReleased(evt);
+            }
+        });
         SelectPerso.add(PersoBanane);
-        PersoBanane.setBounds(202, 224, 80, 30);
+        PersoBanane.setBounds(180, 200, 60, 30);
 
         PersoHorloge.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
         PersoHorloge.setForeground(new java.awt.Color(255, 255, 255));
@@ -192,8 +281,16 @@ public class FrameAcceuil extends javax.swing.JFrame {
         PersoHorloge.setText("3");
         PersoHorloge.setBorder(null);
         PersoHorloge.setOpaque(false);
+        PersoHorloge.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                PersoHorlogeKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                PersoHorlogeKeyReleased(evt);
+            }
+        });
         SelectPerso.add(PersoHorloge);
-        PersoHorloge.setBounds(337, 224, 80, 30);
+        PersoHorloge.setBounds(320, 200, 60, 30);
 
         PersoHamburger.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
         PersoHamburger.setForeground(new java.awt.Color(255, 255, 255));
@@ -201,8 +298,16 @@ public class FrameAcceuil extends javax.swing.JFrame {
         PersoHamburger.setText("4");
         PersoHamburger.setBorder(null);
         PersoHamburger.setOpaque(false);
+        PersoHamburger.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                PersoHamburgerKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                PersoHamburgerKeyReleased(evt);
+            }
+        });
         SelectPerso.add(PersoHamburger);
-        PersoHamburger.setBounds(474, 224, 80, 30);
+        PersoHamburger.setBounds(460, 200, 60, 30);
 
         PersoTelephone.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
         PersoTelephone.setForeground(new java.awt.Color(255, 255, 255));
@@ -210,8 +315,16 @@ public class FrameAcceuil extends javax.swing.JFrame {
         PersoTelephone.setText("5");
         PersoTelephone.setBorder(null);
         PersoTelephone.setOpaque(false);
+        PersoTelephone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                PersoTelephoneKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                PersoTelephoneKeyReleased(evt);
+            }
+        });
         SelectPerso.add(PersoTelephone);
-        PersoTelephone.setBounds(600, 224, 80, 30);
+        PersoTelephone.setBounds(600, 200, 60, 30);
 
         PersoCanette.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
         PersoCanette.setForeground(new java.awt.Color(255, 255, 255));
@@ -219,15 +332,23 @@ public class FrameAcceuil extends javax.swing.JFrame {
         PersoCanette.setText("6");
         PersoCanette.setBorder(null);
         PersoCanette.setOpaque(false);
+        PersoCanette.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                PersoCanetteKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                PersoCanetteKeyReleased(evt);
+            }
+        });
         SelectPerso.add(PersoCanette);
-        PersoCanette.setBounds(717, 224, 80, 30);
+        PersoCanette.setBounds(740, 200, 60, 30);
 
-        LabelPerso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/SelectPerso.png"))); // NOI18N
+        LabelPerso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/SelectPersoV2.png"))); // NOI18N
         SelectPerso.add(LabelPerso);
         LabelPerso.setBounds(0, 0, 850, 300);
 
         getContentPane().add(SelectPerso);
-        SelectPerso.setBounds(0, -300, 850, 300);
+        SelectPerso.setBounds(0, 0, 850, 300);
 
         PanelNbJoueur.setOpaque(false);
         PanelNbJoueur.setLayout(null);
@@ -293,7 +414,7 @@ public class FrameAcceuil extends javax.swing.JFrame {
             }
         });
         PanelReseau.add(ButtonFrameReseau);
-        ButtonFrameReseau.setBounds(630, 40, 197, 61);
+        ButtonFrameReseau.setBounds(630, 40, 199, 63);
 
         FondReseau.setBackground(new java.awt.Color(51, 51, 51));
         FondReseau.setForeground(new java.awt.Color(255, 255, 255));
@@ -422,15 +543,15 @@ public class FrameAcceuil extends javax.swing.JFrame {
                 client.InitNb_Joueur();
             }
             client.setIhm(new IhmConsole());
+            this.setVisible(false);
             client.InitPartie();
             client.mainLoop();
-            this.setVisible(false);
         } else {
             Controleur c = new Controleur();
-        EventHandler ihm = new EventHandler(c);
-        c.setObservateur(ihm);
-        c.mainLoop();
+        EventHandler ihm = new EventHandler(c);  
+        c.setObservateur(ihm);                       // on passe en mode console, en attendant la frame de jeu
         this.setVisible(false);
+        c.mainLoop();
         }
     }//GEN-LAST:event_ButtonFrameNbJoueursActionPerformed
 
@@ -460,6 +581,116 @@ public class FrameAcceuil extends javax.swing.JFrame {
             }.start();
     }//GEN-LAST:event_FondMousePressed
 
+    private void PersoPortalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersoPortalKeyTyped
+        if(evt.getKeyChar()!='1'&&evt.getKeyChar()!='2'&&evt.getKeyChar()!='3'&&
+                evt.getKeyChar()!='4'&&evt.getKeyChar()!='5'&&evt.getKeyChar()!='6'||PersoPortal.getText().length()>0){
+            evt.consume(); return;
+        }
+        HashSet<JTextField> liste = this.liste_choixPions; liste.clone(); liste.remove(PersoPortal);
+        for(JTextField field : liste){
+            if(field.getText().toCharArray()[0]==evt.getKeyChar()){
+                field.setText(sPortal);
+            }
+        }
+    }//GEN-LAST:event_PersoPortalKeyTyped
+
+    private void PersoBananeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersoBananeKeyTyped
+        if(evt.getKeyChar()!='1'&&evt.getKeyChar()!='2'&&evt.getKeyChar()!='3'&&
+                evt.getKeyChar()!='4'&&evt.getKeyChar()!='5'&&evt.getKeyChar()!='6'||PersoBanane.getText().length()>0){
+            evt.consume(); return;
+        }
+        HashSet<JTextField> liste = this.liste_choixPions; liste.remove(PersoBanane);
+        for(JTextField field : liste){
+            if(field.getText().toCharArray()[0]==evt.getKeyChar()){
+                field.setText(sBanane);
+            }
+        }
+    }//GEN-LAST:event_PersoBananeKeyTyped
+
+    private void PersoHorlogeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersoHorlogeKeyTyped
+        if(evt.getKeyChar()!='1'&&evt.getKeyChar()!='2'&&evt.getKeyChar()!='3'&&
+                evt.getKeyChar()!='4'&&evt.getKeyChar()!='5'&&evt.getKeyChar()!='6'||PersoHorloge.getText().length()>0){
+            evt.consume(); return;
+        }
+        HashSet<JTextField> liste = this.liste_choixPions; liste.remove(PersoHorloge);
+        for(JTextField field : liste){
+            if(field.getText().toCharArray()[0]==evt.getKeyChar()){
+                field.setText(sHorloge);
+            }
+        }
+    }//GEN-LAST:event_PersoHorlogeKeyTyped
+
+    private void PersoTelephoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersoTelephoneKeyTyped
+        if(evt.getKeyChar()!='1'&&evt.getKeyChar()!='2'&&evt.getKeyChar()!='3'&&
+                evt.getKeyChar()!='4'&&evt.getKeyChar()!='5'&&evt.getKeyChar()!='6'||PersoTelephone.getText().length()>0){
+            evt.consume(); return;
+        }
+        HashSet<JTextField> liste = this.liste_choixPions; liste.clone(); liste.remove(PersoTelephone);
+        for(JTextField field : liste){
+            if(field.getText().toCharArray()[0]==evt.getKeyChar()){
+                field.setText(sTelephone);
+            }
+        } 
+    }//GEN-LAST:event_PersoTelephoneKeyTyped
+
+    private void PersoCanetteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersoCanetteKeyTyped
+        if(evt.getKeyChar()!='1'&&evt.getKeyChar()!='2'&&evt.getKeyChar()!='3'&&
+                evt.getKeyChar()!='4'&&evt.getKeyChar()!='5'&&evt.getKeyChar()!='6'||PersoCanette.getText().length()>0){
+            evt.consume(); return;
+        }
+        HashSet<JTextField> liste = this.liste_choixPions; liste.remove(PersoCanette);
+        for(JTextField field : liste){
+            if(field.getText().toCharArray()[0]==evt.getKeyChar()){
+                field.setText(sCanette);
+            }
+        }
+    }//GEN-LAST:event_PersoCanetteKeyTyped
+
+    private void PersoHamburgerKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersoHamburgerKeyTyped
+        if(evt.getKeyChar()!='1'&&evt.getKeyChar()!='2'&&evt.getKeyChar()!='3'&&
+                evt.getKeyChar()!='4'&&evt.getKeyChar()!='5'&&evt.getKeyChar()!='6'||PersoHamburger.getText().length()>0){
+            evt.consume(); return;
+        }
+        HashSet<JTextField> liste = this.liste_choixPions; liste.remove(PersoHamburger);
+        for(JTextField field : liste){
+            if(field.getText().toCharArray()[0]==evt.getKeyChar()){
+                field.setText(sHamburger);
+            }
+        }
+    }//GEN-LAST:event_PersoHamburgerKeyTyped
+
+    private void PersoPortalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersoPortalKeyReleased
+        sPortal = (this.PersoPortal.getText().length()>0) ? this.PersoPortal.getText() : sPortal;
+    }//GEN-LAST:event_PersoPortalKeyReleased
+
+    private void PersoBananeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersoBananeKeyReleased
+        sBanane = (this.PersoBanane.getText().length()>0) ? this.PersoBanane.getText() : sBanane;
+    }//GEN-LAST:event_PersoBananeKeyReleased
+
+    private void PersoHorlogeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersoHorlogeKeyReleased
+        sHorloge = (this.PersoHorloge.getText().length()>0) ? this.PersoHorloge.getText() : sHorloge;
+    }//GEN-LAST:event_PersoHorlogeKeyReleased
+
+    private void PersoHamburgerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersoHamburgerKeyReleased
+        sHamburger = (this.PersoHamburger.getText().length()>0) ? this.PersoHamburger.getText() : sHamburger;
+    }//GEN-LAST:event_PersoHamburgerKeyReleased
+
+    private void PersoTelephoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersoTelephoneKeyReleased
+        sTelephone = (this.PersoTelephone.getText().length()>0) ? this.PersoTelephone.getText() : sTelephone;
+    }//GEN-LAST:event_PersoTelephoneKeyReleased
+
+    private void PersoCanetteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersoCanetteKeyReleased
+        sCanette = (this.PersoCanette.getText().length()>0) ? this.PersoCanette.getText() : sCanette;
+    }//GEN-LAST:event_PersoCanetteKeyReleased
+
+    private void TFnom2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFnom2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TFnom2ActionPerformed
+
+    private void TFnom3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFnom3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TFnom3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -470,7 +701,6 @@ public class FrameAcceuil extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 FrameAcceuil frame = new FrameAcceuil();
-                frame.setVisible(true);
             }
         });
     }
@@ -527,6 +757,12 @@ public class FrameAcceuil extends javax.swing.JFrame {
     private javax.swing.JTextField TFip;
     private javax.swing.JTextField TFnb_joueur;
     private javax.swing.JTextField TFnom;
+    private javax.swing.JTextField TFnom1;
+    private javax.swing.JTextField TFnom2;
+    private javax.swing.JTextField TFnom3;
+    private javax.swing.JTextField TFnom4;
+    private javax.swing.JTextField TFnom5;
+    private javax.swing.JTextField TFnom6;
     private javax.swing.JTextField TFport;
     // End of variables declaration//GEN-END:variables
 }

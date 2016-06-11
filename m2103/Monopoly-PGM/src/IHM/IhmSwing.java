@@ -20,19 +20,20 @@ public class IhmSwing extends Ihm{
     private FenetreJeu fenetreJeu;
     //private FrameJeu fenetreJeu;
 
-    @Override
-    public void affiche(String s) {
-        IhmBoiteMessage.afficherBoiteMessage(s, 0);
-    }
-
+    
     public IhmSwing() {
         this.fenetreJeu = new FenetreJeu();
         //this.fenetreJeu = new FrameJeu();
         this.fenetreJeu.afficher();
     }
+    
+    @Override
+    public void affiche(EventIhm e, String s) {
+        IhmBoiteMessage.afficherBoiteMessage(s, 0);
+    }
 
     @Override
-    public void affiche(String titre, String s) {
+    public void affiche(EventIhm e, String titre, String s) {
         IhmBoiteMessage.afficherBoiteMessage(titre, s, 0);
     }
 
@@ -58,7 +59,7 @@ public class IhmSwing extends Ihm{
 
     @Override
     public void afficherCarte(Carte c) {
-        this.affiche(c.getType().toString(),c.getText());
+        this.affiche(EventIhm.affichedeBase,c.getType().toString(),c.getText());
     }
 
     @Override

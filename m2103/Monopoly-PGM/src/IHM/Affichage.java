@@ -112,14 +112,14 @@ public class Affichage {
             nbRow[i] = 0;
             for (int j:casesInColumn(i)){
                 a = widthCarreau(ca.get(Integer.toString(j)));
-                nbRow[i] = Integer.max(nbRow[i], a);
+                nbRow[i] = Math.max(nbRow[i], a);
             }
         }
         for(int i=0;i<nbColumn.length;i++){
             nbColumn[i] = 0;
             for (int j:casesInRow(i)){
                 a = heightCarreau(ca.get(Integer.toString(j)));
-                nbColumn[i] = Integer.max(nbColumn[i], a);
+                nbColumn[i] = Math.max(nbColumn[i], a);
             }
         }
         

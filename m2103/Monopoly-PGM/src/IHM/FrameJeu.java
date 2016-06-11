@@ -10,7 +10,7 @@ import Jeu.Joueur;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.lwjgl.input.Mouse;
+import javax.swing.JLabel;
 
 /**
  *
@@ -22,11 +22,13 @@ public class FrameJeu extends javax.swing.JFrame {
     private int height = 800;
     private boolean menuAff = false;
     private HashMap<String, Carreau> plateau;
+    private boolean YesNoSaisi, YesNoChoix;
     
     public FrameJeu(Ihm3d ihm3d) {
         super("Xtrem Monopoly");
         initComponents();
-        this.panelPlateau1.setIhm3d(ihm3d);
+        //this.panelPlateau1.setIhm3d(ihm3d);
+        this.YesNoSaisi = false;
     }
 
     /**
@@ -38,147 +40,134 @@ public class FrameJeu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        menu = new javax.swing.JPanel();
-        boutonRetour = new javax.swing.JButton();
-        panelCarreau = new javax.swing.JPanel();
-        labelNomCarreau = new javax.swing.JLabel();
-        panelJoueur = new javax.swing.JPanel();
-        panelPlateau1 = new IHM.PanelPlateau();
+        EnattendantOpengl = new javax.swing.JPanel();
+        PanelAction = new javax.swing.JPanel();
+        TextAction = new javax.swing.JLabel();
+        BActionNon = new javax.swing.JButton();
+        BActionOui = new javax.swing.JButton();
+        FondAction = new javax.swing.JLabel();
+        PanelCarreau = new javax.swing.JPanel();
+        TextCarreau = new javax.swing.JLabel();
+        ExitCarreau = new javax.swing.JButton();
+        FondCarreau = new javax.swing.JLabel();
+        PanelJoueur = new javax.swing.JPanel();
+        TextJoueur = new javax.swing.JLabel();
+        ExitJoueur = new javax.swing.JButton();
+        FondJoueur = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 300));
         getContentPane().setLayout(null);
 
-        menu.setMinimumSize(new java.awt.Dimension(300, 720));
-        menu.setLayout(null);
+        EnattendantOpengl.setLayout(null);
 
-        boutonRetour.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Data/menu_button_icon_return.png"))); // NOI18N
-        boutonRetour.setToolTipText("");
-        boutonRetour.setBorder(null);
-        boutonRetour.setBorderPainted(false);
-        boutonRetour.setContentAreaFilled(false);
-        boutonRetour.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        boutonRetour.addActionListener(new java.awt.event.ActionListener() {
+        PanelAction.setLayout(null);
+
+        TextAction.setFont(new java.awt.Font("Dialog", 2, 24)); // NOI18N
+        TextAction.setText("Voulez vous acheter X");
+        PanelAction.add(TextAction);
+        TextAction.setBounds(50, 30, 310, 80);
+
+        BActionNon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BoutonNon.png"))); // NOI18N
+        BActionNon.setBorderPainted(false);
+        BActionNon.setContentAreaFilled(false);
+        BActionNon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boutonRetourActionPerformed(evt);
+                BActionNonActionPerformed(evt);
             }
         });
-        menu.add(boutonRetour);
-        boutonRetour.setBounds(250, 0, 51, 51);
+        PanelAction.add(BActionNon);
+        BActionNon.setBounds(70, 140, 100, 53);
 
-        labelNomCarreau.setText("Nom");
-        labelNomCarreau.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BActionOui.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BoutonOui.png"))); // NOI18N
+        BActionOui.setBorderPainted(false);
+        BActionOui.setContentAreaFilled(false);
+        BActionOui.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BActionOuiActionPerformed(evt);
+            }
+        });
+        PanelAction.add(BActionOui);
+        BActionOui.setBounds(260, 140, 100, 53);
 
-        javax.swing.GroupLayout panelCarreauLayout = new javax.swing.GroupLayout(panelCarreau);
-        panelCarreau.setLayout(panelCarreauLayout);
-        panelCarreauLayout.setHorizontalGroup(
-            panelCarreauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCarreauLayout.createSequentialGroup()
-                .addContainerGap(39, Short.MAX_VALUE)
-                .addComponent(labelNomCarreau, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
-        );
-        panelCarreauLayout.setVerticalGroup(
-            panelCarreauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelCarreauLayout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(labelNomCarreau, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(586, Short.MAX_VALUE))
-        );
+        FondAction.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/PanelAction.png"))); // NOI18N
+        PanelAction.add(FondAction);
+        FondAction.setBounds(0, 0, 400, 200);
 
-        menu.add(panelCarreau);
-        panelCarreau.setBounds(0, 50, 300, 670);
+        EnattendantOpengl.add(PanelAction);
+        PanelAction.setBounds(880, 0, 400, 200);
 
-        panelJoueur.setEnabled(false);
+        PanelCarreau.setLayout(null);
 
-        javax.swing.GroupLayout panelJoueurLayout = new javax.swing.GroupLayout(panelJoueur);
-        panelJoueur.setLayout(panelJoueurLayout);
-        panelJoueurLayout.setHorizontalGroup(
-            panelJoueurLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-        panelJoueurLayout.setVerticalGroup(
-            panelJoueurLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 670, Short.MAX_VALUE)
-        );
+        TextCarreau.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        TextCarreau.setText("<html>Twinkle, twinkle, little star,<BR>How I wonder what you are.<BR>Up above the world so high,<BR>Like a diamond in the sky.</html>");
+        PanelCarreau.add(TextCarreau);
+        TextCarreau.setBounds(30, 110, 240, 200);
 
-        menu.add(panelJoueur);
-        panelJoueur.setBounds(0, 50, 300, 670);
+        ExitCarreau.setBorderPainted(false);
+        ExitCarreau.setContentAreaFilled(false);
+        ExitCarreau.setOpaque(false);
+        PanelCarreau.add(ExitCarreau);
+        ExitCarreau.setBounds(254, 5, 40, 40);
 
-        getContentPane().add(menu);
-        menu.setBounds(-300, 0, 300, 720);
+        FondCarreau.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/PanelCarreau.png"))); // NOI18N
+        PanelCarreau.add(FondCarreau);
+        FondCarreau.setBounds(0, 0, 300, 360);
 
-        panelPlateau1.setBackground(new java.awt.Color(0, 0, 0));
+        EnattendantOpengl.add(PanelCarreau);
+        PanelCarreau.setBounds(0, 360, 300, 360);
 
-        javax.swing.GroupLayout panelPlateau1Layout = new javax.swing.GroupLayout(panelPlateau1);
-        panelPlateau1.setLayout(panelPlateau1Layout);
-        panelPlateau1Layout.setHorizontalGroup(
-            panelPlateau1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1280, Short.MAX_VALUE)
-        );
-        panelPlateau1Layout.setVerticalGroup(
-            panelPlateau1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
-        );
+        PanelJoueur.setLayout(null);
 
-        getContentPane().add(panelPlateau1);
-        panelPlateau1.setBounds(0, 0, 0, 0);
+        TextJoueur.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        TextJoueur.setText("<html>Twinkle, twinkle, little star,<BR>How I wonder what you are.<BR>Up above the world so high,<BR>Like a diamond in the sky.</html>");
+        PanelJoueur.add(TextJoueur);
+        TextJoueur.setBounds(30, 110, 240, 200);
+
+        ExitJoueur.setBorderPainted(false);
+        ExitJoueur.setContentAreaFilled(false);
+        PanelJoueur.add(ExitJoueur);
+        ExitJoueur.setBounds(254, 5, 40, 40);
+
+        FondJoueur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/PanelJoueur.png"))); // NOI18N
+        PanelJoueur.add(FondJoueur);
+        FondJoueur.setBounds(0, 0, 300, 360);
+
+        EnattendantOpengl.add(PanelJoueur);
+        PanelJoueur.setBounds(0, 0, 300, 360);
+
+        getContentPane().add(EnattendantOpengl);
+        EnattendantOpengl.setBounds(0, 0, 1280, 720);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void boutonRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonRetourActionPerformed
-        if(this.menuAff){
-            new Thread(){
-                public void run(){
+    private void BActionNonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BActionNonActionPerformed
+        this.YesNoChoix = false; //le choix est non
+        this.YesNoSaisi = true; //continue le programme
+    }//GEN-LAST:event_BActionNonActionPerformed
 
-                    cacherMenu();
-                    menuAff = false;
-
-               }
-            }.start();
-        }
-    }//GEN-LAST:event_boutonRetourActionPerformed
+    private void BActionOuiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BActionOuiActionPerformed
+        this.YesNoChoix = true; //le choix est non
+        this.YesNoSaisi = true; //continue le programme
+    }//GEN-LAST:event_BActionOuiActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    /*public static void main(String args[]) {
-        
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrameJeu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrameJeu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrameJeu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrameJeu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
+    public static void main(String args[]) {
+     
         // Create and display the form
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrameJeu().setVisible(true);
+                new FrameJeu(new Ihm3d()).setVisible(true);
             }
         });
-    }*/
-
+    }
+    /*
     public void mouseLoop(){
         while(true){
             int x = Mouse.getX();
-            /*System.out.println(x+"  "+Mouse.getY());
-            System.out.println(this.menuAff);*/
             if(x<20&&x>0&&!this.menuAff){
                 this.menuAff = true;
                 new Thread(){
@@ -255,60 +244,56 @@ public class FrameJeu extends javax.swing.JFrame {
         }.start();
     }
 
-    public void afficherStr(String s){ // à supprimer, pour tests
-        this.labelNomCarreau.setText(s);
-        this.labelNomCarreau.repaint();
-    }
-    
     public void afficherPlateau(HashMap<String, Carreau> c){
         this.plateau = c;
         this.panelPlateau1.rafraîchirPlateau(c);
-    }
+    }*/
     
-    public void afficherMenu(){
-        System.out.println("affmenu");
-        menu.setLocation(-300, menu.getY());
-        menu.revalidate();
-        for(int i=0;i<100;i++){
-            menu.setLocation(menu.getX()+3, menu.getY());
-            menu.revalidate();
-            try {
-                Thread.sleep(3);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(FrameJeu.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    public void cacherMenu(){
-        menu.setLocation(0, menu.getY());
-        menu.revalidate();
-        for(int i=0;i<100;i++){
-            menu.setLocation(menu.getX()-3, menu.getY());
-            menu.revalidate();
-            try {
-                Thread.sleep(3);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(FrameJeu.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+    
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton boutonRetour;
-    private javax.swing.JLabel labelNomCarreau;
-    private javax.swing.JPanel menu;
-    private javax.swing.JPanel panelCarreau;
-    private javax.swing.JPanel panelJoueur;
-    private IHM.PanelPlateau panelPlateau1;
+    private javax.swing.JButton BActionNon;
+    private javax.swing.JButton BActionOui;
+    private javax.swing.JPanel EnattendantOpengl;
+    private javax.swing.JButton ExitCarreau;
+    private javax.swing.JButton ExitJoueur;
+    private javax.swing.JLabel FondAction;
+    private javax.swing.JLabel FondCarreau;
+    private javax.swing.JLabel FondJoueur;
+    private javax.swing.JPanel PanelAction;
+    private javax.swing.JPanel PanelCarreau;
+    private javax.swing.JPanel PanelJoueur;
+    private javax.swing.JLabel TextAction;
+    private javax.swing.JLabel TextCarreau;
+    private javax.swing.JLabel TextJoueur;
     // End of variables declaration//GEN-END:variables
 
-    private void afficherCarreau(Carreau c) {
-        this.labelNomCarreau.setText(c.getNomCarreau());
-        this.labelNomCarreau.repaint();
+    public JLabel getTextAction() {
+        return TextAction;
     }
 
-    void AfficherJoueur(Joueur j) {
-        int a = 0;
+    public JLabel getTextCarreau() {
+        return TextCarreau;
     }
+
+    public JLabel getTextJoueur() {
+        return TextJoueur;
+    }
+
+    public boolean isYesNoSaisi() {
+        return YesNoSaisi;
+    }
+
+    public void setYesNoSaisi(boolean YesNoSaisi) {
+        this.YesNoSaisi = YesNoSaisi;
+    }
+    
+    
+
+    public boolean isYesNoChoix() {
+        return YesNoChoix;
+    }
+
+    
 }

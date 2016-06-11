@@ -155,13 +155,13 @@ public class ServerHandler implements Observateur{
                                 break;                     
             case AskString : d.setS(this.ihm.askStr(EventIhm.askdeBase, d.getS()));break;
             case AskNb : d.setI(this.ihm.askNb(EventIhm.askdeBase,d.getS()));break;
-            case Affiche : this.ihm.affiche(d.getS()); break;
-            default : this.ihm.affiche("Vous êtes tranquille. Pour le moment...");;
+            case Affiche : this.ihm.affiche(EventIhm.affichedeBase,d.getS()); break;
+            default : this.ihm.affiche(EventIhm.affichedeBase,"Vous êtes tranquille. Pour le moment...");;
         }
         }
     
     public void tirerCarte(TypeCarte t){
-        this.ihm.affiche("Tirer une Carte","Vous tirez une carte "+t.toString()+".");
+        this.ihm.affiche(EventIhm.affichedeBase,"Tirer une Carte","Vous tirez une carte "+t.toString()+".");
     }
 
     public void setControleur(ControleurServer controleur) {

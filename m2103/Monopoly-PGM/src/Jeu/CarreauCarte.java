@@ -36,6 +36,11 @@ public class CarreauCarte extends AutreCarreau{
         return Evenement.TirerCarte;
     }
     
-    
+        @Override
+    public String affiche3d(){
+        String s = "<html>Nom : "+this.getNomCarreau()+"<BR>";
+        s += "</html>";
+        return s;
+    }    
     
 }

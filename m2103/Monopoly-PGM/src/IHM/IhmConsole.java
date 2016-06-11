@@ -21,13 +21,13 @@ public class IhmConsole extends Ihm{
     }
 
     @Override
-    public void affiche(String s) {
+    public void affiche(EventIhm e, String s) {
         Questions.affiche(s);
     }
 
     @Override
-    public void affiche(String titre, String s) {
-        this.affiche(s);//hum
+    public void affiche(EventIhm e,String titre, String s) {
+        this.affiche(EventIhm.affichedeBase, s);//hum
     }
 
     @Override

@@ -89,4 +89,17 @@ public class Propriete extends CarreauAchetable {
     public boolean hasHotel(){
         return this.hotel;
     }
+    
+    public String affiche3d(){
+       String s = "<html>Nom : "+this.getNomCarreau()+"<BR>";
+       if(this.getProprietaire()!=null){
+        s += "Proprio : "+this.getProprietaire().getNomJoueur()+"<BR>";
+       }
+       s += "Groupe : "+this.getGroupe().getCouleur()+"<BR>";
+       s += "Prix d'achat : "+this.getPrixAchat()+"€<BR>";
+       s += "Loyer de base : "+this.getLoyers()[0]+"€<BR>";
+       s += "Constructions : "+this.getNbMaisons();
+       s += "</html>";
+       return s;
+   }
 }

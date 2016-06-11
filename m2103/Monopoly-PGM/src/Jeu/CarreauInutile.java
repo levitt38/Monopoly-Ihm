@@ -27,4 +27,12 @@ public class CarreauInutile extends AutreCarreau{
     public TypeCarreau getType() {
         return TypeCarreau.AutreCarreau;
     }
+    
+        @Override
+    public String affiche3d(){
+        String s = "<html>Nom : "+this.getNomCarreau()+"<BR>";
+        s += "</html>";
+        return s;
+    }    
+
 }

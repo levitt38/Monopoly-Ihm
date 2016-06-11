@@ -42,4 +42,11 @@ public class CarreauPenalite extends AutreCarreau{
     public int getPenalite() {
         return penalite;
     }
+    
+        @Override
+    public String affiche3d(){
+        String s = "<html>Nom : "+this.getNomCarreau()+"<BR>";
+        s += "</html>";
+        return s;
+    }    
 }

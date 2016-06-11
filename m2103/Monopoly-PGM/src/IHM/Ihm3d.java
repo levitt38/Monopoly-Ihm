@@ -14,6 +14,8 @@ import Jeu.Joueur;
 import Network.Client;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTextField;
 
 /**
@@ -22,17 +24,12 @@ import javax.swing.JTextField;
  */
 public class Ihm3d extends Ihm{
     private FrameAcceuil frame_accueil;
-    // le display 3d
+    private FrameJeu frame_jeu;
     private Client client; // dans le cas du mode online, un object client est crée
     
     public Ihm3d(){
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                frame_accueil = new FrameAcceuil();
-                frame_accueil.setVisible(true);
-            }
-        });
-        // instancier le display ?
+        this.frame_accueil = frame_accueil;
+        this.frame_jeu = frame_jeu;
     }
     
     public Ihm3d(FrameAcceuil frame){
@@ -57,12 +54,18 @@ public class Ihm3d extends Ihm{
         return type;
     }
     
-    public void affiche(String s){
-        
+    public void affiche(EventIhm e,String s){
+        this.frame_jeu.getTextAction().setText(s);
+        // Animation droite => gauche dans version finale
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Ihm3d.class.getName()).log(Level.SEVERE, null, ex);
+        }
     };
     
-    public void affiche(String titre, String s){
-        
+    public void affiche(EventIhm e, String titre, String s){
+        this.affiche(e, s);
     };
     
     public int askNb(EventIhm e, String s){
@@ -90,23 +93,37 @@ public class Ihm3d extends Ihm{
     }
     
     public boolean askYN(String s){
-        return true;
+        Boolean choix;
+        this.frame_jeu.getTextAction().setText("Fin du Tour");
+        // Animation droite => gauche dans version finale
+        while(this.frame_jeu.isYesNoSaisi()==false){
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Ihm3d.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        choix = this.frame_jeu.isYesNoChoix();
+        this.frame_jeu.setYesNoSaisi(false);
+        return choix;
     };
     
     public void afficherFinTour(){
-        
+        this.affiche(EventIhm.affichedeBase, "Fin de ce Tour");
     };
         
     public void afficherCarte(Carte c){
-        
+        this.affiche(EventIhm.affichedeBase, c.getText());
     };
     
     public void afficherJoueur(Joueur j){
-        
+        this.frame_jeu.getTextJoueur().setText(j.affiche3d());
+        // Animation gauche => droite dans version finale
     };
     
     public void afficherCarreau(Carreau c){
-        
+        this.frame_jeu.getTextCarreau().setText(c.affiche3d());
+        // Animation gauche => droite dans version finale
     };
     public void afficherPlateau(HashMap<String,Carreau> c){
         

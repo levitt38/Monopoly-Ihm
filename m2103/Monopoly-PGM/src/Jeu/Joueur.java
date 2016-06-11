@@ -211,4 +211,15 @@ public class Joueur implements Serializable{
    public void payer(int i){
        this.setCash(this.getCash()-i);
    }
+   
+   public String affiche3d(){
+       String s = "<html>Nom : "+this._nomJoueur+"<BR>";
+       s += "Cash : "+this._cash+"<BR>";
+       s += "Gares possedées : "+this._gares.size()+"<BR>";
+       s += "Compagnies possedées : "+this._compagnies.size()+"<BR>";
+       s += "Proprietés possedées : "+this._carreaux.size()+"<BR>";
+       s += "Cartes possedées : "+this._carreaux.size();
+       s += "</html>";
+       return s;
+   }
 }

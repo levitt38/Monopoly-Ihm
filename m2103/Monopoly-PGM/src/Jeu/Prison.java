@@ -30,5 +30,11 @@ public class Prison extends AutreCarreau{
    public Evenement action(Joueur j) { 
        return Evenement.EstEnPrison;
    }
+   
+    @Override
+   public String affiche3d(){
+       String s = "Nom : PRISON";
+       return s;
+   }
     
 }
