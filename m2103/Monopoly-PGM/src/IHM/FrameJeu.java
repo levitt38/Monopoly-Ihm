@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import org.lwjgl.input.Mouse;
 
 /**
  *
@@ -29,6 +30,7 @@ public class FrameJeu extends javax.swing.JFrame {
         initComponents();
         //this.panelPlateau1.setIhm3d(ihm3d);
         this.YesNoSaisi = false;
+        this.afficher();
     }
 
     /**
@@ -40,7 +42,7 @@ public class FrameJeu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        EnattendantOpengl = new javax.swing.JPanel();
+        panelPlateau1 = new IHM.PanelPlateau();
         PanelAction = new javax.swing.JPanel();
         TextAction = new javax.swing.JLabel();
         BActionNon = new javax.swing.JButton();
@@ -59,7 +61,10 @@ public class FrameJeu extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1280, 300));
         getContentPane().setLayout(null);
 
-        EnattendantOpengl.setLayout(null);
+        panelPlateau1.setMinimumSize(new java.awt.Dimension(1280, 720));
+        panelPlateau1.setName(""); // NOI18N
+        panelPlateau1.setPreferredSize(new java.awt.Dimension(1280, 720));
+        panelPlateau1.setLayout(null);
 
         PanelAction.setLayout(null);
 
@@ -94,7 +99,7 @@ public class FrameJeu extends javax.swing.JFrame {
         PanelAction.add(FondAction);
         FondAction.setBounds(0, 0, 400, 200);
 
-        EnattendantOpengl.add(PanelAction);
+        panelPlateau1.add(PanelAction);
         PanelAction.setBounds(880, 0, 400, 200);
 
         PanelCarreau.setLayout(null);
@@ -106,7 +111,6 @@ public class FrameJeu extends javax.swing.JFrame {
 
         ExitCarreau.setBorderPainted(false);
         ExitCarreau.setContentAreaFilled(false);
-        ExitCarreau.setOpaque(false);
         PanelCarreau.add(ExitCarreau);
         ExitCarreau.setBounds(254, 5, 40, 40);
 
@@ -114,7 +118,7 @@ public class FrameJeu extends javax.swing.JFrame {
         PanelCarreau.add(FondCarreau);
         FondCarreau.setBounds(0, 0, 300, 360);
 
-        EnattendantOpengl.add(PanelCarreau);
+        panelPlateau1.add(PanelCarreau);
         PanelCarreau.setBounds(0, 360, 300, 360);
 
         PanelJoueur.setLayout(null);
@@ -133,24 +137,24 @@ public class FrameJeu extends javax.swing.JFrame {
         PanelJoueur.add(FondJoueur);
         FondJoueur.setBounds(0, 0, 300, 360);
 
-        EnattendantOpengl.add(PanelJoueur);
+        panelPlateau1.add(PanelJoueur);
         PanelJoueur.setBounds(0, 0, 300, 360);
 
-        getContentPane().add(EnattendantOpengl);
-        EnattendantOpengl.setBounds(0, 0, 1280, 720);
+        getContentPane().add(panelPlateau1);
+        panelPlateau1.setBounds(0, 0, 1280, 720);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void BActionNonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BActionNonActionPerformed
-        this.YesNoChoix = false; //le choix est non
-        this.YesNoSaisi = true; //continue le programme
-    }//GEN-LAST:event_BActionNonActionPerformed
 
     private void BActionOuiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BActionOuiActionPerformed
         this.YesNoChoix = true; //le choix est non
         this.YesNoSaisi = true; //continue le programme
     }//GEN-LAST:event_BActionOuiActionPerformed
+
+    private void BActionNonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BActionNonActionPerformed
+        this.YesNoChoix = false; //le choix est non
+        this.YesNoSaisi = true; //continue le programme
+    }//GEN-LAST:event_BActionNonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,8 +168,8 @@ public class FrameJeu extends javax.swing.JFrame {
             }
         });
     }
-    /*
-    public void mouseLoop(){
+    
+    /*public void mouseLoop(){
         while(true){
             int x = Mouse.getX();
             if(x<20&&x>0&&!this.menuAff){
@@ -223,7 +227,7 @@ public class FrameJeu extends javax.swing.JFrame {
             }
             
         }
-    }
+    }*/
     
     
     public void afficher() {
@@ -231,7 +235,7 @@ public class FrameJeu extends javax.swing.JFrame {
         setLocationRelativeTo(null); 
         setVisible(true);
         this.panelPlateau1.initialiserPlateau();
-        new Thread(){
+        /*new Thread(){
             public void run(){
                 mouseLoop();
             }
@@ -241,13 +245,13 @@ public class FrameJeu extends javax.swing.JFrame {
             public void run(){
                 menuLoop();
             }
-        }.start();
+        }.start();*/
     }
 
     public void afficherPlateau(HashMap<String, Carreau> c){
         this.plateau = c;
         this.panelPlateau1.rafraîchirPlateau(c);
-    }*/
+    }
     
     
     
@@ -255,7 +259,6 @@ public class FrameJeu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BActionNon;
     private javax.swing.JButton BActionOui;
-    private javax.swing.JPanel EnattendantOpengl;
     private javax.swing.JButton ExitCarreau;
     private javax.swing.JButton ExitJoueur;
     private javax.swing.JLabel FondAction;
@@ -267,6 +270,7 @@ public class FrameJeu extends javax.swing.JFrame {
     private javax.swing.JLabel TextAction;
     private javax.swing.JLabel TextCarreau;
     private javax.swing.JLabel TextJoueur;
+    private IHM.PanelPlateau panelPlateau1;
     // End of variables declaration//GEN-END:variables
 
     public JLabel getTextAction() {
