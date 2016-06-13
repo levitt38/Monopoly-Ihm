@@ -184,6 +184,7 @@ public class FrameAcceuil extends javax.swing.JFrame {
         TFnom6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         TFnom6.setText("Nom6");
         TFnom6.setBorder(null);
+        TFnom6.setName(""); // NOI18N
         TFnom6.setOpaque(false);
         SelectPerso.add(TFnom6);
         TFnom6.setBounds(730, 260, 100, 22);
@@ -248,6 +249,7 @@ public class FrameAcceuil extends javax.swing.JFrame {
         PersoPortal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         PersoPortal.setText("1");
         PersoPortal.setBorder(null);
+        PersoPortal.setName("PersoPortal"); // NOI18N
         PersoPortal.setOpaque(false);
         PersoPortal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -262,6 +264,7 @@ public class FrameAcceuil extends javax.swing.JFrame {
         PersoBanane.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         PersoBanane.setText("2");
         PersoBanane.setBorder(null);
+        PersoBanane.setName("PersoBanane"); // NOI18N
         PersoBanane.setOpaque(false);
         PersoBanane.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -276,6 +279,7 @@ public class FrameAcceuil extends javax.swing.JFrame {
         PersoHorloge.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         PersoHorloge.setText("3");
         PersoHorloge.setBorder(null);
+        PersoHorloge.setName("PersoHorloge"); // NOI18N
         PersoHorloge.setOpaque(false);
         PersoHorloge.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -290,6 +294,7 @@ public class FrameAcceuil extends javax.swing.JFrame {
         PersoHamburger.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         PersoHamburger.setText("4");
         PersoHamburger.setBorder(null);
+        PersoHamburger.setName("PersoHamburger"); // NOI18N
         PersoHamburger.setOpaque(false);
         PersoHamburger.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -304,6 +309,7 @@ public class FrameAcceuil extends javax.swing.JFrame {
         PersoTelephone.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         PersoTelephone.setText("5");
         PersoTelephone.setBorder(null);
+        PersoTelephone.setName("PersoTelephone"); // NOI18N
         PersoTelephone.setOpaque(false);
         PersoTelephone.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -323,6 +329,7 @@ public class FrameAcceuil extends javax.swing.JFrame {
         PersoCanette.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         PersoCanette.setText("6");
         PersoCanette.setBorder(null);
+        PersoCanette.setName("PersoCanette"); // NOI18N
         PersoCanette.setOpaque(false);
         PersoCanette.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {

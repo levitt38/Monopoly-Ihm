@@ -87,8 +87,10 @@ public class Ihm3d extends Ihm{
     public TypePions askTypePion(int num_joueur){ // methode propre a ihm3d
         String choix = ""; TypePions type = TypePions.Rien;
         for(JTextField tf : this.frame_accueil.getListe_choixPions()){
-                                         if(Integer.valueOf(tf.getText().trim())==num_joueur){
-                                             choix = tf.getName().trim(); break;
+            
+        System.out.println(tf.getName());
+                                         if(Integer.valueOf(tf.getText())==num_joueur){
+                                             choix = tf.getName(); break;
                                          }
         } switch(choix){
             case "PersoPortal" : type =  TypePions.Portal; break;

@@ -5,6 +5,7 @@
  */
 package IHM;
 
+import Data.TypePions;
 import Jeu.Carreau;
 import Jeu.Cartes.Carte;
 import Jeu.Joueur;
@@ -18,6 +19,8 @@ import entities.Cube;
 import entities.Player;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.lwjgl.opengl.Display;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
@@ -65,10 +68,12 @@ public class IhmOpenGL {
     private boolean loadingCompleted = false;
     private ArrayList<Entity> pionsNonTries = new ArrayList<>();
     private HashMap<String,Entity> pions = new HashMap<>();
-
-    public IhmOpenGL(){
+    private Ihm3d ihm3d;
+    
+    
+    public IhmOpenGL(Ihm3d ihm3d){
         
-        
+        this.ihm3d = ihm3d;
 
         new Thread(){
             @Override
@@ -120,42 +125,36 @@ public class IhmOpenGL {
                 RawModel modelBurger = loader.loadToVAO(dataBurger.getVertices(), dataBurger.getTextureCoords(),dataBurger.getNormals() , dataBurger.getIndices());
                 TexturedModel tMBurger = new TexturedModel(modelBurger, textureBurger);
                 pionsNonTries.add(new Entity(tMBurger, new Vector3f(0,0,0), 0, 0, 0, 0.03f, true));
-                entities.add(pionsNonTries.get(pionsNonTries.size()-1));
                                 
                 ModelTexture textureBanana = new ModelTexture(loader.loadTexture("banana"));
                 ModelData dataBanana = OBJFileLoader.loadOBJ("banana");
                 RawModel modelBanana = loader.loadToVAO(dataBanana.getVertices(), dataBanana.getTextureCoords(),dataBanana.getNormals() , dataBanana.getIndices());
                 TexturedModel tMBanana = new TexturedModel(modelBanana, textureBanana);
                 pionsNonTries.add(new Entity(tMBanana, new Vector3f(0,0,0), 0, 0, 0, 0.05f, true));
-                entities.add(pionsNonTries.get(pionsNonTries.size()-1));
                 
                 ModelTexture textureClock = new ModelTexture(loader.loadTexture("clock"));
                 ModelData dataClock = OBJFileLoader.loadOBJ("clock");
                 RawModel modelClock = loader.loadToVAO(dataClock.getVertices(), dataClock.getTextureCoords(),dataClock.getNormals() , dataClock.getIndices());
                 TexturedModel tMClock = new TexturedModel(modelClock, textureClock);
                 pionsNonTries.add(new Entity(tMClock, new Vector3f(0,0,0), 0, 0, 0, 0.1f, true));
-                entities.add(pionsNonTries.get(pionsNonTries.size()-1));
                 
                 ModelTexture textureCan = new ModelTexture(loader.loadTexture("can"));
                 ModelData dataCan = OBJFileLoader.loadOBJ("can");
                 RawModel modelCan = loader.loadToVAO(dataCan.getVertices(), dataCan.getTextureCoords(),dataCan.getNormals() , dataCan.getIndices());
                 TexturedModel tMCan = new TexturedModel(modelCan, textureCan);
                 pionsNonTries.add(new Entity(tMCan, new Vector3f(0,0,0), 0, 0, 0, 0.2f, true));
-                entities.add(pionsNonTries.get(pionsNonTries.size()-1));
                 
                 ModelTexture textureNokia = new ModelTexture(loader.loadTexture("nokia"));
                 ModelData dataNokia = OBJFileLoader.loadOBJ("nokia");
                 RawModel modelNokia = loader.loadToVAO(dataNokia.getVertices(), dataNokia.getTextureCoords(),dataNokia.getNormals() , dataNokia.getIndices());
                 TexturedModel tMNokia = new TexturedModel(modelNokia, textureNokia);
                 pionsNonTries.add(new Entity(tMNokia, new Vector3f(0,0,0), 0, 0, 0, 0.05f, true));
-                entities.add(pionsNonTries.get(pionsNonTries.size()-1));
                 
                 ModelTexture textureTurret = new ModelTexture(loader.loadTexture("turret"));
                 ModelData dataTurret = OBJFileLoader.loadOBJ("turret");
                 RawModel modelTurret = loader.loadToVAO(dataTurret.getVertices(), dataTurret.getTextureCoords(),dataTurret.getNormals() , dataTurret.getIndices());
                 TexturedModel tMTurret = new TexturedModel(modelTurret, textureTurret);
                 pionsNonTries.add(new Entity(tMTurret, new Vector3f(0,0,0), 0, 0, 0, 0.25f, true));
-                entities.add(pionsNonTries.get(pionsNonTries.size()-1));
                 
                 // cartes chance
                 ModelData dataCartesCComm = OBJFileLoader.loadOBJ("cartesChance");
@@ -233,14 +232,21 @@ public class IhmOpenGL {
                 this.afficherMaisons((Propriete)ca);
             }
             int nb = 0;
-            /*for(Joueur j:ca.getJoueurs()){
+            while(this.pionsNonTries.size()<6){
+                try {
+                    Thread.sleep(60);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(IhmOpenGL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            for(Joueur j:ca.getJoueurs()){
                 this.afficherPion(j,nb);
-            }*/
+            }
         }
     }
 
     public void afficherPion(Joueur j,int nb){
-        double x,z;
+        double x = 0;double z = 0;
         Rectangle r0 = Plateau.numCarreauToCoords(j.getPositionCourante().getNumero());
         toolbox.Rectangle r = new toolbox.Rectangle(r0.getX0(),r0.getX1(),r0.getY0(),r0.getY1());
         if(j.getPositionCourante().getNumero()==10){
@@ -248,9 +254,11 @@ public class IhmOpenGL {
         }else if(j.getPositionCourante().getNumero()==40){
             
         }else{
-            x = (3/4-(nb%2)*0.5)*(r.getX0()+r.getX1());
-            z = (3/4-(nb%2)*0.5)*(r.getY0()+r.getY1());
+            x = (0.75-((double)(nb%2))*0.5)*((r.getX0()/520-1)+(r.getX1()/520-1));
+            z = (0.75-((double)(nb%2))*0.5)*((r.getY0()/520-1)+(r.getY1()/520-1));
         }
+        Entity pion = this.getPion(j);
+        pion.setPosition((float) x,0, (float) z);
     }
     
     private synchronized void afficherMaisons(Propriete propriete) {
@@ -276,15 +284,38 @@ public class IhmOpenGL {
         }
     }
     
+    private Entity getPion(Joueur j){
+        if(!this.pions.containsKey(j.getNomJoueur())){
+            this.assignerPion(j);
+            this.entities.add(this.pions.get(j.getNomJoueur()));
+        }
+        return this.pions.get(j.getNomJoueur());
+    }
+    
+    private void assignerPion(Joueur j){
+        TypePions t = this.ihm3d.askTypePion(j.getIndicePion()); // LOLOLOLOLOLOLOLOLOLOLOLOLKARIM
+        Entity p;
+        int i = -1;
+        switch(t){
+            case Banane: i=1; break;
+            case Hamburger: i=0; break;
+            case Canette: i=2;break;
+            case Horloge: i=3;break;
+            case Telephone: i=4;break;
+            case Portal: i=5;break;
+        }
+        this.pions.put(j.getNomJoueur(), this.pionsNonTries.get(i));
+    }
+    
     public int getCarreauSelected(){
         int c = this.coordsToNumCase(this.cursor.getPosition().x, this.cursor.getPosition().z);
         if(c==-1){
-            System.out.println(this.cursor.getPosition().x+" "+this.cursor.getPosition().z);
+            //System.out.println(this.cursor.getPosition().x+" "+this.cursor.getPosition().z);
             toolbox.Rectangle rcom = new toolbox.Rectangle(-2,2,1,-1);
             rcom.scale(this.cartesCComm.getScale());
             rcom.rotate(-Math.toRadians(this.cartesCComm.getRotY()));
             rcom.moveCentre(new Point(-this.cartesCComm.getPosition().x,-this.cartesCComm.getPosition().z));
-            System.out.println(rcom.toString());
+            //System.out.println(rcom.toString());
             Point[] points = rcom.getFourPoints();
             double[] vertx = new double[4];
             double[] verty = new double[4];
@@ -318,4 +349,3 @@ public class IhmOpenGL {
     }
     
 }
-

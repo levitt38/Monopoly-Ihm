@@ -265,7 +265,7 @@ public class FrameJeu extends javax.swing.JFrame {
         setSize(1280, 720);
         setLocationRelativeTo(null); 
         setVisible(true);
-        this.panelPlateau1.initialiserPlateau();
+        this.panelPlateau1.initialiserPlateau(this.ihm);
         new Thread(){
             public void run(){
                 mouseLoop();

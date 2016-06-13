@@ -32,12 +32,12 @@ public class PanelPlateau extends JPanel{
         return op;
     }
    
-    public void initialiserPlateau(){
+    public void initialiserPlateau(Ihm3d ihm3d){
         try {
             this.add(c);
             c.setSize(1280,720);
             Display.setParent(c);
-            op = new IhmOpenGL();
+            op = new IhmOpenGL(ihm3d);
         } catch (LWJGLException ex) {
             this.swing = true;
             this.plateau = new Plateau(800,800);
