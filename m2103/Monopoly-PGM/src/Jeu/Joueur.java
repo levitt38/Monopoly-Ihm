@@ -14,6 +14,7 @@ public class Joueur implements Serializable{
 	private int _cash = 1500;
         private int doublesALaSuite = 0;
         private int nb_toursEnPrison = 0;
+        private int indicePion;
         private boolean dernierDouble = false;
 	private HashSet<Gare> _gares;
         private HashSet<Propriete> _proprietes;
@@ -59,13 +60,14 @@ public class Joueur implements Serializable{
         }
     }
 
-    public Joueur(String _nomJoueur, Carreau pos) {
+    public Joueur(String _nomJoueur, Carreau pos, int indicePion) {
         this._nomJoueur = _nomJoueur;
         this.setPositionCourante(pos);
         this._gares = new HashSet<>(); 
         this._proprietes = new HashSet<>();
         this._compagnies = new HashSet<>();
         this._carreaux = new HashSet<>();
+        this.indicePion = indicePion;
     }
     
     public boolean estBankrupt(){
@@ -222,4 +224,10 @@ public class Joueur implements Serializable{
        s += "</html>";
        return s;
    }
+
+    public int getIndicePion() {
+        return indicePion;
+    }
+   
+   
 }

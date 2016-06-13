@@ -250,7 +250,7 @@ public class Controleur implements Serializable{
     }
     
     public void ajouterJoueur(String s){
-        this.monopoly.addJoueur(new Joueur(s,this.monopoly.getCarreau(0)));
+        this.monopoly.addJoueur(new Joueur(s,this.monopoly.getCarreau(0),this.monopoly.getJoueurs().size()+1));
     }
     
     public void mainLoop(){
