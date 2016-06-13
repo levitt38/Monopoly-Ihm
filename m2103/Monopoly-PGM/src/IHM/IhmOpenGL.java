@@ -226,21 +226,22 @@ public class IhmOpenGL {
 
     public synchronized void afficherPlateau(HashMap<String, Carreau> c) {
         this.maisons = new ArrayList<>();
+        while(this.pionsNonTries.size()<6){
+            try {
+                Thread.sleep(60);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(IhmOpenGL.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         for(int i=0;i<c.size();i++){
             Carreau ca = c.get(Integer.toString(i));
             if (ca instanceof Propriete){
                 this.afficherMaisons((Propriete)ca);
             }
             int nb = 0;
-            while(this.pionsNonTries.size()<6){
-                try {
-                    Thread.sleep(60);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(IhmOpenGL.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
             for(Joueur j:ca.getJoueurs()){
                 this.afficherPion(j,nb);
+                nb++;
             }
         }
     }
@@ -249,16 +250,24 @@ public class IhmOpenGL {
         double x = 0;double z = 0;
         Rectangle r0 = Plateau.numCarreauToCoords(j.getPositionCourante().getNumero());
         toolbox.Rectangle r = new toolbox.Rectangle(r0.getX0(),r0.getX1(),r0.getY0(),r0.getY1());
+        r.scale(1.0/400,new Point(400,400));
+        r.moveCentre(new Point(-400,-400));
+        System.out.println(r.getCentre().toString());
         if(j.getPositionCourante().getNumero()==10){
-            
+            x=-0.95;
+            z=-0.95;
         }else if(j.getPositionCourante().getNumero()==40){
             
         }else{
-            x = (0.75-((double)(nb%2))*0.5)*((r.getX0()/520-1)+(r.getX1()/520-1));
-            z = (0.75-((double)(nb%2))*0.5)*((r.getY0()/520-1)+(r.getY1()/520-1));
+            //x = (0.75-((double)(nb%2))*0.5)*(r.getX0()+r.getX1());
+            x=(0.25+0.5*(nb%2))*(r.getX1()-r.getX0())+r.getX0();
+            //z = (0.75-((double)(nb%2))*0.5)*(r.getY0()+r.getY1());
+            //z = (r.getY0()/4.0*(1.0+2.0*(nb%2)))+(r.getY1()/4.0*(1.0+(2.0*(nb+1)%2)));
+            z=(0.25+0.5*(nb%2))*(r.getY1()-r.getY0())+r.getY0();
         }
         Entity pion = this.getPion(j);
         pion.setPosition((float) x,0, (float) z);
+        pion.setRotY(90*(j.getPositionCourante().getNumero()/10));
     }
     
     private synchronized void afficherMaisons(Propriete propriete) {

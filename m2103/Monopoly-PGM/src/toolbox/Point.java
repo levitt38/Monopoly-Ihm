@@ -43,4 +43,8 @@ public class Point {
         this.x=-this.x;
         this.y=-this.y;
     }
+    
+    public static Point negate(Point p){
+        return new Point(-p.x,-p.y);
+    }
 }

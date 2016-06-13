@@ -52,6 +52,17 @@ public class Rectangle {
         this.p1.setY((this.getY1()-centre.getY())*s+centre.getY());
     }
     
+    public void scale(double s, Point p){
+        this.moveCentre(Point.negate(p));
+        
+        this.getP0().setX(this.getX0()*s);
+        this.getP1().setX(this.getX1()*s);
+        this.getP0().setY(this.getY0()*s);
+        this.getP1().setY(this.getY1()*s);
+        
+        this.moveCentre(p);
+    }
+    
     public double getRayon(){
         return Math.sqrt((this.getX0()-this.getX1())*(this.getX0()-this.getX1())+(this.getY0()-this.getY1())*(this.getY0()-this.getY1()))/2;
     }
