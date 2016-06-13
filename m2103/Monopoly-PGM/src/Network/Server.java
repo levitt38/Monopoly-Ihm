@@ -64,7 +64,7 @@ public class Server {
                 message = (InitMessage) this.sInput.readObject();
                 // Inscription du premier client
                 // inscription niveau jeu
-                this.controleur.getMonopoly().addJoueur(new Joueur(message.getNom_joueur(),this.controleur.getMonopoly().getCarreau(0)));
+                this.controleur.getMonopoly().addJoueur(new Joueur(message.getNom_joueur(),this.controleur.getMonopoly().getCarreau(0),this.controleur.getMonopoly().getCarreaux().size()+1));
                 // inscription niveau réseau
                 ObjectOutputStream outStream = this.sOutput;
                 ObjectInputStream inStream  = this.sInput;     
@@ -107,7 +107,7 @@ public class Server {
                     message = (InitMessage) this.sInput.readObject();
                     // Inscription du premier client
                     // inscription niveau jeu
-                    Joueur joueur = new Joueur(message.getNom_joueur(),this.controleur.getMonopoly().getCarreau(0));
+                    Joueur joueur = new Joueur(message.getNom_joueur(),this.controleur.getMonopoly().getCarreau(0),this.controleur.getMonopoly().getCarreaux().size()+1);
                     this.controleur.getMonopoly().addJoueur(joueur);
                     // inscription niveau réseau
                     ObjectOutputStream outStream = this.sOutput;

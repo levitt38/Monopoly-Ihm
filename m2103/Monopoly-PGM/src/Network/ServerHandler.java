@@ -42,7 +42,7 @@ public class ServerHandler implements Observateur{
     public void notifier(DataModel d) {
         Evenement event = (d.getE()!=null) ? d.getE() : Evenement.Rien;
         Carreau c = (d.getC()!=null) ? d.getC() : new CarreauInutile(0, ""); 
-        Joueur j = (d.getJ()!=null) ? d.getJ() : new Joueur("", c);
+        Joueur j = (d.getJ()!=null) ? d.getJ() : new Joueur("", c,0);
         CarreauAchetable cAchetable;
         Client client = d.getClient();
         DataModel message;

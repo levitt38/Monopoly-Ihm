@@ -143,7 +143,17 @@ public class FrameJeu extends javax.swing.JFrame {
         getContentPane().add(PanelJoueur);
         PanelJoueur.setBounds(0, 0, 300, 360);
 
-        panelPlateau1.setLayout(null);
+        javax.swing.GroupLayout panelPlateau1Layout = new javax.swing.GroupLayout(panelPlateau1);
+        panelPlateau1.setLayout(panelPlateau1Layout);
+        panelPlateau1Layout.setHorizontalGroup(
+            panelPlateau1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1280, Short.MAX_VALUE)
+        );
+        panelPlateau1Layout.setVerticalGroup(
+            panelPlateau1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 720, Short.MAX_VALUE)
+        );
+
         getContentPane().add(panelPlateau1);
         panelPlateau1.setBounds(0, 0, 1280, 720);
 
