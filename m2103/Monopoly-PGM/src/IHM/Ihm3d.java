@@ -59,9 +59,9 @@ public class Ihm3d extends Ihm{
     }
     
     public void startConnecttoServer(){
+        client = new Client(this);
         new Thread(){
             public void run(){
-            client = new Client(new Ihm3d());
             client.ConnecttoServer();
             }
         }.start();    
@@ -75,9 +75,9 @@ public class Ihm3d extends Ihm{
             if(client.isHost()){
                 client.InitNb_Joueur();
             }
-            client.setIhm(new IhmConsole(controler));
-            frame_accueil.setVisible(false);
+            frame_accueil.dispose();
             frame_jeu.setVisible(true);
+            frame_jeu.afficher();
             client.InitPartie();
             client.mainLoop();
              }
@@ -104,19 +104,14 @@ public class Ihm3d extends Ihm{
     }
     
     public void affiche(EventIhm e,final String s, int num){
-       
-            EventQueue.invokeLater(new Runnable() {
+            SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     frame_jeu.getTextAction().setText(s);
                     frame_jeu.showAction();
                 }
             });
-        
-        
-        
-                 
-    }
+}
     
     public void affiche(EventIhm e, String titre, String s){
         this.affiche(e, s,0);
@@ -156,26 +151,28 @@ public class Ihm3d extends Ihm{
     
     public boolean askYN(final String s){
         Boolean choix;
-        
             SwingUtilities.invokeLater(new Runnable() {
+                @Override
                 public void run() {
+                    frame_jeu.showBoutons();
                     frame_jeu.getTextAction().setText(s);
+                    frame_jeu.showAction();
                 }});
-    
-
-    
+        
+                
         System.out.println(this.frame_jeu.getTextAction().getText());
         // Animation droite => gauche dans version finale
         while(this.frame_jeu.isYesNoSaisi()==false){
-            System.out.println("debug");
-            /*try {
+            
+            try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Ihm3d.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+            }
     }
         choix = this.frame_jeu.isYesNoChoix();
         this.frame_jeu.setYesNoSaisi(false);
+        this.frame_jeu.cacherBoutons();
         return choix;
     };
     
@@ -188,24 +185,24 @@ public class Ihm3d extends Ihm{
     }
     
     public void afficherJoueur(final Joueur j){
-        
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     frame_jeu.getTextJoueur().setText(j.affiche3d());
-                    frame_jeu.getTextCarreau().setText(j.getPositionCourante().affiche3d());
                     frame_jeu.showJoueur();
-                    frame_jeu.showCarreau();
                 }
             });
-        
-        
-        
     }            
     
     
     public void afficherCarreau(final Carreau c){
-       
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    frame_jeu.getTextCarreau().setText(c.affiche3d());
+                    frame_jeu.showCarreau();
+                }
+            });
     }
     
     public void afficherPlateau(HashMap<String,Carreau> c){

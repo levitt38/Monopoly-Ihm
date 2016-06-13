@@ -89,8 +89,8 @@ public class AnimationFrame {
     public static void LeftToRight(final JComponent nouveau){
                 nouveau.setLocation(-850, nouveau.getY());
                 nouveau.revalidate();
-                for(int i=0;i<170;i++){
-                    nouveau.setLocation(nouveau.getX()+5, nouveau.getY());
+                for(int i=0;i<85;i++){
+                    nouveau.setLocation(nouveau.getX()+10, nouveau.getY());
                     nouveau.revalidate();
                     try {
                         Thread.sleep(10);
@@ -106,8 +106,8 @@ public class AnimationFrame {
                 }
                 nouveau.setLocation(0, nouveau.getY());
                 nouveau.revalidate();
-                for(int i=0;i<170;i++){
-                    nouveau.setLocation(nouveau.getX()-5, nouveau.getY());
+                for(int i=0;i<85;i++){
+                    nouveau.setLocation(nouveau.getX()-10, nouveau.getY());
                     nouveau.revalidate();
                         try {
                             Thread.sleep(10);
@@ -120,8 +120,8 @@ public class AnimationFrame {
     public static void AnimSelectPerso(final JComponent nouveau){
                 nouveau.setLocation(nouveau.getX(), -300);
                 nouveau.revalidate();
-                for(int i=0;i<150;i++){
-                    nouveau.setLocation(nouveau.getX(), nouveau.getY()+2);
+                for(int i=0;i<75;i++){
+                    nouveau.setLocation(nouveau.getX(), nouveau.getY()+4);
                     nouveau.revalidate();
                         try {
                             Thread.sleep(10);
@@ -136,8 +136,8 @@ public class AnimationFrame {
                     return;
                 }
                 nouveau.revalidate();
-                for(int i=0;i<150;i++){
-                    nouveau.setLocation(nouveau.getX(), nouveau.getY()-2);
+                for(int i=0;i<75;i++){
+                    nouveau.setLocation(nouveau.getX(), nouveau.getY()-4);
                     nouveau.revalidate();
                         try {
                             Thread.sleep(10);
@@ -147,12 +147,12 @@ public class AnimationFrame {
                     }
     }
     
-    public static void afficherMenu(final JComponent nouveau){
+    public synchronized static void afficherMenu(final JComponent nouveau){
         nouveau.setLocation(-300, nouveau.getY());
-        nouveau.revalidate();
+        //nouveau.revalidate();
         for(int i=0;i<100;i++){
             nouveau.setLocation(nouveau.getX()+3, nouveau.getY());
-            nouveau.revalidate();
+            //nouveau.revalidate();
             try {
                 Thread.sleep(3);
             } catch (InterruptedException ex) {
@@ -160,12 +160,12 @@ public class AnimationFrame {
             }
         }
     }
-    public static void cacherMenu(final JComponent nouveau){
+    public synchronized static void cacherMenu(final JComponent nouveau){
         nouveau.setLocation(0, nouveau.getY());
-        nouveau.revalidate();
+        //nouveau.revalidate();
         for(int i=0;i<100;i++){
             nouveau.setLocation(nouveau.getX()-3, nouveau.getY());
-            nouveau.revalidate();
+            //nouveau.revalidate();
             try {
                 Thread.sleep(3);
             } catch (InterruptedException ex) {
@@ -174,12 +174,12 @@ public class AnimationFrame {
         }
     }
     
-    public static void afficherMenuAction(final JComponent nouveau){
+    public synchronized static void afficherMenuAction(final JComponent nouveau){
         nouveau.setLocation(1280, nouveau.getY());
-        nouveau.revalidate();
+        //nouveau.revalidate();
         for(int i=0;i<100;i++){
             nouveau.setLocation(nouveau.getX()-4, nouveau.getY());
-            nouveau.revalidate();
+            //nouveau.revalidate();
             try {
                 Thread.sleep(3);
             } catch (InterruptedException ex) {
@@ -187,12 +187,12 @@ public class AnimationFrame {
             }
         }
     }
-    public static void cacherMenuAction(final JComponent nouveau){
+    public synchronized static void cacherMenuAction(final JComponent nouveau){
         nouveau.setLocation(880, nouveau.getY());
-        nouveau.revalidate();
+        //nouveau.revalidate();
         for(int i=0;i<100;i++){
             nouveau.setLocation(nouveau.getX()+4, nouveau.getY());
-            nouveau.revalidate();
+            //nouveau.revalidate();
             try {
                 Thread.sleep(3);
             } catch (InterruptedException ex) {

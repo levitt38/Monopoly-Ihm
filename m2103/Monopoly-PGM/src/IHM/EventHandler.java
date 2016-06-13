@@ -77,19 +77,19 @@ public class EventHandler implements Observateur{
                                  }   
                                 break;
             case FinTour : this.ihm.afficherFinTour();break;
-            case TirerCarte : this.tirerCarte(((CarreauCarte)c).getTypeCarte());this.controleur.tirerCarte(j,((CarreauCarte)c).getTypeCarte());break;
+            case TirerCarte : this.tirerCarte(((CarreauCarte)c).getTypeCarte());
+                                try {
+                                        Thread.sleep(2000);
+                                    } catch (InterruptedException ex) {
+                                        Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                this.controleur.tirerCarte(j,((CarreauCarte)c).getTypeCarte());break;
             case PasAssezDArgent : this.ihm.affiche(EventIhm.affichedeBase,"Vous n'avez pas assez d'argent pour effectuer cette action.",0);break;
             case PasNivele : this.ihm.affiche(EventIhm.affichedeBase,"Vous devez d'abord construire sur les autres terrains de ce groupe.",0);break;
             case PlusDeMaisons : this.ihm.affiche(EventIhm.affichedeBase,"Il n'y a plus de maisons disponibles.",0);break;
             case TropDeMaisons : this.ihm.affiche(EventIhm.affichedeBase,"Il y a déjà le nombre maximal de maisons sur ce terrain.",0);break;
-            case DebutTour : this.ihm.afficherPlateau(d.getCarreaux());
-                            this.ihm.afficherJoueur(j);
-   
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(EventHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            case DebutTour : this.ihm.afficherJoueur(j);
+                            this.ihm.afficherPlateau(d.getCarreaux());
     
                             break;
             case InitialiserPartie : int nb = this.ihm.askNb(EventIhm.askNb_joueur, "Entrez le nombre de joueurs");
@@ -116,7 +116,8 @@ public class EventHandler implements Observateur{
             case AskString : d.setS(this.ihm.askStr(EventIhm.askdeBase, d.getS(),0));break;
             case AskNb : d.setI(this.ihm.askNb(EventIhm.askdeBase, d.getS()));break;
             case Affiche : this.ihm.affiche(EventIhm.affichedeBase,d.getS(),0); break;
-            default : this.ihm.affiche(EventIhm.affichedeBase,"Vous êtes tranquille. Pour le moment...",0);;
+            case Rien : this.ihm.affiche(EventIhm.affichedeBase, "Vous etes sur le parc !" , 0);
+            default : this.ihm.affiche(EventIhm.affichedeBase,"Vous êtes tranquille. Pour le moment...",0); break;
         }
     }
     

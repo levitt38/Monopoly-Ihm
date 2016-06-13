@@ -8,6 +8,7 @@ package IHM;
 import FrameAcceuil.AnimationFrame;
 import Jeu.Carreau;
 import Jeu.Joueur;
+import java.awt.Frame;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ import org.lwjgl.input.Mouse;
  * @author Louis
  */
 public class FrameJeu extends javax.swing.JFrame {
-
+    private int XDrag, YDrag;
     private int width = 800;
     private int height = 800;
     private boolean menuAff = false;
@@ -37,6 +38,7 @@ public class FrameJeu extends javax.swing.JFrame {
         this.YesNoSaisi = false; // ce boolean permet d'attendre un input utilisateur Yes/No
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.cacherBoutons();
     }
 
     /**
@@ -48,6 +50,10 @@ public class FrameJeu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        BarreVerticale = new javax.swing.JPanel();
+        BExit = new javax.swing.JButton();
+        BMin = new javax.swing.JButton();
+        FondBarre = new javax.swing.JLabel();
         PanelAction = new javax.swing.JPanel();
         TextAction = new javax.swing.JLabel();
         BActionNon = new javax.swing.JButton();
@@ -66,8 +72,45 @@ public class FrameJeu extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(1280, 720));
+        setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(null);
+
+        BarreVerticale.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                BarreVerticaleMousePressed(evt);
+            }
+        });
+        BarreVerticale.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                BarreVerticaleMouseDragged(evt);
+            }
+        });
+        BarreVerticale.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        BExit.setBorderPainted(false);
+        BExit.setContentAreaFilled(false);
+        BExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BExitActionPerformed(evt);
+            }
+        });
+        BarreVerticale.add(BExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 7, 25, 20));
+
+        BMin.setBorderPainted(false);
+        BMin.setContentAreaFilled(false);
+        BMin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BMinActionPerformed(evt);
+            }
+        });
+        BarreVerticale.add(BMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 44, 25, 20));
+
+        FondBarre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BarreVertical.png"))); // NOI18N
+        BarreVerticale.add(FondBarre, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 720));
+
+        getContentPane().add(BarreVerticale);
+        BarreVerticale.setBounds(0, 0, 40, 720);
 
         PanelAction.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -104,8 +147,9 @@ public class FrameJeu extends javax.swing.JFrame {
         PanelCarreau.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         TextCarreau.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        TextCarreau.setText("<html>Twinkle, twinkle, little star,<BR>How I wonder what you are.<BR>Up above the world so high,<BR>Like a diamond in the sky.</html>");
-        PanelCarreau.add(TextCarreau, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 240, 200));
+        TextCarreau.setForeground(new java.awt.Color(204, 204, 204));
+        TextCarreau.setText("...............");
+        PanelCarreau.add(TextCarreau, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 240, 200));
 
         ExitCarreau.setBorderPainted(false);
         ExitCarreau.setContentAreaFilled(false);
@@ -116,7 +160,7 @@ public class FrameJeu extends javax.swing.JFrame {
         });
         PanelCarreau.add(ExitCarreau, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 5, 40, 40));
 
-        FondCarreau.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/PanelCarreau.png"))); // NOI18N
+        FondCarreau.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/PanelCarreau2.png"))); // NOI18N
         PanelCarreau.add(FondCarreau, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(PanelCarreau);
@@ -125,8 +169,9 @@ public class FrameJeu extends javax.swing.JFrame {
         PanelJoueur.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         TextJoueur.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        TextJoueur.setText("<html>Twinkle, twinkle, little star,<BR>How I wonder what you are.<BR>Up above the world so high,<BR>Like a diamond in the sky.</html>");
-        PanelJoueur.add(TextJoueur, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 240, 200));
+        TextJoueur.setForeground(new java.awt.Color(204, 204, 204));
+        TextJoueur.setText("............");
+        PanelJoueur.add(TextJoueur, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 240, 200));
 
         ExitJoueur.setBorderPainted(false);
         ExitJoueur.setContentAreaFilled(false);
@@ -137,7 +182,7 @@ public class FrameJeu extends javax.swing.JFrame {
         });
         PanelJoueur.add(ExitJoueur, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 5, 40, 40));
 
-        FondJoueur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/PanelJoueur.png"))); // NOI18N
+        FondJoueur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/PanelJoueur2.png"))); // NOI18N
         PanelJoueur.add(FondJoueur, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(PanelJoueur);
@@ -163,11 +208,13 @@ public class FrameJeu extends javax.swing.JFrame {
     private void BActionNonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BActionNonActionPerformed
         this.YesNoChoix = false; //le choix est non
         this.YesNoSaisi = true; //continue le programme
+        this.cacherAction();
     }//GEN-LAST:event_BActionNonActionPerformed
 
     private void BActionOuiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BActionOuiActionPerformed
         this.YesNoChoix = true; //le choix est non
         this.YesNoSaisi = true; //continue le programme
+        this.cacherAction();
     }//GEN-LAST:event_BActionOuiActionPerformed
 
     private void ExitJoueurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitJoueurActionPerformed
@@ -186,6 +233,23 @@ public class FrameJeu extends javax.swing.JFrame {
             }
         }.start();
     }//GEN-LAST:event_ExitCarreauActionPerformed
+
+    private void BMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BMinActionPerformed
+        this.setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_BMinActionPerformed
+
+    private void BExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BExitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_BExitActionPerformed
+
+    private void BarreVerticaleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarreVerticaleMousePressed
+        this.XDrag = evt.getX();
+        this.YDrag = evt.getY();
+    }//GEN-LAST:event_BarreVerticaleMousePressed
+
+    private void BarreVerticaleMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarreVerticaleMouseDragged
+        this.setLocation(evt.getXOnScreen()-this.XDrag, evt.getYOnScreen()-this.YDrag);
+    }//GEN-LAST:event_BarreVerticaleMouseDragged
 
     /**
      * @param args the command line arguments
@@ -291,9 +355,13 @@ public class FrameJeu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BActionNon;
     private javax.swing.JButton BActionOui;
+    private javax.swing.JButton BExit;
+    private javax.swing.JButton BMin;
+    private javax.swing.JPanel BarreVerticale;
     private javax.swing.JButton ExitCarreau;
     private javax.swing.JButton ExitJoueur;
     private javax.swing.JLabel FondAction;
+    private javax.swing.JLabel FondBarre;
     private javax.swing.JLabel FondCarreau;
     private javax.swing.JLabel FondJoueur;
     private javax.swing.JPanel PanelAction;
@@ -350,6 +418,14 @@ public class FrameJeu extends javax.swing.JFrame {
         
     }
     
+    public void cacherAction(){
+        new Thread(){
+            public void run(){
+                AnimationFrame.cacherMenuAction(PanelAction);
+            }
+        }.start();
+    }
+    
     public void showJoueur(){
         new Thread(){
             public void run(){
@@ -366,6 +442,16 @@ public class FrameJeu extends javax.swing.JFrame {
             }
         }.start();
         
+    }
+    
+    public void cacherBoutons(){
+        this.BActionNon.setVisible(false);
+        this.BActionOui.setVisible(false);
+    }
+    
+    public void showBoutons(){
+        this.BActionNon.setVisible(true);
+        this.BActionOui.setVisible(true);
     }
    
     
