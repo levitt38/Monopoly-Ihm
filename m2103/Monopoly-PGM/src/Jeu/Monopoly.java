@@ -248,7 +248,7 @@ public class Monopoly implements Serializable{
                 for(int i=0; i<data.size(); ++i){
                         String caseType = data.get(i)[0];
                         Carte c = null;
-                        System.out.println(data.get(i)[2]);
+                        //System.out.println(data.get(i)[2]);
                         if(caseType.compareTo("0") == 0){
                                 c = new CarteTP(data.get(i)[2], type, Integer.valueOf(data.get(i)[1]));
                         }

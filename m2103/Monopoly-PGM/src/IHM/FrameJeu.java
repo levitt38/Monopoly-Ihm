@@ -5,12 +5,16 @@
  */
 package IHM;
 
+import FrameAcceuil.AnimationFrame;
 import Jeu.Carreau;
 import Jeu.Joueur;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import org.lwjgl.input.Mouse;
 
 /**
  *
@@ -23,12 +27,16 @@ public class FrameJeu extends javax.swing.JFrame {
     private boolean menuAff = false;
     private HashMap<String, Carreau> plateau;
     private boolean YesNoSaisi, YesNoChoix;
+    private Ihm3d ihm;
     
-    public FrameJeu(Ihm3d ihm3d) {
-        super("Xtrem Monopoly");
+    public FrameJeu(Ihm3d ihm3d) { // LOUIS C'EST PROVISOIRE JE SAIS BIEN QUE AVEC OPENGL TU CREERA CETTE FRAME  
+                                   //  QUE UNE FOIS LES INFOS SAISIES, SURTOUT LES TYPES DE PIONS               
+        this.ihm = ihm3d;
         initComponents();
         //this.panelPlateau1.setIhm3d(ihm3d);
-        this.YesNoSaisi = false;
+        this.YesNoSaisi = false; // ce boolean permet d'attendre un input utilisateur Yes/No
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     /**
@@ -40,7 +48,6 @@ public class FrameJeu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        EnattendantOpengl = new javax.swing.JPanel();
         PanelAction = new javax.swing.JPanel();
         TextAction = new javax.swing.JLabel();
         BActionNon = new javax.swing.JButton();
@@ -54,19 +61,19 @@ public class FrameJeu extends javax.swing.JFrame {
         TextJoueur = new javax.swing.JLabel();
         ExitJoueur = new javax.swing.JButton();
         FondJoueur = new javax.swing.JLabel();
+        panelPlateau1 = new IHM.PanelPlateau();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1280, 300));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setMinimumSize(new java.awt.Dimension(1280, 720));
+        setResizable(false);
         getContentPane().setLayout(null);
 
-        EnattendantOpengl.setLayout(null);
+        PanelAction.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        PanelAction.setLayout(null);
-
-        TextAction.setFont(new java.awt.Font("Dialog", 2, 24)); // NOI18N
+        TextAction.setFont(new java.awt.Font("Dialog", 2, 10)); // NOI18N
         TextAction.setText("Voulez vous acheter X");
-        PanelAction.add(TextAction);
-        TextAction.setBounds(50, 30, 310, 80);
+        PanelAction.add(TextAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 310, 80));
 
         BActionNon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BoutonNon.png"))); // NOI18N
         BActionNon.setBorderPainted(false);
@@ -76,8 +83,7 @@ public class FrameJeu extends javax.swing.JFrame {
                 BActionNonActionPerformed(evt);
             }
         });
-        PanelAction.add(BActionNon);
-        BActionNon.setBounds(70, 140, 100, 53);
+        PanelAction.add(BActionNon, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 100, 53));
 
         BActionOui.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BoutonOui.png"))); // NOI18N
         BActionOui.setBorderPainted(false);
@@ -87,57 +93,59 @@ public class FrameJeu extends javax.swing.JFrame {
                 BActionOuiActionPerformed(evt);
             }
         });
-        PanelAction.add(BActionOui);
-        BActionOui.setBounds(260, 140, 100, 53);
+        PanelAction.add(BActionOui, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 100, 53));
 
         FondAction.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/PanelAction.png"))); // NOI18N
-        PanelAction.add(FondAction);
-        FondAction.setBounds(0, 0, 400, 200);
+        PanelAction.add(FondAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        EnattendantOpengl.add(PanelAction);
+        getContentPane().add(PanelAction);
         PanelAction.setBounds(880, 0, 400, 200);
 
-        PanelCarreau.setLayout(null);
+        PanelCarreau.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         TextCarreau.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         TextCarreau.setText("<html>Twinkle, twinkle, little star,<BR>How I wonder what you are.<BR>Up above the world so high,<BR>Like a diamond in the sky.</html>");
-        PanelCarreau.add(TextCarreau);
-        TextCarreau.setBounds(30, 110, 240, 200);
+        PanelCarreau.add(TextCarreau, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 240, 200));
 
         ExitCarreau.setBorderPainted(false);
         ExitCarreau.setContentAreaFilled(false);
-        ExitCarreau.setOpaque(false);
-        PanelCarreau.add(ExitCarreau);
-        ExitCarreau.setBounds(254, 5, 40, 40);
+        ExitCarreau.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitCarreauActionPerformed(evt);
+            }
+        });
+        PanelCarreau.add(ExitCarreau, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 5, 40, 40));
 
         FondCarreau.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/PanelCarreau.png"))); // NOI18N
-        PanelCarreau.add(FondCarreau);
-        FondCarreau.setBounds(0, 0, 300, 360);
+        PanelCarreau.add(FondCarreau, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        EnattendantOpengl.add(PanelCarreau);
+        getContentPane().add(PanelCarreau);
         PanelCarreau.setBounds(0, 360, 300, 360);
 
-        PanelJoueur.setLayout(null);
+        PanelJoueur.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         TextJoueur.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         TextJoueur.setText("<html>Twinkle, twinkle, little star,<BR>How I wonder what you are.<BR>Up above the world so high,<BR>Like a diamond in the sky.</html>");
-        PanelJoueur.add(TextJoueur);
-        TextJoueur.setBounds(30, 110, 240, 200);
+        PanelJoueur.add(TextJoueur, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 240, 200));
 
         ExitJoueur.setBorderPainted(false);
         ExitJoueur.setContentAreaFilled(false);
-        PanelJoueur.add(ExitJoueur);
-        ExitJoueur.setBounds(254, 5, 40, 40);
+        ExitJoueur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitJoueurActionPerformed(evt);
+            }
+        });
+        PanelJoueur.add(ExitJoueur, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 5, 40, 40));
 
         FondJoueur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/PanelJoueur.png"))); // NOI18N
-        PanelJoueur.add(FondJoueur);
-        FondJoueur.setBounds(0, 0, 300, 360);
+        PanelJoueur.add(FondJoueur, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        EnattendantOpengl.add(PanelJoueur);
+        getContentPane().add(PanelJoueur);
         PanelJoueur.setBounds(0, 0, 300, 360);
 
-        getContentPane().add(EnattendantOpengl);
-        EnattendantOpengl.setBounds(0, 0, 1280, 720);
+        panelPlateau1.setLayout(null);
+        getContentPane().add(panelPlateau1);
+        panelPlateau1.setBounds(0, 0, 1280, 720);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -152,6 +160,23 @@ public class FrameJeu extends javax.swing.JFrame {
         this.YesNoSaisi = true; //continue le programme
     }//GEN-LAST:event_BActionOuiActionPerformed
 
+    private void ExitJoueurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitJoueurActionPerformed
+        new Thread(){
+            public void run(){
+                AnimationFrame.cacherMenu(PanelJoueur);
+            }
+        }.start();
+        
+    }//GEN-LAST:event_ExitJoueurActionPerformed
+
+    private void ExitCarreauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitCarreauActionPerformed
+        new Thread(){
+            public void run(){
+                AnimationFrame.cacherMenu(PanelCarreau);
+            }
+        }.start();
+    }//GEN-LAST:event_ExitCarreauActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -160,11 +185,11 @@ public class FrameJeu extends javax.swing.JFrame {
         // Create and display the form
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrameJeu(new Ihm3d()).setVisible(true);
+                new FrameJeu(new Ihm3d());
             }
         });
     }
-    /*
+    
     public void mouseLoop(){
         while(true){
             int x = Mouse.getX();
@@ -172,7 +197,7 @@ public class FrameJeu extends javax.swing.JFrame {
                 this.menuAff = true;
                 new Thread(){
                     public void run(){
-                        afficherMenu();
+                        //afficherMenu();
                     }
                 }.start();
 
@@ -194,11 +219,11 @@ public class FrameJeu extends javax.swing.JFrame {
                         this.menuAff = true;
                         new Thread(){
                             public void run(){
-                                afficherMenu();
+                                //afficherMenu();
                             }
                         }.start();
                     }
-                    this.afficherCarreau(this.plateau.get(Integer.toString(nc)));
+                    //this.afficherCarreau(this.plateau.get(Integer.toString(nc)));
                 }
                 // la suite est juste du test, elle sera remove
                 else if(this.plateau!=null&&(nc==IhmOpenGL.CARTES_CHANCE||nc==IhmOpenGL.CARTES_COMMUNAUTE)){
@@ -206,12 +231,12 @@ public class FrameJeu extends javax.swing.JFrame {
                         this.menuAff = true;
                         new Thread(){
                             public void run(){
-                                afficherMenu();
+                                //afficherMenu();
                             }
                         }.start();
                     }
                     String s = (nc==IhmOpenGL.CARTES_CHANCE) ? "Tas de cartes chance" : "Tas de cartes caisse dde communauté";
-                    this.afficherStr(s);
+                    //this.afficherStr(s);
                 }
                 
                 // fin des tests
@@ -247,7 +272,8 @@ public class FrameJeu extends javax.swing.JFrame {
     public void afficherPlateau(HashMap<String, Carreau> c){
         this.plateau = c;
         this.panelPlateau1.rafraîchirPlateau(c);
-    }*/
+        //this.panelPlateau1.getOp().afficherPlateau(c);
+    }
     
     
     
@@ -255,7 +281,6 @@ public class FrameJeu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BActionNon;
     private javax.swing.JButton BActionOui;
-    private javax.swing.JPanel EnattendantOpengl;
     private javax.swing.JButton ExitCarreau;
     private javax.swing.JButton ExitJoueur;
     private javax.swing.JLabel FondAction;
@@ -267,6 +292,7 @@ public class FrameJeu extends javax.swing.JFrame {
     private javax.swing.JLabel TextAction;
     private javax.swing.JLabel TextCarreau;
     private javax.swing.JLabel TextJoueur;
+    private IHM.PanelPlateau panelPlateau1;
     // End of variables declaration//GEN-END:variables
 
     public JLabel getTextAction() {
@@ -289,11 +315,49 @@ public class FrameJeu extends javax.swing.JFrame {
         this.YesNoSaisi = YesNoSaisi;
     }
     
-    
-
     public boolean isYesNoChoix() {
         return YesNoChoix;
     }
 
+    public JPanel getPanelAction() {
+        return PanelAction;
+    }
+
+    public JPanel getPanelCarreau() {
+        return PanelCarreau;
+    }
+
+    public JPanel getPanelJoueur() {
+        return PanelJoueur;
+    }
+
+    public void showAction(){
+        new Thread(){
+            public void run(){
+                AnimationFrame.afficherMenuAction(PanelAction);
+            }
+        }.start();
+        
+    }
+    
+    public void showJoueur(){
+        new Thread(){
+            public void run(){
+                AnimationFrame.afficherMenu(PanelJoueur);
+            }
+        }.start();
+        
+    }
+    
+    public void showCarreau(){
+        new Thread(){
+            public void run(){
+                AnimationFrame.afficherMenu(PanelCarreau);
+            }
+        }.start();
+        
+    }
+   
+    
     
 }

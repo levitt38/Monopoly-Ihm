@@ -55,12 +55,11 @@ public class Client implements Serializable{
         } catch (UnknownHostException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }*/
-        this.nom_joueur = this.ihm.askStr(EventIhm.askNom, "Rentrer votre nom ");
+        this.nom_joueur = this.ihm.askStr(EventIhm.askNom, "Rentrer votre nom ",0);
     }
   
     public Client(int position_joueur,String nom_joueur,ControleurServer controleur, // cet object est utilisé par le serveur uniquement dans une collection
             ObjectOutputStream OutputServer, ObjectInputStream InputServer){
-        this.ihm = new IhmConsole();
         this.handler = new ClientHandler(this,this.ihm);
         ////////////////////////////
         this.position_joueur = position_joueur;
@@ -95,7 +94,7 @@ public class Client implements Serializable{
     }
  
     public void ConnecttoServer(){
-        String ip = ihm.askStr(EventIhm.askIp, "Rentrer l'adresse ip du serveur");
+        String ip = ihm.askStr(EventIhm.askIp, "Rentrer l'adresse ip du serveur",0);
             try {
             this.ip_serveur = InetAddress.getByName(ip.trim());
             } catch (UnknownHostException ex) {ex.printStackTrace();}
@@ -180,7 +179,7 @@ public class Client implements Serializable{
     }
     
     public static void main(String[] args){
-        Client client = new Client(new IhmConsole());   //   CHANGER LE TYPE DE L'IHM A VOTRE GUISE
+        Client client = new Client(new IhmConsole(new Controleur()));   //   CHANGER LE TYPE DE L'IHM A VOTRE GUISE
         client.ConnecttoServer();
         client.InitConnexion();
         if(client.isHost()){
