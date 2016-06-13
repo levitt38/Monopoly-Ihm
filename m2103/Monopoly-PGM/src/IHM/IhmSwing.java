@@ -28,7 +28,7 @@ public class IhmSwing extends Ihm{
     }
     
     @Override
-    public void affiche(EventIhm e, String s) {
+    public void affiche(EventIhm e, String s, int num) {
         IhmBoiteMessage.afficherBoiteMessage(s, 0);
     }
 
@@ -43,7 +43,7 @@ public class IhmSwing extends Ihm{
     }
 
     @Override
-    public String askStr(EventIhm e,String s) {
+    public String askStr(EventIhm e,String s,int num) {
         return IhmBoiteMessage.afficherBoiteMessage("", s);
     }
 
@@ -81,7 +81,7 @@ public class IhmSwing extends Ihm{
     public String askListe(ArrayList<String> choix, String message) {
         String s;boolean tmp;
         do{
-            s=this.askStr(EventIhm.askdeBase, message);
+            s=this.askStr(EventIhm.askdeBase, message,0);
             tmp = false;
             for(String st:choix){
                 tmp = tmp || st.equalsIgnoreCase(st);

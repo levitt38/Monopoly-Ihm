@@ -8,6 +8,7 @@ package IHM;
 import Data.EventIhm;
 import Jeu.Carreau;
 import Jeu.Cartes.Carte;
+import Jeu.Controleur;
 import Jeu.Joueur;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,17 +18,23 @@ import java.util.HashMap;
  * @author Louis
  */
 public class IhmConsole extends Ihm{
-    public IhmConsole() {
+    private Controleur controleur;
+    
+    public IhmConsole(Controleur controleur) {
+        this.controleur = controleur;
     }
 
     @Override
-    public void affiche(EventIhm e, String s) {
-        Questions.affiche(s);
+    public void affiche(EventIhm e, String s, int num) {
+        switch(e){
+            case affichedeBase : Questions.affiche(s);
+                                break;
+        }
     }
 
     @Override
     public void affiche(EventIhm e,String titre, String s) {
-        this.affiche(EventIhm.affichedeBase, s);//hum
+        this.affiche(EventIhm.affichedeBase, s, 0);//hum
     }
 
     @Override
@@ -36,7 +43,7 @@ public class IhmConsole extends Ihm{
     }
 
     @Override
-    public String askStr(EventIhm e, String s) {
+    public String askStr(EventIhm e, String s, int num) {
         return Questions.askStr(s);
     }
 
@@ -79,7 +86,7 @@ public class IhmConsole extends Ihm{
     public String askListe(ArrayList<String> choix, String message) {
         String s;boolean tmp;
         do{
-            s=this.askStr(EventIhm.askdeBase, message);
+            s=this.askStr(EventIhm.askdeBase, message, 0);
             tmp = false;
             for(String st:choix){
                 tmp = tmp || st.equalsIgnoreCase(st);

@@ -147,7 +147,7 @@ public class AnimationFrame {
                     }
     }
     
-    public void afficherMenu(final JComponent nouveau){
+    public static void afficherMenu(final JComponent nouveau){
         nouveau.setLocation(-300, nouveau.getY());
         nouveau.revalidate();
         for(int i=0;i<100;i++){
@@ -160,7 +160,7 @@ public class AnimationFrame {
             }
         }
     }
-    public void cacherMenu(final JComponent nouveau){
+    public static void cacherMenu(final JComponent nouveau){
         nouveau.setLocation(0, nouveau.getY());
         nouveau.revalidate();
         for(int i=0;i<100;i++){
@@ -174,7 +174,7 @@ public class AnimationFrame {
         }
     }
     
-    public void afficherMenuAction(final JComponent nouveau){
+    public static void afficherMenuAction(final JComponent nouveau){
         nouveau.setLocation(1280, nouveau.getY());
         nouveau.revalidate();
         for(int i=0;i<100;i++){
@@ -187,7 +187,7 @@ public class AnimationFrame {
             }
         }
     }
-    public void cacherMenuAction(final JComponent nouveau){
+    public static void cacherMenuAction(final JComponent nouveau){
         nouveau.setLocation(880, nouveau.getY());
         nouveau.revalidate();
         for(int i=0;i<100;i++){

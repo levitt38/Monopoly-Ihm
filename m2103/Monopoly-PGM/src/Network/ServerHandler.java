@@ -28,11 +28,12 @@ import Jeu.Propriete;
  */
 public class ServerHandler implements Observateur{
     private ControleurServer controleur;
-    private Ihm ihm = new IhmConsole();
+    private Ihm ihm;
     public Server server;
     
     public ServerHandler(ControleurServer controleur, Server server){
         this.controleur = controleur;
+        this.ihm = new IhmConsole(controleur);
         this.controleur.setObservateur(this);
         this.server = server;
     }
@@ -153,10 +154,10 @@ public class ServerHandler implements Observateur{
             case FinTour : message = new DataModel(Evenement.FinTour);
                                  this.server.sendMessagetoAll(message);
                                 break;                     
-            case AskString : d.setS(this.ihm.askStr(EventIhm.askdeBase, d.getS()));break;
+            case AskString : d.setS(this.ihm.askStr(EventIhm.askdeBase, d.getS(),0));break;
             case AskNb : d.setI(this.ihm.askNb(EventIhm.askdeBase,d.getS()));break;
-            case Affiche : this.ihm.affiche(EventIhm.affichedeBase,d.getS()); break;
-            default : this.ihm.affiche(EventIhm.affichedeBase,"Vous êtes tranquille. Pour le moment...");;
+            case Affiche : this.ihm.affiche(EventIhm.affichedeBase,d.getS(),0); break;
+            default : this.ihm.affiche(EventIhm.affichedeBase,"Vous êtes tranquille. Pour le moment...",0);;
         }
         }
     

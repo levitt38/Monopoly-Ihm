@@ -60,7 +60,7 @@ public class Camera {
         }
         player.moveYaw(Mouse.getDX()*sensitivity);
         player.movePitch(-1*Mouse.getDY()*sensitivity);*/
-        if(Mouse.isButtonDown(1)){
+        if(Mouse.isButtonDown(0)){
             if(this.wasPressed){
                 double ancienAngle = Math.atan2((double) this.getPosition().getX(),(double) this.getPosition().getZ());
                 int dx = Mouse.getDX();
@@ -87,8 +87,8 @@ public class Camera {
             this.wasPressed = false;
         }
         
-        int dw = (Keyboard.isKeyDown(Keyboard.KEY_ADD)) ? 60 : 0 ;
-        dw = (dw!=0) ? dw : ((Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT))? -60:0);
+        int dw = (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) ? 60 : 0 ;
+        dw = (dw!=0) ? dw : ((Keyboard.isKeyDown(Keyboard.KEY_RCONTROL))? -60:0);
         dw = (dw!=0) ? dw : Mouse.getDWheel();
         double dDistance = (this.getDistanceCentreV()-((double)dw)*this.WHEEL_SPEED);
         if(dw!=0 && ((dw>0 && dDistance>this.ZOOM_IN_LIMIT)||(dw<0 && dDistance<this.ZOOM_OUT_LIMIT) )){
@@ -96,7 +96,7 @@ public class Camera {
             player.setPosition(player.getPosition().getX()*ratio,player.getPosition().getY()*ratio, player.getPosition().getZ()*ratio);
         }
         
-        if(Mouse.isButtonDown(0)){
+        if(Mouse.isButtonDown(1)){
             // Ray Casting
             int mX = Mouse.getX();
             int mY = Mouse.getY();
