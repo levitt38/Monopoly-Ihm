@@ -22,6 +22,8 @@ import Jeu.Propriete;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -38,6 +40,11 @@ public class ControleurServer extends Controleur implements Serializable{ // per
     public void payerJoueur(Joueur j){
         j.recevoirPaie();
         this.observateur.notifier(new DataModel(j,Evenement.PasseParDepart));
+        try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                }
     }
     
     public void setObservateur(ServerHandler obs){
@@ -54,6 +61,11 @@ public class ControleurServer extends Controleur implements Serializable{ // per
         c.setOwner(j);
         j.addCartePossedee(c);
         this.observateur.notifier(new DataModel(Evenement.CarteTiree,c,j,client));
+        try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                }
     }
     
     @Override
@@ -73,7 +85,12 @@ public class ControleurServer extends Controleur implements Serializable{ // per
             if(j.getDoublesALaSuite()>=3){
                 j.setDoublesALaSuite(0);
                 throw new joueurTripleDouble();
-            } else { observateur.notifier(new DataModel(j,Evenement.Double));}
+            } else { observateur.notifier(new DataModel(j,Evenement.Double));
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                    }}
         } else { this.lancerDouble=false; }
         lancer += lancer2;
         //Cette ligne sert a récupérer le montant des dès du lancer pour réaliser le loyer d'une compagnie
@@ -89,6 +106,11 @@ public class ControleurServer extends Controleur implements Serializable{ // per
         position = position%40;
         //Affichage IHM des dès
         observateur.notifier(new DataModel(lancer,j,Evenement.LancersDes));
+        try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                    }
         //Return carreau correspondant
         return monopoly.getCarreau(position);
     }
@@ -111,6 +133,11 @@ public class ControleurServer extends Controleur implements Serializable{ // per
             j.removeCarreauAchetable(c);
         }
         this.observateur.notifier(new DataModel(j,Evenement.Bankrupt));
+        try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                    }
     }
     
     public void restePrison(Joueur j, Client client){
@@ -120,9 +147,19 @@ public class ControleurServer extends Controleur implements Serializable{ // per
         if(lancer1==lancer2){
             j.setPositionCourante(this.monopoly.getCarreau(10));
             this.observateur.notifier(new DataModel(j,Evenement.SortieDePrisonDes, client));
+            try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                    }
             // IL FAUDRA GERER LE FAIT QUE LE JOUEUR REJOUE DIRECT DANS LA MAINLOOP
             return; // sort de la méthode
-        } else {this.observateur.notifier(new DataModel(j,Evenement.ResterPrison,client)); }
+        } else {this.observateur.notifier(new DataModel(j,Evenement.ResterPrison,client)); 
+            try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                    }}
         
         j.setNb_toursEnPrison(j.getNb_toursEnPrison()+1);
         
@@ -130,6 +167,11 @@ public class ControleurServer extends Controleur implements Serializable{ // per
             j.setCash(j.getCash()-50);
             j.setPositionCourante(this.monopoly.getCarreau(10));
             this.observateur.notifier(new DataModel(j,Evenement.SortieDePrisonCaution,client));
+            try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                    }
         }
     }
     
@@ -147,6 +189,11 @@ public class ControleurServer extends Controleur implements Serializable{ // per
     public void construire(Propriete p, Client client){
         if(p.getProprietaire().getCash()<p.getPrixMaison()){
             this.observateur.notifier(new DataModel(Evenement.PasAssezDArgent,client));
+            try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                    }
         }else{
             this.monopoly.construire(p);
         }
@@ -205,6 +252,11 @@ public class ControleurServer extends Controleur implements Serializable{ // per
                     System.out.println("notif en cours"); //
                     System.out.println(res);
                     this.getObservateur().notifier(new DataModel(j, c, res, client));
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 // Construction de bâtiments
                 this.construction(j,client);
@@ -212,6 +264,11 @@ public class ControleurServer extends Controleur implements Serializable{ // per
           // si le joueur en est a son 3eme double => go to prison
         } catch(joueurTripleDouble e){
             this.getObservateur().notifier(new DataModel(j,Evenement.AllerEnPrisonDes));
-            j.setPositionCourante(this.monopoly.getPrison());}
+            j.setPositionCourante(this.monopoly.getPrison());
+            try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                    }}
     }
 }

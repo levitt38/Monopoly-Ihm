@@ -116,7 +116,7 @@ public class EventHandler implements Observateur{
             case AskString : d.setS(this.ihm.askStr(EventIhm.askdeBase, d.getS(),0));break;
             case AskNb : d.setI(this.ihm.askNb(EventIhm.askdeBase, d.getS()));break;
             case Affiche : this.ihm.affiche(EventIhm.affichedeBase,d.getS(),0); break;
-            case Rien : this.ihm.affiche(EventIhm.affichedeBase, "Vous etes sur le parc !" , 0);
+            case Rien : this.ihm.affiche(EventIhm.affichedeBase, "Vous etes sur le parc !" , 0); break;
             default : this.ihm.affiche(EventIhm.affichedeBase,"Vous êtes tranquille. Pour le moment...",0); break;
         }
     }

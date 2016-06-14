@@ -6,7 +6,9 @@
 package Ui;
 
 import IHM.EventHandler;
+import IHM.Ihm3d;
 import IHM.IhmConsole;
+import IHM.IhmSwing;
 import Jeu.Carreau;
 import Jeu.Controleur;
 import Jeu.Monopoly;
@@ -22,7 +24,7 @@ public class main{
     
     public static void main (String[] args) {
         Controleur c = new Controleur();
-        EventHandler handler = new EventHandler(c, new IhmConsole(c));
+        EventHandler handler = new EventHandler(c, new Ihm3d());
         c.setObservateur(handler);
         c.mainLoop();
                 
