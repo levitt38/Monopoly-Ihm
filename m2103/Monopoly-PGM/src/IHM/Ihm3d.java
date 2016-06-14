@@ -26,8 +26,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-import sun.reflect.generics.tree.VoidDescriptor;
 
 
 public class Ihm3d extends Ihm{
@@ -43,7 +41,7 @@ public class Ihm3d extends Ihm{
     }
     
     public void startPartieLocal(){
-        this.controler = /*new MonopolyTest("6,6,6,6,6,6,6,6,6,6,6");//*/new Controleur();
+        this.controler = new MonopolyTest("1,0,1,0,2,0,3,7,8,7,9");
         this.handler = new EventHandler(this.controler, this);  
         this.controler.setObservateur(this.handler);  // 
         this.frame_accueil.dispose();
@@ -157,6 +155,7 @@ public class Ihm3d extends Ihm{
                                         Logger.getLogger(Ihm3d.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                 }
+                                System.out.println("3d"+this.frame_jeu.getPanelPlateau1().getOp().getCarreauSelected());
                                 reponse = String.valueOf(this.frame_jeu.getPanelPlateau1().getOp().getCarreauSelected());
                                 this.frame_jeu.setCarreauSelectionné(false);
                 break;

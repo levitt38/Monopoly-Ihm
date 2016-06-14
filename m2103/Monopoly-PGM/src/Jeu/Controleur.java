@@ -232,6 +232,8 @@ public class Controleur implements Serializable{
     }
     
     public void construire(Propriete p){
+        System.out.println("C1"+p.getProprietaire().getCash());
+        System.out.println("C2"+p.getPrixMaison());
         if(p.getProprietaire().getCash()<p.getPrixMaison()){
             this.observateur.notifier(new DataModel(Evenement.PasAssezDArgent));
             try {

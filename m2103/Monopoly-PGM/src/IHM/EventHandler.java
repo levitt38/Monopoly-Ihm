@@ -123,13 +123,14 @@ public class EventHandler implements Observateur{
     
     public Propriete askRueAConstruire(HashMap<String,Carreau> ca){
         Propriete propriete = null;
-        Boolean continu = false;
+        Boolean continu = true;
         String indice = null;
         do{
             indice = this.ihm.askStr(EventIhm.askConstruire, "osef",0);
-            continu = (ca.containsKey(indice)) ? true : false;
+            continu = (ca.containsKey(indice)) ? true : true;
         }while(!continu);
-        return propriete = (Propriete)ca.get(indice);
+        propriete = (Propriete)this.controleur.getMonopoly().getCarreau(Integer.valueOf(indice));
+        return propriete;
     }
     
     public void tirerCarte(TypeCarte t){
