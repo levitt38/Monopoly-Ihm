@@ -72,6 +72,8 @@ public class IhmOpenGL {
     private HashMap<String,Entity> pions = new HashMap<>();
     private Ihm3d ihm3d;
     private HashMap<String,ArrayDeque<Integer>> positionsPions = new HashMap<>();
+    private boolean vientDetreTP = true;
+    private int postp = 0;
     
     
     public IhmOpenGL(Ihm3d ihm3d){
@@ -197,22 +199,32 @@ public class IhmOpenGL {
                 while(!Display.isCloseRequested()){
                     camera.move();
                     skybox.setPosition(player.getX(), player.getY(), player.getZ());
+                    
+                    // déplacement des pions
                     for(String s:positionsPions.keySet()){
                         Vector3f v = pions.get(s).getPosition();
                         int pos = coordsToNumCase(v.x, v.z);
                         if(!positionsPions.get(s).isEmpty()){
+                            if(!vientDetreTP&&pos%10==0){
+                                vientDetreTP = true;
+                                postp = pos;
+                                tPPion(pions.get(s), pos, 0);
+                            }else{
+                                if(pos!=postp){
+                                    vientDetreTP = false;
+                                }
+                            }
                             if(pos!=positionsPions.get(s).getFirst()){
                                 Point p = getDeplacement(pos);
                                 pions.get(s).setPosition((float)(v.x+p.getX()), v.y,(float)(v.z+p.getY()));
                             }else{
+                                tPPion(pions.get(s), positionsPions.get(s).getFirst(), 0);
                                 positionsPions.get(s).pop();
                             }
                         }
                     }
+                    
                     for (Entity tmp1:entities){
-                            //tmp1.setPosition(0,0,tmp1.getPosition().getZ()+0.01f);
-                            //tmp1.setRotX(tmp1.getRotX()+1);
-                            //tmp1.setRotY(tmp1.getRotY()+1);
                             renderer.processEntity(tmp1);
                         }
                     
@@ -285,7 +297,7 @@ public class IhmOpenGL {
             pion.setPosition((float) x,0, (float) z);
         }else if(j.getPositionCourante().getNumero()==40){
             x=-0.80;
-            z=-0.80;
+            z=0.80;
             pion.setPosition((float) x,0, (float) z);
         }else{
             /*x=(0.25+0.5*(nb%2))*(r.getX1()-r.getX0())+r.getX0();
@@ -345,6 +357,33 @@ public class IhmOpenGL {
         }
         return this.pions.get(j.getNomJoueur());
     }
+    
+    private void tPPion(Entity pion,int numCase, int nb){
+        double x = 0;double z = 0;
+        Rectangle r0 = Plateau.numCarreauToCoords(numCase);
+        toolbox.Rectangle r = new toolbox.Rectangle(r0.getX0(),r0.getX1(),r0.getY0(),r0.getY1());
+        r.scale(1.0/400,new Point(400,400));
+        r.moveCentre(new Point(-400,-400));
+        //System.out.println(r.getCentre().toString());
+        switch (numCase) {
+            case 10:
+                x=-0.95;
+                z=0.95;
+                break;
+            case 40:
+                x=-0.75;
+                z= 0.75;
+                break;
+            default:
+                x=(0.25+0.5*(nb%2))*(r.getX1()-r.getX0())+r.getX0();
+                z=(0.25+0.5*(nb%2))*(r.getY1()-r.getY0())+r.getY0();
+                break;
+        }
+        pion.setPosition((float) x,0, (float) z);
+        pion.setRotY(90*(numCase/10));
+        
+    }
+    
     
     private Point getDeplacement(int numCase){
         double x,y;

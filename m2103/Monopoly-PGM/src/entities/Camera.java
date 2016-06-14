@@ -125,6 +125,7 @@ public class Camera {
             float nx = this.getPosition().x + n * v.x;
             float nz = this.getPosition().z + n * v.z;
             this.test.setPosition(nx, 0,nz);
+            System.out.println("x : "+nx+"  y : "+nz);
         }
         
         

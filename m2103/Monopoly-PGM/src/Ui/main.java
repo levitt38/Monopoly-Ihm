@@ -24,7 +24,7 @@ public class main{
     
     public static void main (String[] args) {
         Controleur c = new Controleur();
-        EventHandler handler = new EventHandler(c, new Ihm3d());
+        EventHandler handler = new EventHandler(c, new IhmConsole(c));
         c.setObservateur(handler);
         c.mainLoop();
                 
