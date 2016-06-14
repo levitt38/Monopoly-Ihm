@@ -30,8 +30,7 @@ public class FrameJeu extends javax.swing.JFrame {
     private boolean YesNoSaisi, YesNoChoix;
     private Ihm3d ihm;
     
-    public FrameJeu(Ihm3d ihm3d) { // LOUIS C'EST PROVISOIRE JE SAIS BIEN QUE AVEC OPENGL TU CREERA CETTE FRAME  
-                                   //  QUE UNE FOIS LES INFOS SAISIES, SURTOUT LES TYPES DE PIONS               
+    public FrameJeu(Ihm3d ihm3d) {              
         this.ihm = ihm3d;
         initComponents();
         //this.panelPlateau1.setIhm3d(ihm3d);
@@ -297,7 +296,7 @@ public class FrameJeu extends javax.swing.JFrame {
                             }
                         }.start();
                     }
-                    //this.afficherCarreau(this.plateau.get(Integer.toString(nc)));
+                    this.ihm.afficherCarreau(this.plateau.get(Integer.toString(nc)));
                 }
                 // la suite est juste du test, elle sera remove
                 else if(this.plateau!=null&&(nc==IhmOpenGL.CARTES_CHANCE||nc==IhmOpenGL.CARTES_COMMUNAUTE)){

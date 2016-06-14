@@ -60,7 +60,7 @@ public class Camera {
         }
         player.moveYaw(Mouse.getDX()*sensitivity);
         player.movePitch(-1*Mouse.getDY()*sensitivity);*/
-        if(Mouse.isButtonDown(0)){
+        if(Mouse.isButtonDown(1)){
             if(this.wasPressed){
                 double ancienAngle = Math.atan2((double) this.getPosition().getX(),(double) this.getPosition().getZ());
                 int dx = Mouse.getDX();
@@ -96,7 +96,7 @@ public class Camera {
             player.setPosition(player.getPosition().getX()*ratio,player.getPosition().getY()*ratio, player.getPosition().getZ()*ratio);
         }
         
-        if(Mouse.isButtonDown(1)){
+        if(Mouse.isButtonDown(0)){
             // Ray Casting
             int mX = Mouse.getX();
             int mY = Mouse.getY();

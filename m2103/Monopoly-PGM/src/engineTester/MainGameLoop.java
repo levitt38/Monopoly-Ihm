@@ -62,11 +62,11 @@ public class MainGameLoop {
         entities.add(maison);
         
         // plateau
-        ModelTexture texturePlateau = new ModelTexture(loader.loadTexture("banana"));
-        ModelData dataPlateau = OBJFileLoader.loadOBJ("banana");
+        ModelTexture texturePlateau = new ModelTexture(loader.loadTexture("hotel"));
+        ModelData dataPlateau = OBJFileLoader.loadOBJ("hotel");
         RawModel modelPlateau = loader.loadToVAO(dataPlateau.getVertices(), dataPlateau.getTextureCoords(),dataPlateau.getNormals() , dataPlateau.getIndices());
         TexturedModel tMPlateau = new TexturedModel(modelPlateau, texturePlateau);
-        Entity plateau = new Entity(tMPlateau, new Vector3f(0,0,0), 0, 0, 0, 1, true);
+        Entity plateau = new Entity(tMPlateau, new Vector3f(0,0,0), 0, 180, 0, 1, true);
         entities.add(plateau);
         
         

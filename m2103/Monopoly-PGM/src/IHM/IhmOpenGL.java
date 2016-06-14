@@ -17,6 +17,7 @@ import entities.Entity;
 import entities.Light;
 import entities.Cube;
 import entities.Player;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -69,6 +70,7 @@ public class IhmOpenGL {
     private ArrayList<Entity> pionsNonTries = new ArrayList<>();
     private HashMap<String,Entity> pions = new HashMap<>();
     private Ihm3d ihm3d;
+    private HashMap<String,ArrayDeque<Integer>> positionsPions = new HashMap<>();
     
     
     public IhmOpenGL(Ihm3d ihm3d){
@@ -188,6 +190,18 @@ public class IhmOpenGL {
                 while(!Display.isCloseRequested()){
                     camera.move();
                     skybox.setPosition(player.getX(), player.getY(), player.getZ());
+                    for(String s:positionsPions.keySet()){
+                        Vector3f v = pions.get(s).getPosition();
+                        int pos = coordsToNumCase(v.x, v.z);
+                        if(!positionsPions.get(s).isEmpty()){
+                            if(pos!=positionsPions.get(s).getFirst()){
+                                Point p = getDeplacement(pos);
+                                pions.get(s).setPosition((float)(v.x+p.getX()), v.y,(float)(v.z+p.getY()));
+                            }else{
+                                positionsPions.get(s).pop();
+                            }
+                        }
+                    }
                     for (Entity tmp1:entities){
                             //tmp1.setPosition(0,0,tmp1.getPosition().getZ()+0.01f);
                             //tmp1.setRotX(tmp1.getRotX()+1);
@@ -226,7 +240,7 @@ public class IhmOpenGL {
 
     public synchronized void afficherPlateau(HashMap<String, Carreau> c) {
         this.maisons = new ArrayList<>();
-        while(this.pionsNonTries.size()<6){
+        while(!this.loadingCompleted){
             try {
                 Thread.sleep(60);
             } catch (InterruptedException ex) {
@@ -252,22 +266,29 @@ public class IhmOpenGL {
         toolbox.Rectangle r = new toolbox.Rectangle(r0.getX0(),r0.getX1(),r0.getY0(),r0.getY1());
         r.scale(1.0/400,new Point(400,400));
         r.moveCentre(new Point(-400,-400));
-        System.out.println(r.getCentre().toString());
-        if(j.getPositionCourante().getNumero()==10){
+        Entity pion = this.getPion(j);
+        //System.out.println(r.getCentre().toString());
+        /*if(j.getPositionCourante().getNumero()==10){
             x=-0.95;
             z=-0.95;
-        }else if(j.getPositionCourante().getNumero()==40){
-            
-        }else{
-            //x = (0.75-((double)(nb%2))*0.5)*(r.getX0()+r.getX1());
+        }else */
+        if(pion.getPosition().x==0){
             x=(0.25+0.5*(nb%2))*(r.getX1()-r.getX0())+r.getX0();
-            //z = (0.75-((double)(nb%2))*0.5)*(r.getY0()+r.getY1());
-            //z = (r.getY0()/4.0*(1.0+2.0*(nb%2)))+(r.getY1()/4.0*(1.0+(2.0*(nb+1)%2)));
             z=(0.25+0.5*(nb%2))*(r.getY1()-r.getY0())+r.getY0();
+            pion.setPosition((float) x,0, (float) z);
+        }else if(j.getPositionCourante().getNumero()==40){
+            x=-0.80;
+            z=-0.80;
+            pion.setPosition((float) x,0, (float) z);
+        }else{
+            /*x=(0.25+0.5*(nb%2))*(r.getX1()-r.getX0())+r.getX0();
+            z=(0.25+0.5*(nb%2))*(r.getY1()-r.getY0())+r.getY0();*/
+            if(this.positionsPions.get(j.getNomJoueur()).isEmpty()||this.positionsPions.get(j.getNomJoueur()).getLast()!=j.getPositionCourante().getNumero()){
+                this.positionsPions.get(j.getNomJoueur()).add(j.getPositionCourante().getNumero());
+            }
         }
-        Entity pion = this.getPion(j);
-        pion.setPosition((float) x,0, (float) z);
-        pion.setRotY(90*(j.getPositionCourante().getNumero()/10));
+        /*pion.setPosition((float) x,0, (float) z);
+        pion.setRotY(90*(j.getPositionCourante().getNumero()/10));*/
     }
     
     private synchronized void afficherMaisons(Propriete propriete) {
@@ -291,6 +312,9 @@ public class IhmOpenGL {
             this.maisons.add(new Entity(this.tMMaison,new Vector3f((float)x,this.hauteurMaison,(float)y),0, -90*(numCarreau/10), 0,this.sizeMaison, false));
             //Questions.affiche("x : "+x+"   y : "+y);
         }
+        if(propriete.hasHotel()){
+            
+        }
     }
     
     private Entity getPion(Joueur j){
@@ -301,8 +325,28 @@ public class IhmOpenGL {
         return this.pions.get(j.getNomJoueur());
     }
     
+    private Point getDeplacement(int numCase){
+        double x,y;
+        double vitesse = .005;
+        if(numCase<10){
+            x=-vitesse;
+            y=0;
+        }else if(numCase<20||numCase == 40){
+            x=0;
+            y=-vitesse;
+        }else if(numCase<30){
+            x=vitesse;
+            y=0;
+        }else{
+            x=0;
+            y=vitesse;
+        }
+        
+        return new Point(x,y);
+    }
+    
     private void assignerPion(Joueur j){
-        TypePions t = this.ihm3d.askTypePion(j.getIndicePion()); // LOLOLOLOLOLOLOLOLOLOLOLOLKARIM
+        TypePions t = this.ihm3d.askTypePion(j.getIndicePion());
         Entity p;
         int i = -1;
         switch(t){
@@ -314,6 +358,8 @@ public class IhmOpenGL {
             case Portal: i=5;break;
         }
         this.pions.put(j.getNomJoueur(), this.pionsNonTries.get(i));
+        this.positionsPions.put(j.getNomJoueur(), new ArrayDeque<Integer>());
+        
     }
     
     public int getCarreauSelected(){
