@@ -25,7 +25,7 @@ public class FrameJeu extends javax.swing.JFrame {
     private int XDrag, YDrag;
     private int width = 800;
     private int height = 800;
-    private boolean menuAff = false;
+    private boolean carreauAffiche = false;
     private HashMap<String, Carreau> plateau;
     private boolean YesNoSaisi, YesNoChoix;
     private Ihm3d ihm;
@@ -228,6 +228,7 @@ public class FrameJeu extends javax.swing.JFrame {
     private void ExitCarreauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitCarreauActionPerformed
         new Thread(){
             public void run(){
+                carreauAffiche = false;
                 AnimationFrame.cacherMenu(PanelCarreau);
             }
         }.start();
@@ -266,8 +267,8 @@ public class FrameJeu extends javax.swing.JFrame {
     public void mouseLoop(){
         while(true){
             int x = Mouse.getX();
-            if(x<20&&x>0&&!this.menuAff){
-                this.menuAff = true;
+            if(x<20&&x>0&&!this.carreauAffiche){
+                this.carreauAffiche = true;
                 new Thread(){
                     public void run(){
                         //afficherMenu();
@@ -288,20 +289,12 @@ public class FrameJeu extends javax.swing.JFrame {
             if(this.panelPlateau1!=null&&this.panelPlateau1.getOp()!=null&&this.panelPlateau1.getOp().isLoadingCompleted()&&Mouse.isButtonDown(0)){
                 int nc = this.panelPlateau1.getOp().getCarreauSelected();
                 if(this.plateau!=null&&nc>=0){
-                    if(!this.menuAff){
-                        this.menuAff = true;
-                        new Thread(){
-                            public void run(){
-                                //afficherMenu();
-                            }
-                        }.start();
-                    }
                     this.ihm.afficherCarreau(this.plateau.get(Integer.toString(nc)));
                 }
                 // la suite est juste du test, elle sera remove
                 else if(this.plateau!=null&&(nc==IhmOpenGL.CARTES_CHANCE||nc==IhmOpenGL.CARTES_COMMUNAUTE)){
-                    if(!this.menuAff){
-                        this.menuAff = true;
+                    if(!this.carreauAffiche){
+                        this.carreauAffiche = true;
                         new Thread(){
                             public void run(){
                                 //afficherMenu();
@@ -435,12 +428,14 @@ public class FrameJeu extends javax.swing.JFrame {
     }
     
     public void showCarreau(){
+        if(! this.carreauAffiche){
+        carreauAffiche = true;
         new Thread(){
             public void run(){
                 AnimationFrame.afficherMenu(PanelCarreau);
             }
         }.start();
-        
+        }
     }
     
     public void cacherBoutons(){
