@@ -294,14 +294,14 @@ public class FrameJeu extends javax.swing.JFrame {
                 }
                 // la suite est juste du test, elle sera remove
                 else if(this.plateau!=null&&(this.num_carreau==IhmOpenGL.CARTES_CHANCE||this.num_carreau==IhmOpenGL.CARTES_COMMUNAUTE)){
-                    if(!this.carreauAffiche){
-                        this.carreauAffiche = true;
-                        new Thread(){
-                            public void run(){
-                                //afficherMenu();
-                            }
-                        }.start();
-                    }
+                    if(!this.carreauAffiche){               //          __
+                        this.carreauAffiche = true;         //       __/o \__      
+                        new Thread(){                       //       \____   \     
+                            public void run(){              //     __   //\   \    
+                                //afficherMenu();           //  __/o \-//--\   \_/ 
+                            }                               //  \____  ___  \  |   
+                        }.start();                          //       ||   \ |\ |   
+                    }                                       //      _||   _||_||
                     String s = (this.num_carreau==IhmOpenGL.CARTES_CHANCE) ? "Tas de cartes chance" : "Tas de cartes caisse de communauté";
                     //this.afficherStr(s);
                 }
