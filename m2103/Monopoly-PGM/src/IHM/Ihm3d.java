@@ -41,7 +41,7 @@ public class Ihm3d extends Ihm{
     }
     
     public void startPartieLocal(){
-        this.controler = new Controleur();//new MonopolyTest("1,0,1,0,2,0,3,7,8,7,9");
+        this.controler = new MonopolyTest("1,0,1,0,2,0,3,7,8,7,9");
         this.handler = new EventHandler(this.controler, this);  
         this.controler.setObservateur(this.handler);  // 
         this.frame_accueil.dispose();
@@ -286,9 +286,9 @@ public class Ihm3d extends Ihm{
     
     public String convertTexttoAction(String s){
         String retour;
-        if(s.length()>=28){
-            String s1 = s.substring(0, 27);
-            String s2 = s.substring(27, s.length());
+        if(s.length()>=26){
+            String s1 = s.substring(0, 25);
+            String s2 = s.substring(25, s.length());
             retour = "<html>"+s1+"<BR>";
             retour += s2+"</html>";
         } else { retour = s; }
