@@ -24,7 +24,7 @@ public class main{
     
     
     public static void main (String[] args) {
-        Controleur c = new MonopolyTest("1,1,2,3,1,1,2,3,6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6");
+        Controleur c = new MonopolyTest("1,0,1,0,2,0,3,7,8,7,9");
         EventHandler handler = new EventHandler(c, new IhmConsole(c));
         c.setObservateur(handler);
         c.mainLoop();

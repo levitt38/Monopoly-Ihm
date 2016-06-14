@@ -45,7 +45,7 @@ public class Controleur implements Serializable{
     }
     
     public void setPositionCourante(Carreau c, Joueur j){
-        this.setPositionCourante(c,j);
+        j.setPositionCourante(c);
         this.observateur.notifier(new DataModel(j,this.monopoly.getCarreaux(),Evenement.DebutTour));
     }
     

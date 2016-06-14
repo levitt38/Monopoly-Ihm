@@ -41,7 +41,7 @@ public class Ihm3d extends Ihm{
     }
     
     public void startPartieLocal(){
-        this.controler = new MonopolyTest("1,0,1,0,2,0,3,7,8,7,9");
+        this.controler = new Controleur();//new MonopolyTest("1,0,1,0,2,0,3,7,8,7,9");
         this.handler = new EventHandler(this.controler, this);  
         this.controler.setObservateur(this.handler);  // 
         this.frame_accueil.dispose();

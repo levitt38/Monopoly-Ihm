@@ -29,6 +29,7 @@ public class Camera {
     private final float WHEEL_SPEED = 0.01f;
     private final float ZOOM_OUT_LIMIT = 10;
     private final float ZOOM_IN_LIMIT = 2;
+    private boolean first = true;
     
     private Entity test;
 

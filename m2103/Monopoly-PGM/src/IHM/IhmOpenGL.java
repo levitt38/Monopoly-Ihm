@@ -79,7 +79,7 @@ public class IhmOpenGL {
     public IhmOpenGL(Ihm3d ihm3d){
         
         this.ihm3d = ihm3d;
-
+        System.out.println(coordsToNumCase(0.95f, 0.67999995f));
         new Thread(){
             @Override
             public void run(){
@@ -186,7 +186,7 @@ public class IhmOpenGL {
                 //Entity testLight = new Entity(texturedModel, new Vector3f(-2,2,-2),0,0,0,1);
                 light = new Light(new Vector3f(-20000,20000,20000),new Vector3f(1,1,1));
                 //Mouse.setGrabbed(true);
-                player = new Player(7,7,7,0,0,0,"Louis",loader);
+                player = new Player(0,7,0,90,0,0,"Louis",loader);
                 //System.out.println(player.getX());
                 renderer = new MasterRenderer();
 
@@ -285,6 +285,7 @@ public class IhmOpenGL {
         toolbox.Rectangle r = new toolbox.Rectangle(r0.getX0(),r0.getX1(),r0.getY0(),r0.getY1());
         r.scale(1.0/400,new Point(400,400));
         r.moveCentre(new Point(-400,-400));
+        //r.rotate(-Math.PI/2);
         Entity pion = this.getPion(j);
         //System.out.println(r.getCentre().toString());
         /*if(j.getPositionCourante().getNumero()==10){
@@ -292,12 +293,10 @@ public class IhmOpenGL {
             z=-0.95;
         }else */
         if(pion.getPosition().x==0){
-            x=(0.25+0.5*(nb%2))*(r.getX1()-r.getX0())+r.getX0();
-            z=(0.25+0.5*(nb%2))*(r.getY1()-r.getY0())+r.getY0();
-            pion.setPosition((float) x,0, (float) z);
-        }else if(j.getPositionCourante().getNumero()==40){
-            x=-0.80;
-            z=0.80;
+            //x=(0.25+0.5*(nb%2))*(r.getX1()-r.getX0())+r.getX0();
+            //z=(0.25+0.5*(nb%2))*(r.getY1()-r.getY0())+r.getY0();
+            x = 0.95;
+            z = 0.65;
             pion.setPosition((float) x,0, (float) z);
         }else{
             /*x=(0.25+0.5*(nb%2))*(r.getX1()-r.getX0())+r.getX0();
@@ -364,7 +363,8 @@ public class IhmOpenGL {
         toolbox.Rectangle r = new toolbox.Rectangle(r0.getX0(),r0.getX1(),r0.getY0(),r0.getY1());
         r.scale(1.0/400,new Point(400,400));
         r.moveCentre(new Point(-400,-400));
-        //System.out.println(r.getCentre().toString());
+        //r.rotate(-Math.PI/2);
+        System.out.println(r.toString());
         switch (numCase) {
             case 10:
                 x=-0.95;
@@ -377,6 +377,7 @@ public class IhmOpenGL {
             default:
                 x=(0.25+0.5*(nb%2))*(r.getX1()-r.getX0())+r.getX0();
                 z=(0.25+0.5*(nb%2))*(r.getY1()-r.getY0())+r.getY0();
+                System.out.println("x "+x+"  z "+z);
                 break;
         }
         pion.setPosition((float) x,0, (float) z);

@@ -147,20 +147,20 @@ private Image imageMaison;
             return -1;
         } else if (isInZone(x,y,0,LARGEUR_GRANDE_CASE,0,LARGEUR_GRANDE_CASE)){
             return 20;
+        } else if (isInZone(x,y,(width-LARGEUR_GRANDE_CASE),width,(width-LARGEUR_GRANDE_CASE),width)){
+            return 0;
         } else if (isInZone(x,y,LARGEUR_PRISON,LARGEUR_GRANDE_CASE,(width-LARGEUR_GRANDE_CASE),width-LARGEUR_PRISON)){
             return 40;
         } else if (isInZone(x,y,0,LARGEUR_GRANDE_CASE,(width-LARGEUR_GRANDE_CASE),width)){
             return 10;
         } else if (isInZone(x,y,(width-LARGEUR_GRANDE_CASE),width,0,LARGEUR_GRANDE_CASE)){
             return 30;
-        } else if (isInZone(x,y,(width-LARGEUR_GRANDE_CASE),width,(width-LARGEUR_GRANDE_CASE),width)){
-            return 0;
         } else if (isInZone(x,y,LARGEUR_GRANDE_CASE,(width-LARGEUR_GRANDE_CASE),0,LARGEUR_GRANDE_CASE)){
             return (x-LARGEUR_PETITE_CASE)/LARGEUR_PETITE_CASE+20;
         } else if (isInZone(x,y,LARGEUR_GRANDE_CASE,(width-LARGEUR_GRANDE_CASE),(width-LARGEUR_GRANDE_CASE),width)){
             return 10-(x-LARGEUR_PETITE_CASE)/LARGEUR_PETITE_CASE;
         } else if (isInZone(x,y,(width-LARGEUR_GRANDE_CASE),width,LARGEUR_GRANDE_CASE,(width-LARGEUR_GRANDE_CASE))){
-            return (y-LARGEUR_PETITE_CASE)/LARGEUR_PETITE_CASE+30;
+            return ((y-LARGEUR_PETITE_CASE)/LARGEUR_PETITE_CASE+30)%40;
         } else{// if (isInZone(x,y,0,LARGEUR_GRANDE_CASE,LARGEUR_GRANDE_CASE,(this.width-LARGEUR_GRANDE_CASE))){
             return 20-(y-LARGEUR_PETITE_CASE)/LARGEUR_PETITE_CASE;
         }
