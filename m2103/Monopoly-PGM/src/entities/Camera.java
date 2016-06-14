@@ -62,6 +62,11 @@ public class Camera {
         player.moveYaw(Mouse.getDX()*sensitivity);
         player.movePitch(-1*Mouse.getDY()*sensitivity);*/
         if(Mouse.isButtonDown(1)){
+            if(first){
+                player.setPosition(7, 7, 7);
+                player.getEntity().setRotX(0);
+                first = false;
+            }
             if(this.wasPressed){
                 double ancienAngle = Math.atan2((double) this.getPosition().getX(),(double) this.getPosition().getZ());
                 int dx = Mouse.getDX();

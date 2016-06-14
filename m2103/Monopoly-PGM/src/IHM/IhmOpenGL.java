@@ -293,10 +293,8 @@ public class IhmOpenGL {
             z=-0.95;
         }else */
         if(pion.getPosition().x==0){
-            //x=(0.25+0.5*(nb%2))*(r.getX1()-r.getX0())+r.getX0();
-            //z=(0.25+0.5*(nb%2))*(r.getY1()-r.getY0())+r.getY0();
-            x = 0.95;
-            z = 0.65;
+            x=(0.25+0.5*(nb%2))*(r.getX1()-r.getX0())+r.getX0();
+            z=(0.25+0.5*(nb%2))*(r.getY1()-r.getY0())+r.getY0();
             pion.setPosition((float) x,0, (float) z);
         }else{
             /*x=(0.25+0.5*(nb%2))*(r.getX1()-r.getX0())+r.getX0();
