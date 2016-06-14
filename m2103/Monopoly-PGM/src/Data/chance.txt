@@ -6,6 +6,6 @@ Ne passez pas par la case Départ.
 Ne recevez pas 200€.|1|24|Rendez-vous à l'Avenue Henri-Martin.
 Si vous passez par la case Départ, recevez 200€.|1|15|Allez à la gare de Lyon.
 Si vous passez par la case Départ, recevez 200€.|4|-150|Payez pour frais de scolarité : 150€.|4|100|Vous avez gagné le prix de mots croisés.
-Recevez 100€.|4|50|La Banque vous verse un dividende de 50€.|2|39|Rendez-vous à la Rue de la Paix.|4|150|Votre immeuble et votre prêt rapportent.
+Recevez 100€.|4|50|La Banque vous verse un dividende de 50€.|1|39|Rendez-vous à la Rue de la Paix.|4|150|Votre immeuble et votre prêt rapportent.
 Vous touchez 150€.|1|11|Accédez au Boulevard de la Villette.
 Si vous passez par la case Départ, recevez 200€.

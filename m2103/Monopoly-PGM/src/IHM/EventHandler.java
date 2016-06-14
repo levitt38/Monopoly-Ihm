@@ -101,7 +101,7 @@ public class EventHandler implements Observateur{
                               if(!prison){
                                   this.controleur.useCarte(d.getCarte());
                               }break;
-            case AllerEnPrisonDes : this.ihm.affiche(EventIhm.affichedeBase,"","C'est votre 3ème double !/nDirection, la prison !");break;
+            case AllerEnPrisonDes : this.ihm.affiche(EventIhm.affichedeBase,"","C'est votre 3ème double !\nDirection, la prison !");break;
             case UsePossibleCarteSortiePrison : if(this.ihm.askYN("Voulez-vous utiliser une carte Sortie de Prison ?")){
                                                     this.controleur.useCarte(j.getCartePrison());
                                                 }else{

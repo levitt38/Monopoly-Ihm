@@ -5,7 +5,7 @@
  */
 package IHM;
 
-import FrameAcceuil.AnimationFrame;
+import FrameAccueil.AnimationFrame;
 import Jeu.Carreau;
 import Jeu.Joueur;
 import java.awt.Frame;

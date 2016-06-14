@@ -8,14 +8,15 @@ package IHM;
 import Data.Evenement;
 import Data.EventIhm;
 import Data.TypePions;
-import FrameAcceuil.AnimationFrame;
-import FrameAcceuil.FrameAcceuil;
+import FrameAccueil.AnimationFrame;
+import FrameAccueil.FrameAcceuil;
 import Jeu.Carreau;
 import Jeu.Cartes.Carte;
 import Jeu.Controleur;
 import Jeu.DataModel;
 import Jeu.Joueur;
 import Network.Client;
+import engineTester.MonopolyTest;
 import java.awt.EventQueue;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class Ihm3d extends Ihm{
     }
     
     public void startPartieLocal(){
-        this.controler = new Controleur();
+        this.controler = /*new MonopolyTest("6,6,6,6,6,6,6,6,6,6,6");//*/new Controleur();
         this.handler = new EventHandler(this.controler, this);  
         this.controler.setObservateur(this.handler);  // 
         this.frame_accueil.dispose();

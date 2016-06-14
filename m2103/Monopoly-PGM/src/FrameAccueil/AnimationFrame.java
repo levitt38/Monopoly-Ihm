@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FrameAcceuil;
+package FrameAccueil;
 
 import IHM.FrameJeu;
 import java.util.logging.Level;

@@ -388,10 +388,10 @@ public class IhmOpenGL {
     private Point getDeplacement(int numCase){
         double x,y;
         double vitesse = .005;
-        if(numCase<10){
+        if(numCase<10||numCase == 40){
             x=-vitesse;
             y=0;
-        }else if(numCase<20||numCase == 40){
+        }else if(numCase<20){
             x=0;
             y=-vitesse;
         }else if(numCase<30){

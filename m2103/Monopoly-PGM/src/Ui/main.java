@@ -12,6 +12,7 @@ import IHM.IhmSwing;
 import Jeu.Carreau;
 import Jeu.Controleur;
 import Jeu.Monopoly;
+import engineTester.MonopolyTest;
 
 /**
  *
@@ -23,16 +24,10 @@ public class main{
     
     
     public static void main (String[] args) {
-        Controleur c = new Controleur();
+        Controleur c = new MonopolyTest("1,1,2,3,1,1,2,3,6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6");
         EventHandler handler = new EventHandler(c, new IhmConsole(c));
         c.setObservateur(handler);
         c.mainLoop();
-                
-
-       
-       
-       
-       
     } 
    
    

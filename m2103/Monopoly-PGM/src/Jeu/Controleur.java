@@ -90,8 +90,8 @@ public class Controleur implements Serializable{
                     Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
-            default: System.out.println("Bug dans le switch de use carte | controleur");
-                break;
+            /*default: System.out.println("Bug dans le switch de use carte | controleur");
+                break;*/
         }
         c.resetOwner();
         this.monopoly.getCartes(c.getType()).addLast(c);
@@ -105,10 +105,7 @@ public class Controleur implements Serializable{
         //Est-ce un double ?
         if(lancer==lancer2){
             this.lancerDouble = true;
-            // le joueur avait il fait un double au tour precedant ?
-            if(j.isDernierDouble()){
             j.setDoublesALaSuite(j.getDoublesALaSuite()+1);
-            } else {j.setDoublesALaSuite(1);}
             // le joueur en est il a son troisième double ?
             if(j.getDoublesALaSuite()>=3){
                 j.setDoublesALaSuite(0);
@@ -255,8 +252,8 @@ public class Controleur implements Serializable{
             }
             if(! j.estPrisonnier()){
                 j.setPositionCourante(lancerDesAvancer(j));
-                j.setRejouerCarte(false);
                 do{
+                    j.setRejouerCarte(false);
                     Carreau c = j.getPositionCourante();
                     Evenement res = c.action(j);
                     switch(res){
