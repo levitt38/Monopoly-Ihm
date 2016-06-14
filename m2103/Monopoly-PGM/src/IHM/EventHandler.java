@@ -121,9 +121,15 @@ public class EventHandler implements Observateur{
         }
     }
     
-     public Propriete askRueAConstruire(HashMap<String,Carreau> ca){
-        // fonction d'ihm qui fait le taff
-        return null;
+    public Propriete askRueAConstruire(HashMap<String,Carreau> ca){
+        Propriete propriete = null;
+        Boolean continu = false;
+        String indice = null;
+        do{
+            indice = this.ihm.askStr(EventIhm.askConstruire, "osef",0);
+            continu = (ca.containsKey(indice)) ? true : false;
+        }while(!continu);
+        return propriete = (Propriete)ca.get(indice);
     }
     
     public void tirerCarte(TypeCarte t){

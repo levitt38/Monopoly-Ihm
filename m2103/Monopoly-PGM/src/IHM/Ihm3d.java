@@ -5,6 +5,7 @@
  */
 package IHM;
 
+import Data.Evenement;
 import Data.EventIhm;
 import Data.TypePions;
 import FrameAcceuil.AnimationFrame;
@@ -12,9 +13,9 @@ import FrameAcceuil.FrameAcceuil;
 import Jeu.Carreau;
 import Jeu.Cartes.Carte;
 import Jeu.Controleur;
+import Jeu.DataModel;
 import Jeu.Joueur;
 import Network.Client;
-import engineTester.MonopolyTest;
 import java.awt.EventQueue;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -27,82 +28,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import sun.reflect.generics.tree.VoidDescriptor;
 
-/**
- *
- * @author nourik
- */
-/*
 
-                      .,,,::;;t;MMMMMMMMMBVt:+..
-                     ,IVXVYIBttt+;;+IVVMMMMMMRR:
-                     ,YYVYItMYti+i++;X+Rt;tXWRMR,
-                     .YRiIYRMViitVXRWRYMI++++itMM..
-                      .Y+,.,X;;,,,YMMMMMMMMRVItXMti
-                       ;X+;,X:,. .,iiIRMWMMMBBRMMBY.
-                        tR+:I;i:+Y;IitYVYMMMMMMMMRi.
-                        .+RXt;,;:.::XXIBMMMMMMMMM+:
-                          ,RRXitY+,.:;RWMMMMMMMMt.
-                            VYI::;,..:tVMMMMMMBY+.
-                           .VBBW;;;::,i.MMMMMBi;.
-                           .tWRRVi;;:.X:VMMMMMMY.
-                         ,+i+:,XYtt+:,i:,MMMBR:
-                       .VV....:.tt;;++:+,RMYMV.
-                       :M;;:..,,.+t+++Ytt.,+:
-                       tRt;,..;+.,;++tit,
-                      :tXt;,.,,+,;+YRY,
-                    :++;;;.,:.:;+;iMi
-                   ,Ri:::,:;:;:::+Ii
-                   ,+;Xii;,,;;I;tit,.
-                     ;BBt,;+::,:;i+.
-                     ;BWXX;::;;:iX.
-                     :BWVIi++t+;V+
-                      WBXtItii+iWI.
-                      :MWIYIti+iVRY,
-                       RBXVYItiiIYXWI,
-                       ;MRWWVYttttIIXWt.
-                       .XMBRRXIti++itIXW,
-                        .BMBBRVIi+;;+ttXX.
-                         ,MMBRXYti;;;+tIW;
-                          tMMRWYti+++ittXV
-                           +MRVYti+++ittWI
-                          .VMWVtiiiiiitIR,
-                         .XBBWVttttttttXR
-                       .,WBRBXVtttttttIWt
-                       ;RWXWBXYtttttttYR;
-                     .iRWVIiBWYIttttttYW,
-                    .tWVYti;WRVIttittIVV      .:,,
-                    tWVIi++;XRVIIttttIXY   ..:YYtYi;tittV,
-                   tXYti+++tWRVYttittYWIiIYYVItt;iXW+....
-                  ;WIt+++iXRBBVYItitIYXXYti+iIYt++;IMRi;.
-                .:Xti+;+tRWt;BVYItitIYWVIIIYXXWXVXYt+i+IV;
-                .tYi+;;IWI;;;BVVItitIXBRVIt;;::::;tIVXRiXt
-                :Viii++i;itIXBXVttitVW,               tBIX
-                .XIiXIttIVRBRBIItttIRX                 :VX
-                .,tXXWWWVi+. RXXItiYRV                  ..
-                             ,BWYi+IRX
-                              tBYiitWB,
-                              .WVtiiIRI
-                               VWtiiiIB,
-                               ,BIiiiiWt
-                               .BViiiiYV
-                                XXtii+YV
-                                iRiii+YY
-                                ;Btii+XI
-                                 Wtii+R;
-                                 XY+t+B.
-                                 YX+tYR.
-                                 tX+iWV
-                                 iXi+RI
-                                 tYiIXX
-                                ,XtiIXRt.
-                                ;BIVYRWIV
-                                +RYXXWiYR.
-                                iWIVYtXMV
-                                tBYItRtM+
-                                XBWttX:B:
-                             tYYBXXYR;,R:
-                             tIYYYIY;  ,.
-*/
 public class Ihm3d extends Ihm{
     private FrameAcceuil frame_accueil;
     private FrameJeu frame_jeu;
@@ -116,7 +42,7 @@ public class Ihm3d extends Ihm{
     }
     
     public void startPartieLocal(){
-        this.controler = /*new MonopolyTest("6,6,6,6,6,6,6,6,6,6");//*/new Controleur();
+        this.controler = new Controleur();
         this.handler = new EventHandler(this.controler, this);  
         this.controler.setObservateur(this.handler);  // 
         this.frame_accueil.dispose();
@@ -217,6 +143,21 @@ public class Ihm3d extends Ihm{
                 case 5 : reponse = this.frame_accueil.getTFnom5().getText(); break;
                 case 6 : reponse = this.frame_accueil.getTFnom6().getText(); break;
             }
+                break;
+            case askConstruire : this.frame_jeu.setCarreauSelectionné(false);
+                                this.affiche(EventIhm.askdeBase, "Cliquer sur la propriété à construire", 0);
+                                System.out.println("Demande de construction");
+                                // Animation droite => gauche dans version finale
+                                while(this.frame_jeu.isCarreauSelectionné()==false){
+
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException ex) {
+                                        Logger.getLogger(Ihm3d.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }
+                                reponse = String.valueOf(this.frame_jeu.getPanelPlateau1().getOp().getCarreauSelected());
+                                this.frame_jeu.setCarreauSelectionné(false);
                 break;
         }
         return reponse;

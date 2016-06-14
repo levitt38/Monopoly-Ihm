@@ -25,7 +25,8 @@ public class FrameJeu extends javax.swing.JFrame {
     private int XDrag, YDrag;
     private int width = 800;
     private int height = 800;
-    private boolean carreauAffiche = false;
+    private int num_carreau;
+    private boolean carreauAffiche = false, carreauSelectionné = false;
     private HashMap<String, Carreau> plateau;
     private boolean YesNoSaisi, YesNoChoix;
     private Ihm3d ihm;
@@ -287,12 +288,12 @@ public class FrameJeu extends javax.swing.JFrame {
     public void menuLoop(){
         while(true){
             if(this.panelPlateau1!=null&&this.panelPlateau1.getOp()!=null&&this.panelPlateau1.getOp().isLoadingCompleted()&&Mouse.isButtonDown(0)){
-                int nc = this.panelPlateau1.getOp().getCarreauSelected();
-                if(this.plateau!=null&&nc>=0){
-                    this.ihm.afficherCarreau(this.plateau.get(Integer.toString(nc)));
+                this.num_carreau = this.panelPlateau1.getOp().getCarreauSelected();
+                if(this.plateau!=null&&this.num_carreau>=0){
+                    this.ihm.afficherCarreau(this.plateau.get(Integer.toString(this.num_carreau)));
                 }
                 // la suite est juste du test, elle sera remove
-                else if(this.plateau!=null&&(nc==IhmOpenGL.CARTES_CHANCE||nc==IhmOpenGL.CARTES_COMMUNAUTE)){
+                else if(this.plateau!=null&&(this.num_carreau==IhmOpenGL.CARTES_CHANCE||this.num_carreau==IhmOpenGL.CARTES_COMMUNAUTE)){
                     if(!this.carreauAffiche){
                         this.carreauAffiche = true;
                         new Thread(){
@@ -301,18 +302,16 @@ public class FrameJeu extends javax.swing.JFrame {
                             }
                         }.start();
                     }
-                    String s = (nc==IhmOpenGL.CARTES_CHANCE) ? "Tas de cartes chance" : "Tas de cartes caisse dde communauté";
+                    String s = (this.num_carreau==IhmOpenGL.CARTES_CHANCE) ? "Tas de cartes chance" : "Tas de cartes caisse de communauté";
                     //this.afficherStr(s);
                 }
-                
-                // fin des tests
+                this.carreauSelectionné = true; // permet de recup un choix pour une demande de construction
             }
             try {
                 Thread.sleep(10);
             } catch (InterruptedException ex) {
                 Logger.getLogger(FrameJeu.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
         }
     }
     
@@ -401,6 +400,24 @@ public class FrameJeu extends javax.swing.JFrame {
         return PanelJoueur;
     }
 
+    public int getNum_carreau() {
+        return num_carreau;
+    }
+
+    public boolean isCarreauSelectionné() {
+        return carreauSelectionné;
+    }
+
+    public void setCarreauSelectionné(boolean carreauSelectionné) {
+        this.carreauSelectionné = carreauSelectionné;
+    }
+
+    public PanelPlateau getPanelPlateau1() {
+        return panelPlateau1;
+    }
+    
+    
+ 
     public void showAction(){
         new Thread(){
             public void run(){

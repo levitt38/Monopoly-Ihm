@@ -23,6 +23,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -76,7 +77,13 @@ public class Client implements Serializable{
         this.sOutput.reset();
             message = (DataModel) this.sInput.readUnshared();
         } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            this.handler.notifier(new DataModel(2, "Partie terminée ", Evenement.Affiche));
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException ex1) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            System.exit(0);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -154,7 +161,8 @@ public class Client implements Serializable{
     public void InitPartie(){
         this.handler.notifier(new DataModel(Evenement.Affiche, "Bienvenue dans l'arène, la partie va commencer !!"));
         // Affichage plateau
-        DataModel message = receiveMessage();
+        DataModel message = null; // possiblement non -instancié
+        message = receiveMessage();
         if(message.getAction_reseau()==ActionReseau.Init){
         this.monopoly = message.getMonopoly();
         this.handler.notifier(new DataModel(Evenement.Affiche, "Début Partie"));
@@ -169,7 +177,7 @@ public class Client implements Serializable{
     }
     
     public void mainLoop(){
-        DataModel message = null;
+        DataModel message;
         while(true){
             message = receiveMessage();
             if(message != null){
@@ -187,7 +195,8 @@ public class Client implements Serializable{
         }
         //client.ackServer();
         client.InitPartie();
-        client.mainLoop();
+        
+        client.mainLoop(); 
     }
 
     public ClientHandler getHandler() {

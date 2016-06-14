@@ -17,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -189,7 +190,13 @@ public class Server {
             this.sOutput.writeUnshared(message);
             this.sOutput.flush();
         } catch (IOException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            this.handler.notifier(new DataModel(2, "Partie terminée ", Evenement.Affiche));
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException ex1) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            System.exit(0);
         }
     }
     
