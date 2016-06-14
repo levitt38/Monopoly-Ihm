@@ -63,6 +63,7 @@ public class IhmOpenGL {
     private Player player;
     private MasterRenderer renderer;
     private TexturedModel tMMaison;
+    private TexturedModel tMHotel;
     private List<Entity> maisons = new ArrayList<>();
     private float hauteurMaison = 0.015f;
     private float sizeMaison = 0.005f;
@@ -110,6 +111,12 @@ public class IhmOpenGL {
                 tMMaison = new TexturedModel(modelMaison, textureMaison);
                 /*Entity maison = new Entity(tMMaison, new Vector3f(0,this.hauteurMaison,0), 0, 0, 0, this.sizeMaison, true);
                 entities.add(maison);*/
+
+                // hotel
+                ModelTexture textureHotel = new ModelTexture(loader.loadTexture("hotel"));
+                ModelData dataHotel = OBJFileLoader.loadOBJ("hotel");
+                RawModel modelHotel = loader.loadToVAO(dataHotel.getVertices(), dataHotel.getTextureCoords(),dataHotel.getNormals() , dataHotel.getIndices());
+                tMHotel = new TexturedModel(modelHotel, textureHotel);
 
                 //cartes caisse de communauté
                 ModelTexture textureCartes = new ModelTexture(loader.loadTexture("cartes"));
@@ -294,7 +301,7 @@ public class IhmOpenGL {
     private synchronized void afficherMaisons(Propriete propriete) {
         int numCarreau = propriete.getNumero();
         double x = 0,y = 0;
-        for (int i=0;i<propriete.getNbMaisons();i++){//p.getNbMaisons()
+        for (int i=0;i<propriete.getNbMaisons();i++){//propriete.getNbMaisons()
             if (numCarreau<10 && numCarreau>0){
                 x=this.width-(LARGEUR_PETITE_CASE*(2+numCarreau))+(LARGEUR_PETITE_CASE/8)*(1+2*i);
                 y=this.height-HAUTEUR_CASE+LARGEUR_COULEUR/2;
@@ -313,7 +320,21 @@ public class IhmOpenGL {
             //Questions.affiche("x : "+x+"   y : "+y);
         }
         if(propriete.hasHotel()){
-            
+            if (numCarreau<10 && numCarreau>0){
+                x=this.width-(LARGEUR_PETITE_CASE*(2+numCarreau))+(LARGEUR_PETITE_CASE/2);
+                y=this.height-HAUTEUR_CASE+LARGEUR_COULEUR/2;
+            }else if (numCarreau<20 && numCarreau>10){
+                x=HAUTEUR_CASE-LARGEUR_COULEUR/2;
+                y=this.height-(numCarreau-10+2)*(LARGEUR_PETITE_CASE)+(LARGEUR_PETITE_CASE/2);
+            }else if (numCarreau<30 && numCarreau>20){
+                x=(numCarreau-20+2)*(LARGEUR_PETITE_CASE)-(LARGEUR_PETITE_CASE/2);
+                y=HAUTEUR_CASE-LARGEUR_COULEUR/2;
+            }else if (numCarreau<40 && numCarreau>30){
+                x=this.width-HAUTEUR_CASE+LARGEUR_COULEUR/2;
+                y=(numCarreau-30+2)*(LARGEUR_PETITE_CASE)-(LARGEUR_PETITE_CASE/2);
+            }
+            x-=1;y-=1;
+            this.maisons.add(new Entity(this.tMHotel,new Vector3f((float)x,0,(float)y),0, -90-90*(numCarreau/10), 0,0.1f, false));
         }
     }
     
