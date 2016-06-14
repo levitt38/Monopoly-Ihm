@@ -26,7 +26,7 @@ public class FrameJeu extends javax.swing.JFrame {
     private int width = 800;
     private int height = 800;
     private int num_carreau;
-    private boolean carreauAffiche = false, carreauSelectionné = false;
+    private boolean carreauAffiche = false, carreauSelectionné = false, joueurAffiche = false, carteSelectionnée = false;
     private HashMap<String, Carreau> plateau;
     private boolean YesNoSaisi, YesNoChoix;
     private Ihm3d ihm;
@@ -114,9 +114,11 @@ public class FrameJeu extends javax.swing.JFrame {
 
         PanelAction.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TextAction.setFont(new java.awt.Font("Dialog", 2, 10)); // NOI18N
-        TextAction.setText("Voulez vous acheter X");
-        PanelAction.add(TextAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 310, 80));
+        TextAction.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        TextAction.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        TextAction.setText("Bienvenue dans la partie");
+        TextAction.setIconTextGap(10);
+        PanelAction.add(TextAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 380, 120));
 
         BActionNon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BoutonNon.png"))); // NOI18N
         BActionNon.setBorderPainted(false);
@@ -142,7 +144,7 @@ public class FrameJeu extends javax.swing.JFrame {
         PanelAction.add(FondAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(PanelAction);
-        PanelAction.setBounds(880, 0, 400, 200);
+        PanelAction.setBounds(1280, 0, 400, 200);
 
         PanelCarreau.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -164,7 +166,7 @@ public class FrameJeu extends javax.swing.JFrame {
         PanelCarreau.add(FondCarreau, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(PanelCarreau);
-        PanelCarreau.setBounds(0, 360, 300, 360);
+        PanelCarreau.setBounds(-300, 360, 300, 360);
 
         PanelJoueur.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -186,7 +188,7 @@ public class FrameJeu extends javax.swing.JFrame {
         PanelJoueur.add(FondJoueur, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(PanelJoueur);
-        PanelJoueur.setBounds(0, 0, 300, 360);
+        PanelJoueur.setBounds(-300, 0, 300, 360);
 
         javax.swing.GroupLayout panelPlateau1Layout = new javax.swing.GroupLayout(panelPlateau1);
         panelPlateau1.setLayout(panelPlateau1Layout);
@@ -220,6 +222,7 @@ public class FrameJeu extends javax.swing.JFrame {
     private void ExitJoueurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitJoueurActionPerformed
         new Thread(){
             public void run(){
+                joueurAffiche = false;
                 AnimationFrame.cacherMenu(PanelJoueur);
             }
         }.start();
@@ -334,10 +337,14 @@ public class FrameJeu extends javax.swing.JFrame {
         }.start();
     }
 
-    public void afficherPlateau(HashMap<String, Carreau> c){
+    public void afficherPlateau(final HashMap<String, Carreau> c){
         this.plateau = c;
-        this.panelPlateau1.rafraîchirPlateau(c);
-        //this.panelPlateau1.getOp().afficherPlateau(c);
+        new Thread(){
+                public void run(){
+                    panelPlateau1.rafraîchirPlateau(c);
+                    //this.panelPlateau1.getOp().afficherPlateau(c);
+                }
+        }.start();
     }
     
     
@@ -415,6 +422,16 @@ public class FrameJeu extends javax.swing.JFrame {
     public PanelPlateau getPanelPlateau1() {
         return panelPlateau1;
     }
+
+    public boolean isCarteSelectionnée() {
+        return carteSelectionnée;
+    }
+
+    public void setCarteSelectionnée(boolean carteSelectionnée) {
+        this.carteSelectionnée = carteSelectionnée;
+    }
+    
+    
     
     
  
@@ -436,12 +453,14 @@ public class FrameJeu extends javax.swing.JFrame {
     }
     
     public void showJoueur(){
+        if(! this.joueurAffiche){
+        joueurAffiche = true;
         new Thread(){
             public void run(){
                 AnimationFrame.afficherMenu(PanelJoueur);
             }
         }.start();
-        
+        }  
     }
     
     public void showCarreau(){
@@ -457,14 +476,22 @@ public class FrameJeu extends javax.swing.JFrame {
     
     public void cacherBoutons(){
         this.BActionNon.setVisible(false);
-        this.BActionOui.setVisible(false);
+        //this.BActionOui.setVisible(false);
     }
     
     public void showBoutons(){
         this.BActionNon.setVisible(true);
-        this.BActionOui.setVisible(true);
+        //this.BActionOui.setVisible(true);
     }
    
+    public void cacher2Boutons(){
+        this.BActionNon.setVisible(false);
+        this.BActionOui.setVisible(false);
+    }
     
+    public void show2Boutons(){
+        this.BActionNon.setVisible(true);
+        this.BActionOui.setVisible(true);
+    }
     
 }

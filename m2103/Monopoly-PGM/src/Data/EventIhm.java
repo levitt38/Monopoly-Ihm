@@ -10,5 +10,5 @@ package Data;
  * @author nourik
  */
 public enum EventIhm {
-    askdeBase, askNom, askIp, askPort, askNb_joueur, askConstruire, affichedeBase, finPartie
+    askdeBase, askNom, askIp, askPort, askNb_joueur, askConstruire, affichedeBase, finPartie, afficherTirerCarte
 }

@@ -139,7 +139,7 @@ public class Controleur implements Serializable{
         position = position%40;
         //Affichage IHM des dès
         observateur.notifier(new DataModel(lancer,j,Evenement.LancersDes));
-       try {
+        try {
                     Thread.sleep(2000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
@@ -301,7 +301,7 @@ public class Controleur implements Serializable{
     }
 
     
-    public synchronized void construction(Joueur j){
+    public void construction(Joueur j){
         ArrayList<Propriete> pc = j.getProprietesConstructibles();
         if(this.monopoly.getNbMaisons()==0){
             for (Propriete p:pc){

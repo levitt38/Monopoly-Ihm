@@ -102,13 +102,51 @@ public class Ihm3d extends Ihm{
     }
     
     public void affiche(EventIhm e,final String s, int num){
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    frame_jeu.getTextAction().setText(s);
-                    frame_jeu.showAction();
+        switch(e){
+            case askConstruire : SwingUtilities.invokeLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        frame_jeu.cacher2Boutons();
+                                        frame_jeu.getTextAction().setText(convertTexttoAction(s));
+                                        frame_jeu.showAction();
+                                }});
+                                break;
+            case afficherTirerCarte : SwingUtilities.invokeLater(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            frame_jeu.cacher2Boutons();
+                                            frame_jeu.getTextAction().setText(convertTexttoAction(s));
+                                            frame_jeu.showAction();
+                                    }});
+                                    while(this.frame_jeu.isCarteSelectionnée()==false){
+
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException ex) {
+                                        Logger.getLogger(Ihm3d.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                            }
+                                this.frame_jeu.setCarteSelectionnée(false);
+                            break;
+            default : 
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                frame_jeu.getTextAction().setText(convertTexttoAction(s));
+                                frame_jeu.showAction();
+                        }});
+                        while(this.frame_jeu.isYesNoSaisi()==false){
+
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Ihm3d.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                 }
-            });
+                    this.frame_jeu.setYesNoSaisi(false);
+                    this.frame_jeu.cacherBoutons();  
+                        break;
+        }            
 }
     
     public void affiche(EventIhm e, String titre, String s){
@@ -144,7 +182,7 @@ public class Ihm3d extends Ihm{
             }
                 break;
             case askConstruire : this.frame_jeu.setCarreauSelectionné(false);
-                                this.affiche(EventIhm.askdeBase, "Cliquer sur la propriété à construire", 0);
+                                this.affiche(EventIhm.askConstruire, "Cliquer sur la propriété à construire", 0);
                                 System.out.println("Demande de construction");
                                 // Animation droite => gauche dans version finale
                                 while(this.frame_jeu.isCarreauSelectionné()==false){
@@ -171,7 +209,9 @@ public class Ihm3d extends Ihm{
                     frame_jeu.showBoutons();
                     frame_jeu.getTextAction().setText(s);
                     frame_jeu.showAction();
-                }});
+                    
+            } });      
+           
         
                 
         System.out.println(this.frame_jeu.getTextAction().getText());
@@ -219,8 +259,13 @@ public class Ihm3d extends Ihm{
             });
     }
     
-    public void afficherPlateau(HashMap<String,Carreau> c){
-        this.frame_jeu.afficherPlateau(c);
+    public void afficherPlateau(final HashMap<String,Carreau> c){
+        SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    frame_jeu.afficherPlateau(c);
+        }
+            });
     }
     
     public String askListe(ArrayList<String> choix,String message){
@@ -237,6 +282,17 @@ public class Ihm3d extends Ihm{
 
     public Client getClient() {
         return client;
+    }
+    
+    public String convertTexttoAction(String s){
+        String retour;
+        if(s.length()>=28){
+            String s1 = s.substring(0, 27);
+            String s2 = s.substring(27, s.length());
+            retour = "<html>"+s1+"<BR>";
+            retour += s2+"</html>";
+        } else { retour = s; }
+        return retour;
     }
     
     public static void main(String[] args){
