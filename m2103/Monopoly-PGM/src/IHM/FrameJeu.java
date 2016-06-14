@@ -438,6 +438,7 @@ public class FrameJeu extends javax.swing.JFrame {
     public void showAction(){
         new Thread(){
             public void run(){
+                show2Boutons();
                 AnimationFrame.afficherMenuAction(PanelAction);
             }
         }.start();
