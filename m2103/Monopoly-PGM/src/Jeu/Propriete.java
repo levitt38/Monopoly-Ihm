@@ -98,7 +98,10 @@ public class Propriete extends CarreauAchetable {
        s += "Groupe : "+this.getGroupe().getCouleur()+"<BR>";
        s += "Prix d'achat : "+this.getPrixAchat()+"€<BR>";
        s += "Loyer de base : "+this.getLoyers()[0]+"€<BR>";
-       s += "Constructions : "+this.getNbMaisons();
+       s += "Constructions : "+this.getNbMaisons()+"€<BR>";
+       if(this.hotel){
+        s += "Hotel : "+"Oui";
+       }else{ s += "Hotel : "+"Non"; }
        s += "</html>";
        return s;
    }

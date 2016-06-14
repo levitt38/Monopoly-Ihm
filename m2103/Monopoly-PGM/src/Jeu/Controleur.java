@@ -6,6 +6,7 @@
 package Jeu;
 
 import Data.Evenement;
+import Data.EventIhm;
 import Data.TypeCarreau;
 import Data.TypeCarte;
 import Exceptions.joueurTripleDouble;
@@ -41,6 +42,11 @@ public class Controleur implements Serializable{
 
     public Observateur getObservateur() {
         return observateur;
+    }
+    
+    public void setPositionCourante(Carreau c, Joueur j){
+        this.setPositionCourante(c,j);
+        this.observateur.notifier(new DataModel(j,this.monopoly.getCarreaux(),Evenement.DebutTour));
     }
     
     public void payerJoueur(Joueur j){
@@ -186,7 +192,7 @@ public class Controleur implements Serializable{
         lancer1 = lancerD6();
         lancer2 = lancerD6();
         if(lancer1==lancer2){
-            j.setPositionCourante(this.monopoly.getCarreau(10));
+            this.setPositionCourante(this.monopoly.getCarreau(10),j);
             this.observateur.notifier(new DataModel(j,Evenement.SortieDePrisonDes));
             try {
                     Thread.sleep(2000);
@@ -209,7 +215,7 @@ public class Controleur implements Serializable{
         
         if(j.getNb_toursEnPrison()==3){
             j.setCash(j.getCash()-50);
-            j.setPositionCourante(this.monopoly.getCarreau(10));
+            setPositionCourante(this.monopoly.getCarreau(10),j);
             this.observateur.notifier(new DataModel(j,Evenement.SortieDePrisonCaution));
             try {
                     Thread.sleep(2000);
@@ -253,7 +259,7 @@ public class Controleur implements Serializable{
                 gestionPrisonnier(j);
             }
             if(! j.estPrisonnier()){
-                j.setPositionCourante(lancerDesAvancer(j));
+                setPositionCourante(lancerDesAvancer(j),j);
                 do{
                     j.setRejouerCarte(false);
                     Carreau c = j.getPositionCourante();
@@ -262,7 +268,7 @@ public class Controleur implements Serializable{
                         case PayerLoyer :j.payerLoyer((CarreauAchetable)c);
                                          break;
                         case EstEnPrison : gestionPrisonnier(j); break;
-                        case AllerEnPrison : j.setPositionCourante(this.monopoly.getPrison());
+                        case AllerEnPrison : setPositionCourante(this.monopoly.getPrison(),j);
                                              break;
                         case PayerPenalite :j.payer(((CarreauPenalite)c).getPenalite());
                                             break;
@@ -291,11 +297,11 @@ public class Controleur implements Serializable{
                     Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
                 }
             
-            j.setPositionCourante(this.monopoly.getPrison());}
+            setPositionCourante(this.monopoly.getPrison(),j);}
     }
 
     
-    public void construction(Joueur j){
+    public synchronized void construction(Joueur j){
         ArrayList<Propriete> pc = j.getProprietesConstructibles();
         if(this.monopoly.getNbMaisons()==0){
             for (Propriete p:pc){
@@ -366,7 +372,7 @@ public class Controleur implements Serializable{
                     Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 this.jouerUnCoup(j);
-                
+                this.observateur.notifier(new DataModel(j,this.monopoly.getCarreaux(),Evenement.DebutTour));
                 if(j.estBankrupt()){
                     joueurDead(j); 
                 }

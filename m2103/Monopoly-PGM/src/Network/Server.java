@@ -43,6 +43,7 @@ public class Server {
         this.controleur = new ControleurServer();
         this.handler = new ServerHandler(controleur, this);
         controleur.setObservateur(handler);
+        controleur.set
         //this.port = Questions.askNb("Veuillez rentrer le port d'écoute du serveur");
         this.port = port;
     }

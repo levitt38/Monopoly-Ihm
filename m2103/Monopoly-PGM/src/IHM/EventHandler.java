@@ -126,8 +126,14 @@ public class EventHandler implements Observateur{
         Boolean continu = true;
         String indice = null;
         do{
+            for(Carreau c : ca.values()){
+                System.out.println(c.getNumero()+"nom : "+c.getNomCarreau());
+            }
             indice = this.ihm.askStr(EventIhm.askConstruire, "osef",0);
-            continu = (ca.containsKey(indice)) ? true : true;
+            if( ! ca.containsValue(this.controleur.getMonopoly().getCarreau(Integer.valueOf(indice)))){
+                continu = false;
+                this.ihm.affiche(EventIhm.affichedeBase, "Rentrez une proprété constructible" , 0);
+            }
         }while(!continu);
         propriete = (Propriete)this.controleur.getMonopoly().getCarreau(Integer.valueOf(indice));
         return propriete;

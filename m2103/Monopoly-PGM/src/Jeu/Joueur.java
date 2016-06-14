@@ -1,5 +1,6 @@
 package Jeu;
 
+import Data.EventIhm;
 import Data.TypeCarreau;
 import Exceptions.joueurDeadException;
 import Jeu.Cartes.Carte;
