@@ -184,7 +184,7 @@ public class Joueur implements Serializable{
         return _proprietes;
     }
     /////////////////////////////////////////////
-    public ArrayList<Propriete> getProprietesConstructibles(){
+    public synchronized ArrayList<Propriete> getProprietesConstructibles(){
         HashSet<Groupe> grp = new HashSet<>();
         for(Propriete p:this._proprietes){
             grp.add(p.getGroupe());

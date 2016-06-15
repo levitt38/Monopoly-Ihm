@@ -311,7 +311,7 @@ public class Controleur implements Serializable{
     }
 
     
-    public void construction(Joueur j){
+    public synchronized void construction(Joueur j){
         ArrayList<Propriete> pc = j.getProprietesConstructibles();
         if(this.monopoly.getNbMaisons()==0){
             for (Propriete p:pc){

@@ -192,7 +192,7 @@ public class Monopoly implements Serializable{
         return (Prison) this.carreaux.get("40");
     }
 
-    public int getNbMaisons() {
+    public synchronized int getNbMaisons() {
         return nbMaisons;
     }
 
@@ -200,7 +200,7 @@ public class Monopoly implements Serializable{
         this.nbMaisons = nbMaisons;
     }
 
-    public int getNbHotels() {
+    public synchronized int getNbHotels() {
         return nbHotels;
     }
 

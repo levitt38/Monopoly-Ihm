@@ -26,7 +26,7 @@ public abstract class Carreau implements Serializable{
     }
 
 
-    public String getNomCarreau() {
+    public synchronized String getNomCarreau() {
         return _nomCarreau;
     }
     
