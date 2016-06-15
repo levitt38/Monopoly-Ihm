@@ -234,6 +234,11 @@ public class Controleur implements Serializable{
         boolean carteUsed = false;
         if (j.hasCartePrison()){
             this.observateur.notifier(new DataModel(j,Evenement.UsePossibleCarteSortiePrison));
+            try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Controleur.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }else{
             this.restePrison(j);
         }
