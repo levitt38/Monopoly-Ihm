@@ -360,6 +360,11 @@ public class FrameAcceuil extends javax.swing.JFrame {
         TFnb_joueur.setText("Nb Joueurs");
         TFnb_joueur.setBorder(null);
         TFnb_joueur.setOpaque(false);
+        TFnb_joueur.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TFnb_joueurKeyTyped(evt);
+            }
+        });
         PanelNbJoueur.add(TFnb_joueur);
         TFnb_joueur.setBounds(380, 55, 100, 30);
 
@@ -388,7 +393,7 @@ public class FrameAcceuil extends javax.swing.JFrame {
         TFip.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
         TFip.setForeground(new java.awt.Color(255, 255, 255));
         TFip.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        TFip.setText("jTextField1");
+        TFip.setText("@IP");
         TFip.setBorder(null);
         TFip.setCaretColor(new java.awt.Color(255, 255, 255));
         TFip.setDisabledTextColor(new java.awt.Color(255, 255, 255));
@@ -666,6 +671,13 @@ public class FrameAcceuil extends javax.swing.JFrame {
     private void PersoTelephoneMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PersoTelephoneMousePressed
         sTelephone = (this.PersoTelephone.getText().length()>0) ? this.PersoTelephone.getText() : sTelephone;
     }//GEN-LAST:event_PersoTelephoneMousePressed
+
+    private void TFnb_joueurKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFnb_joueurKeyTyped
+        if(evt.getKeyChar()!='2'&&evt.getKeyChar()!='3'&&
+                evt.getKeyChar()!='4'&&evt.getKeyChar()!='5'&&evt.getKeyChar()!='6'||TFnb_joueur.getText().length()>0){
+            evt.consume(); return;
+        }
+    }//GEN-LAST:event_TFnb_joueurKeyTyped
 
     /**
      * @param args the command line arguments
