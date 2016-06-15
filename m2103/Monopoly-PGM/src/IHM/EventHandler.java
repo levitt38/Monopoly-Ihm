@@ -140,7 +140,13 @@ public class EventHandler implements Observateur{
     }
     
     public void tirerCarte(TypeCarte t){
-        this.ihm.affiche(EventIhm.affichedeBase,"Tirer une Carte","Vous tirez une carte "+t.toString()+".");
+        switch(t){
+            case caisseDeCommunauté : this.ihm.affiche(EventIhm.TirerCarteCommunautee,"Tirer une Carte","Vous tirez une carte "+t.toString()+".");
+                                        break;
+            case chance : this.ihm.affiche(EventIhm.TirerCarteChance,"Tirer une Carte","Vous tirez une carte "+t.toString()+".");
+                                        break;
+        }
+        
     }
 
     private int askNb(String message, int i, int i0) {

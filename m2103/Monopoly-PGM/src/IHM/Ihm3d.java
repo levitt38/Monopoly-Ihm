@@ -111,14 +111,14 @@ public class Ihm3d extends Ihm{
                                         frame_jeu.showAction();
                                 }});
                                 break;
-            case afficherTirerCarte : SwingUtilities.invokeLater(new Runnable() {
+            case TirerCarteChance : SwingUtilities.invokeLater(new Runnable() {
                                         @Override
                                         public void run() {
                                             frame_jeu.cacher2Boutons();
                                             frame_jeu.getTextAction().setText(convertTexttoAction(s));
                                             frame_jeu.showAction();
                                     }});
-                                    while(this.frame_jeu.isCarteSelectionnée()==false){
+                                    while(this.frame_jeu.isCarteChanceSelectionnée()==false){
 
                                     try {
                                         Thread.sleep(1000);
@@ -126,8 +126,26 @@ public class Ihm3d extends Ihm{
                                         Logger.getLogger(Ihm3d.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                             }
-                                this.frame_jeu.setCarteSelectionnée(false);
+                                this.frame_jeu.setCarteChanceSelectionnée(false);
                             break;
+             case TirerCarteCommunautee : SwingUtilities.invokeLater(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            frame_jeu.cacher2Boutons();
+                                            frame_jeu.getTextAction().setText(convertTexttoAction(s));
+                                            frame_jeu.showAction();
+                                    }});
+                                    while(this.frame_jeu.isCarteCommunauteSelectionnée()==false){
+
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException ex) {
+                                        Logger.getLogger(Ihm3d.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                            }
+                                this.frame_jeu.setCarteCommunauteSelectionnée(false);
+                            break;               
+            
             default : 
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
@@ -207,7 +225,7 @@ public class Ihm3d extends Ihm{
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    frame_jeu.showBoutons();
+                    frame_jeu.show2Boutons();
                     frame_jeu.getTextAction().setText(convertTexttoAction(s));
                     frame_jeu.showAction();
                     

@@ -26,7 +26,7 @@ public class FrameJeu extends javax.swing.JFrame {
     private int width = 800;
     private int height = 800;
     private int num_carreau;
-    private boolean carreauAffiche = false, carreauSelectionné = false, joueurAffiche = false, carteSelectionnée = false;
+    private boolean carreauAffiche = false, carreauSelectionné = false, joueurAffiche = false, carteChanceSelectionnée = false, carteCommunauteSelectionnée = false;
     private HashMap<String, Carreau> plateau;
     private boolean YesNoSaisi, YesNoChoix;
     private Ihm3d ihm;
@@ -294,12 +294,13 @@ public class FrameJeu extends javax.swing.JFrame {
                 this.num_carreau = this.panelPlateau1.getOp().getCarreauSelected();
                 if(this.plateau!=null&&this.num_carreau>=0){
                     this.ihm.afficherCarreau(this.plateau.get(Integer.toString(this.num_carreau)));
+                    this.carreauSelectionné = true; //recup construction
                 }
                 // la suite est juste du test, elle sera remove
                 else if(this.plateau!=null&&(this.num_carreau==IhmOpenGL.CARTES_CHANCE||this.num_carreau==IhmOpenGL.CARTES_COMMUNAUTE)){
                     if(!this.carreauAffiche){               //          __
                         this.carreauAffiche = true;  
-                        this.carteSelectionnée = true;//               __/o \__      
+                        this.carteChanceSelectionnée = true;//               __/o \__      
                         new Thread(){                       //       \____   \     
                             public void run(){              //     __   //\   \    
                                 //afficherMenu();           //  __/o \-//--\   \_/ 
@@ -309,7 +310,20 @@ public class FrameJeu extends javax.swing.JFrame {
                     String s = (this.num_carreau==IhmOpenGL.CARTES_CHANCE) ? "Tas de cartes chance" : "Tas de cartes caisse de communauté";
                     //this.afficherStr(s);
                 }
-                this.carreauSelectionné = true; // permet de recup un choix pour une demande de construction
+                else if(this.plateau!=null&&(this.num_carreau==IhmOpenGL.CARTES_CHANCE||this.num_carreau==IhmOpenGL.CARTES_COMMUNAUTE)){
+                    if(!this.carreauAffiche){               //          __
+                        this.carreauAffiche = true;  
+                        this.carteCommunauteSelectionnée = true;//               __/o \__      
+                        new Thread(){                       //       \____   \     
+                            public void run(){              //     __   //\   \    
+                                //afficherMenu();           //  __/o \-//--\   \_/ 
+                            }                               //  \____  ___  \  |   
+                        }.start();                          //       ||   \ |\ |   
+                    }                                       //      _||   _||_||
+                    String s = (this.num_carreau==IhmOpenGL.CARTES_CHANCE) ? "Tas de cartes chance" : "Tas de cartes caisse de communauté";
+                    //this.afficherStr(s);
+                }
+                 // permet de recup un choix pour une demande de construction
             }
             try {
                 Thread.sleep(10);
@@ -424,13 +438,23 @@ public class FrameJeu extends javax.swing.JFrame {
         return panelPlateau1;
     }
 
-    public boolean isCarteSelectionnée() {
-        return carteSelectionnée;
+    public boolean isCarteChanceSelectionnée() {
+        return carteChanceSelectionnée;
     }
 
-    public void setCarteSelectionnée(boolean carteSelectionnée) {
-        this.carteSelectionnée = carteSelectionnée;
+    public boolean isCarteCommunauteSelectionnée() {
+        return carteCommunauteSelectionnée;
     }
+
+    public void setCarteChanceSelectionnée(boolean carteChanceSelectionnée) {
+        this.carteChanceSelectionnée = carteChanceSelectionnée;
+    }
+
+    public void setCarteCommunauteSelectionnée(boolean carteCommunauteSelectionnée) {
+        this.carteCommunauteSelectionnée = carteCommunauteSelectionnée;
+    }
+
+    
     
     
     
@@ -478,7 +502,7 @@ public class FrameJeu extends javax.swing.JFrame {
     
     public void cacherBoutons(){
         this.BActionNon.setVisible(false);
-        //this.BActionOui.setVisible(false);
+        this.BActionOui.setVisible(true);
     }
     
     public void showBoutons(){
