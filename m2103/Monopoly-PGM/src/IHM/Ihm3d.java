@@ -41,7 +41,7 @@ public class Ihm3d extends Ihm{
     }
     
     public void startPartieLocal(){
-        this.controler = new MonopolyTest("1,0,1,0,2,0,3,7,8,7,9");
+        this.controler = new MonopolyTest("7,0,1,0,2,0,3,7,8,7,9");
         this.handler = new EventHandler(this.controler, this);  
         this.controler.setObservateur(this.handler);  // 
         this.frame_accueil.dispose();
@@ -132,6 +132,7 @@ public class Ihm3d extends Ihm{
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
                             public void run() {
+                                frame_jeu.cacherBoutons();
                                 frame_jeu.getTextAction().setText(convertTexttoAction(s));
                                 frame_jeu.showAction();
                         }});
@@ -207,7 +208,7 @@ public class Ihm3d extends Ihm{
                 @Override
                 public void run() {
                     frame_jeu.showBoutons();
-                    frame_jeu.getTextAction().setText(s);
+                    frame_jeu.getTextAction().setText(convertTexttoAction(s));
                     frame_jeu.showAction();
                     
             } });      
@@ -286,12 +287,21 @@ public class Ihm3d extends Ihm{
     
     public String convertTexttoAction(String s){
         String retour;
-        if(s.length()>=26){
-            String s1 = s.substring(0, 25);
-            String s2 = s.substring(25, s.length());
+        int espace = 25;
+        if(s.length()>=24){
+            char[] c = s.toCharArray();
+            for(int i=15;i<s.length();i++){
+                if(c[i]==' '){
+                    espace = i; System.out.println(espace); break;
+                    
+                }
+            }
+            String s1 = s.substring(0, espace);
+            String s2 = s.substring(espace, s.length());
             retour = "<html>"+s1+"<BR>";
             retour += s2+"</html>";
-        } else { retour = s; }
+        } 
+        else { retour = s; }
         return retour;
     }
     

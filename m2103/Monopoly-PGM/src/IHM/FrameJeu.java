@@ -298,7 +298,8 @@ public class FrameJeu extends javax.swing.JFrame {
                 // la suite est juste du test, elle sera remove
                 else if(this.plateau!=null&&(this.num_carreau==IhmOpenGL.CARTES_CHANCE||this.num_carreau==IhmOpenGL.CARTES_COMMUNAUTE)){
                     if(!this.carreauAffiche){               //          __
-                        this.carreauAffiche = true;         //       __/o \__      
+                        this.carreauAffiche = true;  
+                        this.carteSelectionnée = true;//               __/o \__      
                         new Thread(){                       //       \____   \     
                             public void run(){              //     __   //\   \    
                                 //afficherMenu();           //  __/o \-//--\   \_/ 
@@ -438,7 +439,7 @@ public class FrameJeu extends javax.swing.JFrame {
     public void showAction(){
         new Thread(){
             public void run(){
-                show2Boutons();
+                
                 AnimationFrame.afficherMenuAction(PanelAction);
             }
         }.start();
