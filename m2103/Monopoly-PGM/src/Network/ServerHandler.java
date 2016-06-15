@@ -21,7 +21,6 @@ import Jeu.DataModel;
 import Jeu.Joueur;
 import Jeu.Observateur;
 import Jeu.Propriete;
-import java.util.HashMap;
 
 /**
  *
@@ -163,34 +162,10 @@ public class ServerHandler implements Observateur{
         }
         }
     
-    public Propriete askRueAConstruire(HashMap<String,Carreau> ca){
-        Propriete propriete = null;
-        Boolean continu = true;
-        String indice = null;
-        do{
-            for(Carreau c : ca.values()){
-                System.out.println(c.getNumero()+"nom : "+c.getNomCarreau());
-            }
-            indice = this.ihm.askStr(EventIhm.askConstruire, "osef",0);
-            if( ! ca.containsValue(this.controleur.getMonopoly().getCarreau(Integer.valueOf(indice)))){
-                continu = false;
-                this.ihm.affiche(EventIhm.affichedeBase, "Rentrez une proprété constructible" , 0);
-            }
-        }while(!continu);
-        propriete = (Propriete)this.controleur.getMonopoly().getCarreau(Integer.valueOf(indice));
-        return propriete;
-    }
-    
     public void tirerCarte(TypeCarte t){
-        switch(t){
-            case caisseDeCommunauté : this.ihm.affiche(EventIhm.TirerCarteCommunautee,"Tirer une Carte","Vous tirez une carte "+t.toString()+".");
-                                        break;
-            case chance : this.ihm.affiche(EventIhm.TirerCarteChance,"Tirer une Carte","Vous tirez une carte "+t.toString()+".");
-                                        break;
-        }
-        
+        this.ihm.affiche(EventIhm.affichedeBase,"Tirer une Carte","Vous tirez une carte "+t.toString()+".");
     }
-    
+
     public void setControleur(ControleurServer controleur) {
         this.controleur = controleur;
     }

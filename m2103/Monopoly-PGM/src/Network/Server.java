@@ -152,6 +152,8 @@ public class Server {
             System.out.println(j.getNomJoueur());
             System.out.println(j.getCash());
             if(!j.estBankrupt()){
+                System.out.println(j.getNomJoueur());
+                System.out.println(this.controleur.getMonopoly().getCarreau(0).getNomCarreau());
                 this.controleur.observateur.notifier(new DataModel(j,this.controleur.getMonopoly(),Evenement.DebutTour)); //affiche Plateau
                 this.controleur.jouerUnCoup(j,client);
                 if(j.estBankrupt()){
